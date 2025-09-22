@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: blogging-platform-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    port: 5000
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: blogging-platform-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+
+databases:
+  - name: blogging-platform-db
+    databaseName: blogging_platform
+    user: admin
+    password: your_password_here
