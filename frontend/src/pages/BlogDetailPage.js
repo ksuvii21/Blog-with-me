@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentBlog } from '../redux/slices/blogSlice';
+import { setCurrentBlog } from '../redux/slices/blogSlice'
 import Layout from '../components/Layout';
 import CommentSection from '../components/CommentSection';
 import axios from 'axios';

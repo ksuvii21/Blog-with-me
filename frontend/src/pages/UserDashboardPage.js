@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setBlogs, deleteBlog } from '../redux/slices/blogSlice';
+import { fetchBlogs, deleteBlog } from '../redux/slices/blogSlice';
 import Layout from '../components/Layout';
-import axios from 'axios';
 import { Box, Paper, Typography, Avatar, Button, Grid, Chip, Fade, Stack, IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,39 +13,28 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const UserDashboardPage = () => {
   const { user } = useSelector((state) => state.auth);
-  const { blogs } = useSelector((state) => state.blogs);
+  const { blogs, isLoading } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
   const [userBlogs, setUserBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
-      fetchUserBlogs();
+      dispatch(fetchBlogs());
     }
-  }, [user]);
+  }, [dispatch, user]);
 
-  const fetchUserBlogs = async () => {
-    try {
-      const response = await axios.get('/api/blogs', {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      const filteredBlogs = response.data.filter(blog => blog.author._id === user.id);
+  useEffect(() => {
+    // Filter user's blogs when blogs are loaded
+    if (user && blogs.length > 0) {
+      const filteredBlogs = blogs.filter(blog => blog.author?._id === user._id || blog.author === user._id);
       setUserBlogs(filteredBlogs);
-      dispatch(setBlogs(response.data));
-    } catch (error) {
-      console.error('Error fetching user blogs:', error);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }, [user, blogs]);
 
   const handleDeleteBlog = async (blogId) => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
-        await axios.delete(`/api/blogs/${blogId}`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-        dispatch(deleteBlog(blogId));
+        await dispatch(deleteBlog(blogId)).unwrap();
         setUserBlogs(userBlogs.filter(blog => blog._id !== blogId));
       } catch (error) {
         console.error('Error deleting blog:', error);

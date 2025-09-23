@@ -1,85 +1,191 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Button, 
+  IconButton, 
+  Box, 
+  Avatar, 
+  Menu, 
+  MenuItem,
+  Badge
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  Brightness4,
+  Brightness7,
+  Add,
+  Notifications,
+  Search
+} from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
+import BackendStatus from './BackendStatus';
 
-const Header = ({ toggleSidebar, isSidebarOpen, toggleDarkMode, isDarkMode }) => {
+const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
 
+  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
+    handleMenuClose();
   };
 
   return (
-    <header className={`bg-white dark:bg-gray-800 shadow-md transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <button
-              onClick={toggleSidebar}
-              className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+    <AppBar 
+      position="static" 
+      sx={{ 
+        bgcolor: 'background.paper',
+        color: 'text.primary',
+        boxShadow: 1
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between', px: 2 }}>
+        {/* Left Section */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <IconButton
+            onClick={toggleSidebar}
+            sx={{ color: 'primary.main', display: { md: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Typography 
+              variant="h5" 
+              fontWeight="bold"
+              sx={{ 
+                background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
             >
-              <span className="sr-only">Open sidebar</span>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <Link to="/" className="ml-4 text-xl font-bold text-gray-900 dark:text-white">
               BlogPlatform
-            </Link>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-            >
-              {isDarkMode ? (
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              ) : (
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
-            </button>
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <Link to="/create" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                  Create Blog
-                </Link>
-                <div className="relative">
-                  <button className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                    <img className="h-8 w-8 rounded-full" src={user.profilePicture || '/default-avatar.png'} alt={user.username} />
-                    <span>{user.username}</span>
-                  </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</Link>
-                    <Link to="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</Link>
-                    {user.role === 'admin' && (
-                      <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Admin Panel</Link>
-                    )}
-                    <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link to="/login" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                  Login
-                </Link>
-                <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </header>
+            </Typography>
+          </Link>
+        </Box>
+
+        {/* Center Section - Search */}
+        <Box sx={{ 
+          display: { xs: 'none', md: 'flex' }, 
+          flex: 1, 
+          maxWidth: 400, 
+          mx: 4 
+        }}>
+          <Box sx={{ 
+            position: 'relative', 
+            width: '100%',
+            '& input': {
+              width: '100%',
+              padding: '8px 16px 8px 40px',
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: 2,
+              bgcolor: 'background.default',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              '&:focus': {
+                borderColor: 'primary.main',
+                boxShadow: '0 0 0 2px rgba(255, 152, 0, 0.2)'
+              }
+            }
+          }}>
+            <Search sx={{ 
+              position: 'absolute', 
+              left: 12, 
+              top: '50%', 
+              transform: 'translateY(-50%)',
+              color: 'primary.main' 
+            }} />
+            <input type="text" placeholder="Search blogs..." />
+          </Box>
+        </Box>
+            <BackendStatus />
+        {/* Right Section */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Dark Mode Toggle */}
+          <IconButton onClick={toggleDarkMode} color="inherit">
+            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+
+          {user ? (
+            <>
+              {/* Create Blog Button */}
+              <Button
+                component={Link}
+                to="/create"
+                startIcon={<Add />}
+                variant="contained"
+                sx={{
+                  display: { xs: 'none', sm: 'flex' },
+                  bgcolor: 'primary.main',
+                  '&:hover': { bgcolor: 'primary.dark' }
+                }}
+              >
+                Create
+              </Button>
+
+              {/* Notifications */}
+              <IconButton color="inherit">
+                <Badge badgeContent={3} color="error">
+                  <Notifications />
+                </Badge>
+              </IconButton>
+
+              {/* User Menu */}
+              <IconButton onClick={handleMenuOpen} sx={{ p: 0.5 }}>
+                <Avatar 
+                  src={user.profilePicture} 
+                  alt={user.username}
+                  sx={{ width: 32, height: 32 }}
+                />
+              </IconButton>
+
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard">
+                  Dashboard
+                </MenuItem>
+                {user.role === 'admin' && (
+                  <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
+                    Admin Panel
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button component={Link} to="/login" color="inherit">
+                Login
+              </Button>
+              <Button 
+                component={Link} 
+                to="/register" 
+                variant="contained"
+                sx={{ bgcolor: 'primary.main' }}
+              >
+                Register
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 

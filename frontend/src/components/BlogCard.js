@@ -1,59 +1,57 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { likeBlog } from '../redux/slices/blogSlice';
+// components/BlogCard.jsx
+import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
+import { Favorite, Share, Visibility } from '@mui/icons-material';
 
-const BlogCard = ({ blog }) => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-
-  const handleLike = () => {
-    if (user) {
-      dispatch(likeBlog(blog._id));
-    } else {
-      alert('Please login to like blogs.');
-    }
-  };
-
+const BlogCard = ({ blog, compact = false, theme }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      {blog.featuredImage && (
-        <img src={blog.featuredImage} alt={blog.title} className="w-full h-48 object-cover" />
-      )}
-      <div className="p-4">
-        <Link to={`/blogs/${blog._id}`} className="text-xl font-semibold text-indigo-600 hover:underline">
+    <Card sx={{
+      height: '100%',
+      background: theme?.gradient || 'white',
+      border: `1px solid ${theme?.primary || '#ccc'}20`,
+      borderRadius: 3,
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: `0 8px 30px ${theme?.primary || '#000'}20`
+      }
+    }} className="blog-card">
+      <CardContent>
+        <Typography variant="h6" fontWeight={600} color={theme?.primary}>
           {blog.title}
-        </Link>
-        <p className="text-gray-600 dark:text-gray-300 mt-2 line-clamp-3">{blog.summary || blog.content.substring(0, 100) + '...'}</p>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex space-x-2">
-            {blog.categories.map((cat) => (
-              <span key={cat} className="text-xs bg-indigo-100 dark:bg-indigo-700 text-indigo-800 dark:text-indigo-200 rounded-full px-2 py-1">
-                {cat}
-              </span>
-            ))}
-          </div>
-          <button
-            onClick={handleLike}
-            className={`flex items-center space-x-1 text-sm font-medium ${
-              blog.likes.includes(user?._id) ? 'text-red-500' : 'text-gray-500 dark:text-gray-400'
-            } hover:text-red-600 dark:hover:text-red-400 focus:outline-none`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill={blog.likes.includes(user?._id) ? 'currentColor' : 'none'}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-            </svg>
-            <span>{blog.likes.length}</span>
-          </button>
-        </div>
-      </div>
-    </div>
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {compact ? `${blog.content.substring(0, 100)}...` : blog.content}
+        </Typography>
+        
+        <Box sx={{ display: 'flex', gap: 1, mt: 2, flexWrap: 'wrap' }}>
+          {blog.categories.map(cat => (
+            <Chip 
+              key={cat} 
+              label={cat} 
+              size="small"
+              sx={{ 
+                background: theme?.gradient,
+                color: theme?.secondary,
+                fontWeight: 600
+              }}
+            />
+          ))}
+        </Box>
+        
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', color: theme?.primary }}>
+              <Favorite fontSize="small" />
+              <Typography variant="body2">{blog.likes || 0}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', color: theme?.secondary }}>
+              <Visibility fontSize="small" />
+              <Typography variant="body2">{blog.views || 0}</Typography>
+            </Box>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

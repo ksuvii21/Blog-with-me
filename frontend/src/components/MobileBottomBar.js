@@ -1,22 +1,76 @@
 import React from 'react';
+import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import {
+  Home,
+  Explore,
+  Add,
+  Favorite,
+  Person
+} from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
+const themeColors = {
+  orange: {
+    main: '#FF9800',
+  },
+  purple: {
+    main: '#9C27B0',
+  }
+};
 
 const MobileBottomBar = () => {
   const location = useLocation();
-  const { user } = useSelector((state) => state.auth);
+  const [value, setValue] = React.useState(0);
+
+  const navItems = [
+    { icon: Home, label: 'Home', path: '/' },
+    { icon: Explore, label: 'Explore', path: '/explore' },
+    { icon: Add, label: 'Create', path: '/create' },
+    { icon: Favorite, label: 'Likes', path: '/favorites' },
+    { icon: Person, label: 'Profile', path: '/profile' },
+  ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 flex justify-around items-center py-2 md:hidden">
-      <Link to="/" className={`flex flex-col items-center text-xs ${location.pathname === '/' ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'}`}>🏠<span>Home</span></Link>
-      <Link to="/search" className={`flex flex-col items-center text-xs ${location.pathname.startsWith('/search') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'}`}>🔍<span>Search</span></Link>
-      <Link to="/trending-tags" className={`flex flex-col items-center text-xs ${location.pathname.startsWith('/trending-tags') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'}`}>🔥<span>Trending</span></Link>
-      {user ? (
-        <Link to="/dashboard" className={`flex flex-col items-center text-xs ${location.pathname.startsWith('/dashboard') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'}`}>👤<span>Me</span></Link>
-      ) : (
-        <Link to="/login" className={`flex flex-col items-center text-xs ${location.pathname.startsWith('/login') ? 'text-indigo-600' : 'text-gray-500 dark:text-gray-400'}`}>🔑<span>Login</span></Link>
-      )}
-    </nav>
+    <Paper 
+      sx={{ 
+        position: 'fixed', 
+        bottom: 0, 
+        left: 0, 
+        right: 0, 
+        zIndex: 1100,
+        display: { xs: 'block', md: 'none' },
+        borderTop: `2px solid ${themeColors.orange.main}20`
+      }} 
+      elevation={3}
+    >
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        sx={{
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(20px)',
+          '& .MuiBottomNavigationAction-root': {
+            color: 'text.secondary',
+            '&.Mui-selected': {
+              color: themeColors.orange.main,
+            }
+          }
+        }}
+      >
+        {navItems.map((item) => (
+          <BottomNavigationAction
+            key={item.path}
+            component={Link}
+            to={item.path}
+            label={item.label}
+            icon={<item.icon />}
+          />
+        ))}
+      </BottomNavigation>
+    </Paper>
   );
 };
 
