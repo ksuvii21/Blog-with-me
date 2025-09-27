@@ -4,9 +4,10 @@ import { fetchBlogs } from '../redux/slices/blogSlice';
 import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import {
-  Box, Button, Typography, Grid, Paper, Fade, Container, Chip, Stack, IconButton,
+  Box, Button, Typography, Paper, Fade, Container, Chip, Stack, IconButton,
   Drawer, Avatar, Badge
 } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime } from '@mui/icons-material';
 
 const TrendingPage = () => {
@@ -248,7 +249,7 @@ const TrendingPage = () => {
               <>
                 <Grid container spacing={3}>
                   {trendingBlogs.map((blog, index) => (
-                    <Grid item xs={12} sm={6} lg={4} key={blog._id}>
+                    <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={blog._id}>
                       <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
                         <Box sx={{ position: 'relative' }}>
                           {/* Trending Badge */}
