@@ -6,9 +6,8 @@ import Sidebar from '../components/Sidebar';
 import {
   Box, Button, TextField, Select, MenuItem, InputLabel, FormControl,
   Typography, Paper, Fade, Container, Chip, Stack, IconButton,
-  Drawer
+  Drawer, Grid
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 import { Search, FilterList, ExpandMore, Favorite, TrendingUp, NewReleases, Menu } from '@mui/icons-material';
 
 const HomePage = () => {
