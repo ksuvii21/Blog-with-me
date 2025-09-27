@@ -14,7 +14,8 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'http://127.0.0.1:3001',
       'http://127.0.0.1:3002',
-      'http://127.0.0.1:5000'
+      'http://127.0.0.1:5000',
+      'https://writely-log.netlify.app'
     ];
 
     if (allowedOrigins.indexOf(origin) !== -1) {
