@@ -9,11 +9,18 @@ import {
   DialogActions, LinearProgress, useTheme, useMediaQuery, Tabs, Tab, Badge,
   Skeleton, Divider, alpha
 } from '@mui/material';
-import {
-  EditIcon, DeleteIcon, AddCircleOutlineIcon, ArticleIcon,
-  FavoriteIcon, VisibilityIcon, TrendingUpIcon, CalendarTodayIcon,
-  AccountCircleIcon, DashboardIcon, BlogIcon, MoreVertIcon
-} from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ArticleIcon from '@mui/icons-material/Article';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import BookIcon from '@mui/icons-material/Book'; // Using BookIcon instead of BlogIcon
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // Tab Panel Component
 function TabPanel({ children, value, index, ...other }) {
@@ -407,7 +414,7 @@ const BlogsList = ({ blogs, isLoading, onDeleteClick, emptyMessage }) => {
   if (blogs.length === 0) {
     return (
       <Box sx={{ textAlign: 'center', py: 8, px: 3 }}>
-        <BlogIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+        
         <Typography variant="h6" color="text.secondary" gutterBottom>
           {emptyMessage}
         </Typography>
