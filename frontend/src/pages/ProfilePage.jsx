@@ -78,7 +78,7 @@ const ProfilePage = () => {
 
   if (!user) return null;
 
-  const userBlogs = blogs.filter((blog) => blog.author._id === user._id);
+  const userBlogs = blogs.filter((blog) => blog.author._id === user.id);
   console.log('Cloudinary Config:', {
   cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
   uploadPreset: process.env.REACT_APP_UPLOAD_PRESET
