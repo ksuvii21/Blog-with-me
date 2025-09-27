@@ -11,10 +11,7 @@ import {
   MenuItem,
   Badge,
   ClickAwayListener,
-  Paper,
-  List,
-  ListItem,
-  ListItemText
+  Paper
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -30,7 +27,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 import BackendStatus from './BackendStatus';
 
-const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
+const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode, isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,18 +61,19 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
     }
   };
 
+  const handleSearchClickAway = () => {
+    setSearchOpen(false);
+  };
+
   return (
     <AppBar 
       position="fixed" 
       sx={{ 
-        top: 0,
         bgcolor: 'background.paper',
         color: 'text.primary',
         boxShadow: '0 2px 20px rgba(0,0,0,0.1)',
         zIndex: 1300,
-        width: '100%',
-        backdropFilter: 'blur(10px)',
-        background: 'rgba(255, 255, 255, 0.9)'
+        width: '100%'
       }}
     >
       <Toolbar sx={{ 
@@ -89,7 +87,7 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
             onClick={toggleSidebar}
             sx={{ 
               color: 'primary.main',
-              display: { lg: 'none' }
+              display: { xs: 'flex', lg: isHomePage ? 'flex' : 'none' }
             }}
           >
             <MenuIcon />
@@ -117,30 +115,14 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
           display: { xs: 'none', md: 'flex' }, 
           flex: 1, 
           maxWidth: 500, 
-          mx: 4,
-          position: 'relative'
+          mx: 4
         }}>
           <Box 
             component="form"
             onSubmit={handleSearchSubmit}
             sx={{ 
               position: 'relative', 
-              width: '100%',
-              '& input': {
-                width: '100%',
-                padding: '10px 16px 10px 44px',
-                border: '2px solid',
-                borderColor: 'divider',
-                borderRadius: 3,
-                bgcolor: 'background.default',
-                outline: 'none',
-                fontSize: '14px',
-                transition: 'all 0.3s ease',
-                '&:focus': {
-                  borderColor: 'primary.main',
-                  boxShadow: '0 0 0 3px rgba(255, 152, 0, 0.1)'
-                }
-              }
+              width: '100%'
             }}
           >
             <Search sx={{ 
@@ -156,6 +138,24 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
               placeholder="Search blogs, topics, authors..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px 16px 10px 44px',
+                border: '2px solid #e0e0e0',
+                borderRadius: 12,
+                backgroundColor: 'transparent',
+                outline: 'none',
+                fontSize: '14px',
+                transition: 'all 0.3s ease'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#FF9800';
+                e.target.style.boxShadow = '0 0 0 3px rgba(255, 152, 0, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e0e0e0';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </Box>
         </Box>
@@ -178,7 +178,6 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
           <IconButton 
             onClick={toggleDarkMode} 
             color="inherit"
-            sx={{ display: { xs: 'none', sm: 'flex' } }}
           >
             {isDarkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
@@ -196,13 +195,7 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
                   background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
                   borderRadius: 3,
                   px: 3,
-                  fontWeight: 600,
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                  },
-                  transition: 'all 0.3s ease'
+                  fontWeight: 600
                 }}
               >
                 Create
@@ -237,8 +230,7 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
                   sx: {
                     mt: 1.5,
                     minWidth: 200,
-                    borderRadius: 3,
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                    borderRadius: 3
                   }
                 }}
               >
@@ -285,7 +277,7 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
 
       {/* Mobile Search Panel */}
       {searchOpen && (
-        <ClickAwayListener onClickAway={() => setSearchOpen(false)}>
+        <ClickAwayListener onClickAway={handleSearchClickAway}>
           <Paper 
             sx={{ 
               position: 'absolute', 
@@ -293,8 +285,7 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
               left: 0, 
               right: 0,
               p: 2,
-              borderRadius: 0,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              borderRadius: 0
             }}
           >
             <Box 

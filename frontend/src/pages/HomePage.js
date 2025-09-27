@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/blogSlice';
-import Layout from '../components/Layout';
 import BlogCard from '../components/BlogCard';
 import { 
   Box, Button, TextField, Select, MenuItem, InputLabel, FormControl, 
@@ -58,9 +57,9 @@ const HomePage = () => {
   const featuredCategories = ['Technology', 'Travel', 'Food', 'Lifestyle', 'Programming', 'Design'];
 
   return (
-    <Layout>
+    <>
       {/* Enhanced Hero Section */}
-      <Box sx={{ 
+      <Box sx={{
         width: '100%',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         color: 'white',
@@ -186,232 +185,232 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      {/* Main Content */}
-      <Container maxWidth="xl" sx={{ py: 8 }}>
-        <Fade in timeout={800}>
-          <Box>
-            {/* Featured Categories */}
-            <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="h4" fontWeight="bold" sx={{ mb: 3 }}>
-                Explore Categories
-              </Typography>
-              <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
-                {featuredCategories.map((category) => (
-                  <Chip
-                    key={category}
-                    label={category}
-                    clickable
-                    variant={selectedCategory === category ? 'filled' : 'outlined'}
-                    onClick={() => setSelectedCategory(
-                      selectedCategory === category ? '' : category
-                    )}
-                    sx={{
-                      m: 0.5,
-                      px: 2,
-                      py: 1,
-                      fontSize: '1rem',
-                      bgcolor: selectedCategory === category ? 'primary.main' : 'transparent',
-                      color: selectedCategory === category ? 'white' : 'text.primary',
-                      '&:hover': {
-                        bgcolor: selectedCategory === category ? 'primary.dark' : 'action.hover'
-                      }
-                    }}
-                  />
-                ))}
-              </Stack>
-            </Box>
-
-            {/* Search and Filter Section */}
-            <Paper elevation={2} sx={{ p: 4, mb: 6, borderRadius: 4 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <FilterList sx={{ color: 'primary.main', mr: 1, fontSize: 28 }} />
-                <Typography variant="h5" fontWeight={600}>
-                  Discover Amazing Content
+      {/* Main Content - Fixed container width */}
+      <Box sx={{ py: 8, width: '100%' }}>
+  <Fade in timeout={800}>
+    <Box sx={{ width: '100%', maxWidth: '1200px', mx: 'auto', px: { xs: 2, sm: 3 } }}>
+              {/* Featured Categories */}
+              <Box sx={{ mb: 6, textAlign: 'center' }}>
+                <Typography variant="h4" fontWeight="bold" sx={{ mb: 3 }}>
+                  Explore Categories
                 </Typography>
+                <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
+                  {featuredCategories.map((category) => (
+                    <Chip
+                      key={category}
+                      label={category}
+                      clickable
+                      variant={selectedCategory === category ? 'filled' : 'outlined'}
+                      onClick={() => setSelectedCategory(
+                        selectedCategory === category ? '' : category
+                      )}
+                      sx={{
+                        m: 0.5,
+                        px: 2,
+                        py: 1,
+                        fontSize: '1rem',
+                        bgcolor: selectedCategory === category ? 'primary.main' : 'transparent',
+                        color: selectedCategory === category ? 'white' : 'text.primary',
+                        '&:hover': {
+                          bgcolor: selectedCategory === category ? 'primary.dark' : 'action.hover'
+                        }
+                      }}
+                    />
+                  ))}
+                </Stack>
               </Box>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Search blogs, authors, topics..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    InputProps={{
-                      startAdornment: <Search sx={{ color: 'primary.main', mr: 1 }} />
-                    }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 3,
-                        '&:hover fieldset': {
-                          borderColor: 'primary.main',
-                        },
-                      }
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <FormControl fullWidth>
-                    <InputLabel>Category</InputLabel>
-                    <Select
-                      value={selectedCategory}
-                      label="Category"
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      sx={{ borderRadius: 3 }}
-                    >
-                      <MenuItem value="">All Categories</MenuItem>
-                      {categories.map(category => (
-                        <MenuItem key={category} value={category}>{category}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={3}>
-                  <FormControl fullWidth>
-                    <InputLabel>Sort By</InputLabel>
-                    <Select
-                      value={sortBy}
-                      label="Sort By"
-                      onChange={(e) => setSortBy(e.target.value)}
-                      sx={{ borderRadius: 3 }}
-                    >
-                      <MenuItem value="newest">
-                        <NewReleases sx={{ mr: 1, fontSize: 20 }} />
-                        Newest First
-                      </MenuItem>
-                      <MenuItem value="oldest">Oldest First</MenuItem>
-                      <MenuItem value="popular">Most Popular</MenuItem>
-                      <MenuItem value="trending">
-                        <TrendingUp sx={{ mr: 1, fontSize: 20 }} />
-                        Trending
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Paper>
+              {/* Search and Filter Section */}
+              <Paper elevation={2} sx={{ p: 4, mb: 6, borderRadius: 4, width: '100%' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                  <FilterList sx={{ color: 'primary.main', mr: 1, fontSize: 28 }} />
+                  <Typography variant="h5" fontWeight={600}>
+                    Discover Amazing Content
+                  </Typography>
+                </Box>
 
-            {/* Results Info */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-              <Typography variant="h6" color="text.secondary">
-                Showing {Math.min(visibleBlogs.length, filteredBlogs.length)} of {filteredBlogs.length} blogs
-              </Typography>
-              {searchTerm && (
-                <Chip 
-                  label={`Search: "${searchTerm}"`} 
-                  onDelete={() => setSearchTerm('')}
-                  color="primary"
-                  variant="outlined"
-                />
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      label="Search blogs, authors, topics..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      InputProps={{
+                        startAdornment: <Search sx={{ color: 'primary.main', mr: 1 }} />
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 3,
+                          '&:hover fieldset': {
+                            borderColor: 'primary.main',
+                          },
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <FormControl fullWidth>
+                      <InputLabel>Category</InputLabel>
+                      <Select
+                        value={selectedCategory}
+                        label="Category"
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        sx={{ borderRadius: 3 }}
+                      >
+                        <MenuItem value="">All Categories</MenuItem>
+                        {categories.map(category => (
+                          <MenuItem key={category} value={category}>{category}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <FormControl fullWidth>
+                      <InputLabel>Sort By</InputLabel>
+                      <Select
+                        value={sortBy}
+                        label="Sort By"
+                        onChange={(e) => setSortBy(e.target.value)}
+                        sx={{ borderRadius: 3 }}
+                      >
+                        <MenuItem value="newest">
+                          <NewReleases sx={{ mr: 1, fontSize: 20 }} />
+                          Newest First
+                        </MenuItem>
+                        <MenuItem value="oldest">Oldest First</MenuItem>
+                        <MenuItem value="popular">Most Popular</MenuItem>
+                        <MenuItem value="trending">
+                          <TrendingUp sx={{ mr: 1, fontSize: 20 }} />
+                          Trending
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Paper>
+
+              {/* Results Info */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                <Typography variant="h6" color="text.secondary">
+                  Showing {Math.min(visibleBlogs.length, filteredBlogs.length)} of {filteredBlogs.length} blogs
+                </Typography>
+                {searchTerm && (
+                  <Chip 
+                    label={`Search: "${searchTerm}"`} 
+                    onDelete={() => setSearchTerm('')}
+                    color="primary"
+                    variant="outlined"
+                  />
+                )}
+              </Box>
+
+              {/* Blog Feed */}
+              {isLoading ? (
+                <Box textAlign="center" py={10}>
+                  <Box sx={{ 
+                    display: 'inline-block',
+                    p: 3,
+                    borderRadius: '50%',
+                    mb: 2,
+                    bgcolor: 'background.default'
+                  }}>
+                    <Box sx={{
+                      width: 50,
+                      height: 50,
+                      border: '4px solid',
+                      borderColor: 'primary.light',
+                      borderTopColor: 'primary.main',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }} />
+                  </Box>
+                  <Typography variant="h6" color="primary.main" fontWeight={600}>
+                    Loading amazing content...
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" mt={1}>
+                    Please wait while we prepare the best blogs for you
+                  </Typography>
+                </Box>
+              ) : error ? (
+                <Box textAlign="center" py={10}>
+                  <Favorite sx={{ fontSize: 64, color: 'error.light', mb: 2, opacity: 0.5 }} />
+                  <Typography variant="h6" color="error" gutterBottom>
+                    Oops! Something went wrong
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {error}
+                  </Typography>
+                  <Button 
+                    variant="outlined" 
+                    sx={{ mt: 2 }}
+                    onClick={() => dispatch(fetchBlogs())}
+                  >
+                    Try Again
+                  </Button>
+                </Box>
+              ) : filteredBlogs.length > 0 ? (
+                <>
+                  <Grid container spacing={3}>
+                    {visibleBlogs.map((blog, index) => (
+                      <Grid item xs={12} sm={6} lg={4} key={blog._id}>
+                        <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
+                          <Box>
+                            <BlogCard blog={blog} />
+                          </Box>
+                        </Fade>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  
+                  {visibleCount < filteredBlogs.length && (
+                    <Box textAlign="center" mt={8}>
+                      <Button 
+                        variant="outlined" 
+                        onClick={handleLoadMore}
+                        endIcon={<ExpandMore />}
+                        sx={{ 
+                          borderRadius: 3, 
+                          fontWeight: 700,
+                          px: 4,
+                          py: 1.5,
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: 3
+                          },
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        Load More ({filteredBlogs.length - visibleCount} remaining)
+                      </Button>
+                    </Box>
+                  )}
+                </>
+              ) : (
+                <Box textAlign="center" py={10}>
+                  <Favorite sx={{ fontSize: 64, color: 'primary.light', mb: 2, opacity: 0.5 }} />
+                  <Typography variant="h6" gutterBottom>
+                    No blogs found
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                    {searchTerm || selectedCategory 
+                      ? `Try adjusting your search filters for "${searchTerm || selectedCategory}"`
+                      : 'Be the first to write a blog in this category!'
+                    }
+                  </Typography>
+                  <Button 
+                    variant="contained" 
+                    href="/create"
+                    sx={{ borderRadius: 3 }}
+                  >
+                    Write First Blog
+                  </Button>
+                </Box>
               )}
             </Box>
-
-            {/* Blog Feed */}
-            {isLoading ? (
-              <Box textAlign="center" py={10}>
-                <Box sx={{ 
-                  display: 'inline-block',
-                  p: 3,
-                  borderRadius: '50%',
-                  mb: 2,
-                  bgcolor: 'background.default'
-                }}>
-                  <Box sx={{
-                    width: 50,
-                    height: 50,
-                    border: '4px solid',
-                    borderColor: 'primary.light',
-                    borderTopColor: 'primary.main',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite'
-                  }} />
-                </Box>
-                <Typography variant="h6" color="primary.main" fontWeight={600}>
-                  Loading amazing content...
-                </Typography>
-                <Typography variant="body2" color="text.secondary" mt={1}>
-                  Please wait while we prepare the best blogs for you
-                </Typography>
-              </Box>
-            ) : error ? (
-              <Box textAlign="center" py={10}>
-                <Favorite sx={{ fontSize: 64, color: 'error.light', mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" color="error" gutterBottom>
-                  Oops! Something went wrong
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {error}
-                </Typography>
-                <Button 
-                  variant="outlined" 
-                  sx={{ mt: 2 }}
-                  onClick={() => dispatch(fetchBlogs())}
-                >
-                  Try Again
-                </Button>
-              </Box>
-            ) : filteredBlogs.length > 0 ? (
-              <>
-                <Grid container spacing={3}>
-                  {visibleBlogs.map((blog, index) => (
-                    <Grid item xs={12} sm={6} lg={4} key={blog._id}>
-                      <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
-                        <Box>
-                          <BlogCard blog={blog} />
-                        </Box>
-                      </Fade>
-                    </Grid>
-                  ))}
-                </Grid>
-                
-                {visibleCount < filteredBlogs.length && (
-                  <Box textAlign="center" mt={8}>
-                    <Button 
-                      variant="outlined" 
-                      onClick={handleLoadMore}
-                      endIcon={<ExpandMore />}
-                      sx={{ 
-                        borderRadius: 3, 
-                        fontWeight: 700,
-                        px: 4,
-                        py: 1.5,
-                        '&:hover': {
-                          transform: 'translateY(-2px)',
-                          boxShadow: 3
-                        },
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      Load More ({filteredBlogs.length - visibleCount} remaining)
-                    </Button>
-                  </Box>
-                )}
-              </>
-            ) : (
-              <Box textAlign="center" py={10}>
-                <Favorite sx={{ fontSize: 64, color: 'primary.light', mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" gutterBottom>
-                  No blogs found
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                  {searchTerm || selectedCategory 
-                    ? `Try adjusting your search filters for "${searchTerm || selectedCategory}"`
-                    : 'Be the first to write a blog in this category!'
-                  }
-                </Typography>
-                <Button 
-                  variant="contained" 
-                  href="/create"
-                  sx={{ borderRadius: 3 }}
-                >
-                  Write First Blog
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </Fade>
-      </Container>
-    </Layout>
+          </Fade>
+      </Box>
+    </>
   );
 };
 

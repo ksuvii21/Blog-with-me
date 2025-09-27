@@ -31,7 +31,7 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Sidebar = ({ isMobile = false, toggleSidebar }) => {
+const Sidebar = ({ isMobile = false, toggleSidebar, showCloseButton = false }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -76,12 +76,13 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
       sx={{
         width: 280,
         height: '100%',
-        bgcolor: 'background.paper',
+        bgcolor: 'linear-gradient(180deg, background.paper 0%, rgba(255,152,0,0.02) 100%)',
         borderRight: '1px solid',
         borderColor: 'divider',
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'auto',
+        boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
         '&::-webkit-scrollbar': {
           width: 4,
         },
@@ -119,17 +120,17 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
       {user && (
         <Box sx={{ p: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Avatar 
-              src={user.profilePicture} 
+            <Avatar
+              src={user.profilePicture}
               alt={user.username}
-              sx={{ 
-                width: 48, 
+              sx={{
+                width: 48,
                 height: 48,
                 border: '3px solid',
                 borderColor: 'primary.main'
               }}
             />
-            <Box>
+            <Box flex={1}>
               <Typography variant="subtitle1" fontWeight="bold">
                 {user.username}
               </Typography>
@@ -137,6 +138,15 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
                 {user.email}
               </Typography>
             </Box>
+            {showCloseButton && (
+              <IconButton
+                onClick={toggleSidebar}
+                size="small"
+                sx={{ color: 'primary.main' }}
+              >
+                <Close />
+              </IconButton>
+            )}
           </Box>
           {user.role === 'admin' && (
             <Chip
