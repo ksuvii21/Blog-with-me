@@ -82,12 +82,25 @@ const store = configureStore({
     users: userSlice,
   },
   preloadedState: {
-    auth: {
-      user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
-      token: localStorage.getItem('token') || null,
-      isLoading: false,
-      error: null
-    }
+    auth: (() => {
+      try {
+        const user = localStorage.getItem('user');
+        return {
+          user: user ? JSON.parse(user) : null,
+          token: localStorage.getItem('token') || null,
+          isLoading: false,
+          error: null
+        };
+      } catch (e) {
+        console.error('Error parsing user from localStorage:', e);
+        return {
+          user: null,
+          token: null,
+          isLoading: false,
+          error: null
+        };
+      }
+    })()
   }
 });
 
