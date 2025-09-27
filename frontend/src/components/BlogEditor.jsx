@@ -78,31 +78,6 @@ const BlogEditor = ({ content, setContent }) => {
         }}
         placeholder="Write your blog content here..."
       />
-      <style jsx>{`
-        .blog-editor .ql-editor {
-          min-height: 400px;
-          font-size: 16px;
-          line-height: 1.6;
-        }
-        .blog-editor .ql-editor img {
-          max-width: 100%;
-          height: auto;
-          display: block;
-          margin: 10px 0;
-        }
-        .blog-editor .ql-toolbar {
-          border-top: 1px solid #ccc;
-          border-left: 1px solid #ccc;
-          border-right: 1px solid #ccc;
-          border-bottom: none;
-        }
-        .blog-editor .ql-container {
-          border-bottom: 1px solid #ccc;
-          border-left: 1px solid #ccc;
-          border-right: 1px solid #ccc;
-          border-top: none;
-        }
-      `}</style>
     </div>
   );
 };
