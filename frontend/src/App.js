@@ -49,9 +49,11 @@ function App() {
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/superadmin" element={<SuperAdminDashboardPage />} />
+            <Route path="/discover" element={<DiscoverPage />} />
+            <Route path="/trending" element={<TrendingPage />} />
+            <Route path="/community" element={<CommunityPage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/bookmarks" element={<BookmarksPage />} />
-            <Route path="/community" element={<CommunityPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </Layout>
