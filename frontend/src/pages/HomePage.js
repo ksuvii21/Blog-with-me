@@ -276,7 +276,7 @@ const HomePage = () => {
               </Box>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     fullWidth
                     label="Search blogs, authors, topics..."
@@ -295,7 +295,7 @@ const HomePage = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid size={{ xs: 12, md: 3 }}>
                   <FormControl fullWidth>
                     <InputLabel>Category</InputLabel>
                     <Select
@@ -311,7 +311,7 @@ const HomePage = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid size={{ xs: 12, md: 3 }}>
                   <FormControl fullWidth>
                     <InputLabel>Sort By</InputLabel>
                     <Select
@@ -399,7 +399,7 @@ const HomePage = () => {
               <>
                 <Grid container spacing={3}>
                   {visibleBlogs.map((blog, index) => (
-                    <Grid item xs={12} sm={6} lg={4} key={blog._id}>
+                    <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={blog._id}>
                       <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
                         <Box>
                           <BlogCard blog={blog} />
