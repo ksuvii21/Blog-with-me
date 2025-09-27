@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs, deleteBlog } from '../redux/slices/blogSlice';
 import Layout from '../components/Layout';
 import {
-  Box, Paper, Typography, Avatar, Button, Grid, Chip, Fade, Stack, IconButton,
-  Tooltip, Card, CardContent, CardActions, Dialog, DialogTitle, DialogContent,
-  DialogActions, LinearProgress, useTheme, useMediaQuery, Tabs, Tab, Badge,
+  Box, Typography, Avatar, Button, Grid, Chip, Fade, Stack, IconButton,
+  Tooltip, Card, CardContent, Dialog, DialogTitle, DialogContent,
+  DialogActions, useTheme, useMediaQuery, Tabs, Tab,
   Skeleton, Divider, alpha
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,7 +20,6 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BookIcon from '@mui/icons-material/Book';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // Tab Panel Component
 function TabPanel({ children, value, index, ...other }) {
