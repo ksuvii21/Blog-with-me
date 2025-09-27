@@ -1,165 +1,245 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../redux/slices/authSlice';
 import { fetchBlogs } from '../redux/slices/blogSlice';
 import { uploadImage } from '../utils/cloudinary';
+import Layout from '../components/Layout';
 import BlogCard from '../components/BlogCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EmptyState from '../components/EmptyState';
 
 const ProfilePage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user, isLoading: authLoading, error: authError } = useSelector((state) => state.auth);
   const { blogs, isLoading: blogsLoading } = useSelector((state) => state.blogs);
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    username: user?.username || '',
-    bio: user?.bio || '',
+    username: '',
+    bio: '',
+    profilePicture: ''
   });
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [uploadLoading, setUploadLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState('');
+  const [updateError, setUpdateError] = useState('');
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
       return;
     }
+
+    // Initialize form data with current user info
+    setFormData({
+      username: user.username || '',
+      bio: user.bio || '',
+      profilePicture: user.profilePicture || ''
+    });
+    setImagePreview(user.profilePicture || '/default-avatar.png');
+
+    // Fetch blogs if not already loaded
     if (blogs.length === 0) {
       dispatch(fetchBlogs());
     }
-  }, [user, blogs.length, dispatch, navigate]);
+  }, [user, navigate, dispatch, blogs.length]);
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onload = () => setPreviewUrl(reader.result);
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    setIsUploading(true);
+    setUpdateError('');
+    try {
+      const imageUrl = await uploadImage(file);
+      if (imageUrl) {
+        setFormData(prev => ({ ...prev, profilePicture: imageUrl }));
+        setImagePreview(imageUrl);
+      }
+    } catch (error) {
+      setUpdateError('Failed to upload image. Please try again.');
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUploadLoading(true);
+    setUpdateError('');
+
+    if (!formData.username.trim()) {
+      setUpdateError('Username is required');
+      return;
+    }
+
     try {
-      let profilePicture = user.profilePicture;
-      if (selectedFile) {
-        profilePicture = await uploadImage(selectedFile);
-      }
-      const updatedData = { ...formData, profilePicture };
-      await dispatch(updateProfile(updatedData)).unwrap();
+      await dispatch(updateProfile(formData)).unwrap();
       setIsEditing(false);
-      setSelectedFile(null);
-      setPreviewUrl(null);
+      // The auth slice will update the user state
     } catch (error) {
-      console.error('Update failed:', error);
-    } finally {
-      setUploadLoading(false);
+      setUpdateError(error || 'Failed to update profile');
     }
   };
 
-  const userBlogs = blogs.filter((blog) => blog.author._id === user?._id);
+  const userBlogs = blogs.filter(blog => blog.author && blog.author._id === user._id);
 
-  if (!user) return <LoadingSpinner />;
+  if (authLoading) {
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-64">
+          <LoadingSpinner size="lg" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!user) {
+    return null; // Redirect handled in useEffect
+  }
+
+  const defaultAvatar = '/default-avatar.png';
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      {/* Profile Header */}
-      <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 mb-8">
-        <img
-          src={previewUrl || user.profilePicture || "https://via.placeholder.com/120"}
-          alt="Profile"
-          className="w-32 h-32 rounded-full object-cover border-4 border-orange-500"
-        />
-        <div className="text-center md:text-left">
-          <h1 className="text-3xl font-bold text-gray-800">{user.username}</h1>
-          <p className="text-gray-600">{user.email}</p>
-          <p className="text-gray-700 mt-2">{user.bio || 'No bio available'}</p>
-          <span className="inline-block mt-2 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
-            {user.role}
-          </span>
+    <Layout>
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Profile Header */}
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+            <div className="flex-shrink-0">
+              <img
+                src={imagePreview || defaultAvatar}
+                alt="Profile"
+                className="w-32 h-32 rounded-full object-cover border-4 border-orange-500"
+              />
+              {isEditing && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="mt-2 text-sm text-gray-500"
+                  disabled={isUploading}
+                />
+              )}
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">{formData.username}</h1>
+              <p className="text-gray-600 mb-2">{user.email}</p>
+              <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                user.role === 'admin' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+              }`}>
+                {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+              </span>
+              <p className="mt-4 text-gray-700">{formData.bio || 'No bio yet.'}</p>
+            </div>
+            <div className="flex-1 text-center md:text-right">
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-orange-800">Your Stats</h3>
+                <p className="text-2xl font-bold text-orange-600">{userBlogs.length}</p>
+                <p className="text-sm text-orange-700">Blogs Published</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Edit Button */}
+          {!isEditing && (
+            <div className="mt-6 text-center md:text-right">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-6 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Edit Profile
+              </button>
+            </div>
+          )}
         </div>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          {isEditing ? 'Cancel' : 'Edit Profile'}
-        </button>
-      </div>
 
-      {/* Edit Form */}
-      {isEditing && (
-        <form onSubmit={handleSubmit} className="mb-8 p-6 bg-gray-50 rounded-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Username</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Bio</label>
-              <textarea
-                name="bio"
-                value={formData.bio}
-                onChange={handleInputChange}
-                rows="3"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-              />
-            </div>
+        {/* Edit Form */}
+        {isEditing && (
+          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Edit Profile</h2>
+            {updateError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600">{updateError}</p>
+              </div>
+            )}
+            {authError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600">{authError}</p>
+              </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Username *</label>
+                <input
+                  type="text"
+                  value={formData.username}
+                  onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  placeholder="Tell us about yourself..."
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
+                {isUploading && <LoadingSpinner size="sm" />}
+                <p className="text-sm text-gray-500 mb-2">Current: {imagePreview ? 'Uploaded' : 'None'}</p>
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUploading || authLoading}
+                  className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
+                >
+                  {authLoading ? <LoadingSpinner size="sm" /> : 'Save Changes'}
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Profile Picture</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={uploadLoading}
-            className="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-lg transition-colors disabled:opacity-50"
-          >
-            {uploadLoading ? 'Updating...' : 'Update Profile'}
-          </button>
-        </form>
-      )}
-
-      {/* Error Display */}
-      {authError && <p className="text-red-500 mb-4">{authError}</p>}
-
-      {/* User's Blogs */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">My Blogs ({userBlogs.length})</h2>
-        {blogsLoading ? (
-          <LoadingSpinner />
-        ) : userBlogs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userBlogs.map((blog) => (
-              <BlogCard key={blog._id} blog={blog} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState message="You haven't created any blogs yet." actionText="Create your first blog" actionLink="/create" />
         )}
+
+        {/* User's Blogs */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Your Blogs</h2>
+          {blogsLoading ? (
+            <div className="flex justify-center py-12">
+              <LoadingSpinner size="lg" />
+            </div>
+          ) : userBlogs.length === 0 ? (
+            <EmptyState
+              title="No Blogs Yet"
+              message="You haven't published any blogs. Create your first one!"
+              actionText="Create Blog"
+              onAction={() => navigate('/create')}
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {userBlogs.map((blog) => (
+                <div key={blog._id}>
+                  <BlogCard blog={blog} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
