@@ -25,7 +25,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
-import BackendStatus from './BackendStatus';
+
 
 const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShowSidebar }) => {
   const { user } = useSelector((state) => state.auth);
@@ -166,8 +166,7 @@ const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShow
           </Box>
         </Box>
 
-        {/* Backend Status */}
-        <BackendStatus />
+
 
         {/* Right Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
