@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
 
-const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
+const Header = ({ isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
