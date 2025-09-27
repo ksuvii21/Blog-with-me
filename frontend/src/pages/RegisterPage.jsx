@@ -24,9 +24,12 @@ import {
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../redux/slices/authSlice';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -90,8 +93,10 @@ const RegisterPage = () => {
       if (response.ok) {
         // Store token in localStorage
         localStorage.setItem('token', data.token);
+        // Update Redux state
+        dispatch(setCredentials({ user: data.user, token: data.token }));
         // Redirect to dashboard
-        navigate('/');
+        navigate('/dashboard');
       } else {
         setError(data.message || 'Registration failed. Please try again.');
       }
