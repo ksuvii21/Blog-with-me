@@ -20,7 +20,7 @@ import {
   Notifications,
   Search,
   Close,
-  Menu
+  Menu as MenuIcon
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
