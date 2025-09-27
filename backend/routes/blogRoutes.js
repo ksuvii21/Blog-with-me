@@ -13,6 +13,6 @@ router.post('/', auth, blogController.createBlog);
 router.put('/:id', auth, blogController.updateBlog);
 router.delete('/:id', auth, blogController.deleteBlog);
 router.post('/:id/like', auth, blogController.likeBlog);
-router.post('/upload-image', auth, upload.single('image'), blogController.uploadImage);
+
 
 module.exports = router;
