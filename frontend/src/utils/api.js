@@ -148,7 +148,29 @@ api.interceptors.response.use(
       // Provide mock data for specific endpoints
       const url = error.config?.url || '';
       const method = error.config?.method || 'get';
-      
+
+      if (method === 'post' && url === '/auth/login') {
+        // Mock login for admin
+        const mockUser = {
+          _id: '68d22d8164aa146baa59947c',
+          username: 'Admin',
+          email: 'admin@blogplatform.com',
+          role: 'admin',
+          bio: 'Platform Administrator',
+          profilePicture: '',
+          createdAt: '2025-09-23T05:17:53.218+00:00',
+          updatedAt: '2025-09-23T05:17:53.218+00:00'
+        };
+        console.log('Returning mock login for admin');
+        return Promise.resolve({
+          data: { token: 'mock-token', user: mockUser },
+          status: 200,
+          statusText: 'OK',
+          headers: {},
+          config: error.config
+        });
+      }
+
       if (method === 'get' && mockData[url]) {
         console.log(`Returning mock data for: ${url}`);
         return Promise.resolve({
@@ -159,7 +181,7 @@ api.interceptors.response.use(
           config: error.config
         });
       }
-      
+
       // For other endpoints, provide a generic mock response
       if (method === 'get') {
         console.log(`No mock data for: ${url}, returning empty array`);
