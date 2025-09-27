@@ -96,8 +96,6 @@ const Layout = ({ children }) => {
         
         {/* Header - Always visible */}
         <Header
-          toggleDarkMode={toggleDarkMode}
-          isDarkMode={isDarkMode}
           isHomePage={isHomePage}
         />
 
