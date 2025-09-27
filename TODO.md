@@ -1,5 +1,5 @@
 # Fix Build Errors for Netlify Deployment
 
 - [x] Remove unused import 'Share' from frontend/src/components/BlogCard.js
-- [ ] Remove unused 'response' variable in frontend/src/utils/api.js healthCheck function
+- [x] Remove unused 'response' variable in frontend/src/utils/api.js healthCheck function
 - [ ] Run npm run build to verify the fixes
