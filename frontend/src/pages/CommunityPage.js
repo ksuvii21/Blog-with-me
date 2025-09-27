@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/blogSlice';
 import BlogCard from '../components/BlogCard';
+import Sidebar from '../components/Sidebar';
 import {
   Box, Button, Typography, Grid, Paper, Fade, Container, Chip, Stack, IconButton,
   Avatar, Card, CardContent, Divider, List, ListItem, ListItemAvatar, ListItemText,

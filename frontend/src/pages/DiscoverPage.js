@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/blogSlice';
 import BlogCard from '../components/BlogCard';
+import Sidebar from '../components/Sidebar';
 import {
   Box, Button, TextField, Select, MenuItem, InputLabel, FormControl,
   Typography, Grid, Paper, Fade, Container, Chip, Stack, IconButton,
@@ -60,20 +61,19 @@ const DiscoverPage = () => {
 
   return (
     <>
-      {/* Floating Sidebar */}
-      <Drawer
-        anchor="left"
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        sx={{
-          '& .MuiDrawer-paper': {
-            boxShadow: '0 0 30px rgba(255,152,0,0.3)',
-            border: 'none',
-          },
-        }}
-      >
-        {/* Sidebar content would be imported */}
-      </Drawer>
+<Drawer
+  anchor="left"
+  open={sidebarOpen}
+  onClose={() => setSidebarOpen(false)}
+  sx={{
+    '& .MuiDrawer-paper': {
+      boxShadow: '0 0 30px rgba(255,152,0,0.3)',
+      border: 'none',
+    },
+  }}
+>
+  <Sidebar isMobile={true} toggleSidebar={() => setSidebarOpen(false)} />
+</Drawer>
 
       {/* Hero Section */}
       <Box sx={{
