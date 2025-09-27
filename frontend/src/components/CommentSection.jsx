@@ -114,4 +114,4 @@ const CommentSection = ({ blogId, comments }) => {
   );
 };
 
-export default CommentsSection;
+export default CommentSection;

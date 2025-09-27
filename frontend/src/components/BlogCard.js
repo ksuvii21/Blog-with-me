@@ -1,21 +1,23 @@
 // components/BlogCard.jsx
 import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
-import { Favorite, Share, Visibility } from '@mui/icons-material';
+import { Favorite, Share, Visibility, Comment } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const BlogCard = ({ blog, compact = false, theme }) => {
   return (
-    <Card sx={{
-      height: '100%',
-      background: theme?.gradient || 'white',
-      border: `1px solid ${theme?.primary || '#ccc'}20`,
-      borderRadius: 3,
-      transition: 'all 0.3s ease',
-      '&:hover': {
-        transform: 'translateY(-4px)',
-        boxShadow: `0 8px 30px ${theme?.primary || '#000'}20`
-      }
-    }} className="blog-card">
-      <CardContent>
+    <Link to={`/blogs/${blog._id}`} style={{ textDecoration: 'none' }}>
+      <Card sx={{
+        height: '100%',
+        background: theme?.gradient || 'white',
+        border: `1px solid ${theme?.primary || '#ccc'}20`,
+        borderRadius: 3,
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: `0 8px 30px ${theme?.primary || '#000'}20`
+        }
+      }} className="blog-card">
+        <CardContent>
         <Typography variant="h6" fontWeight={600} color={theme?.primary}>
           {blog.title}
         </Typography>
@@ -47,6 +49,10 @@ const BlogCard = ({ blog, compact = false, theme }) => {
             <Box sx={{ display: 'flex', alignItems: 'center', color: theme?.secondary }}>
               <Visibility fontSize="small" />
               <Typography variant="body2">{blog.views || 0}</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', color: theme?.secondary }}>
+              <Comment fontSize="small" />
+              <Typography variant="body2">{blog.comments || 0}</Typography>
             </Box>
           </Box>
         </Box>
