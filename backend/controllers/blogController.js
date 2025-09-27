@@ -1,11 +1,4 @@
 const Blog = require('../models/Blog');
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 exports.createBlog = async (req, res) => {
   const { title, content, summary, categories, tags, featuredImage } = req.body;
@@ -139,15 +132,7 @@ exports.likeBlog = async (req, res) => {
   }
 };
 
-exports.uploadImage = async (req, res) => {
-  try {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    res.json({ url: result.secure_url });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ message: 'Upload failed' });
-  }
-};
+
 
 exports.searchBlogs = async (req, res) => {
   const { q, category, tag } = req.query;
