@@ -95,7 +95,7 @@ const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShow
                 }
               }}
             >
-              <Menu />
+              <MenuIcon />
             </IconButton>
           )}
 
