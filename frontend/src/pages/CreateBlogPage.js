@@ -149,22 +149,13 @@ const CreateBlogPage = () => {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-800">Create New Blog</h1>
-            <div className="flex gap-3">
-              <button
-                onClick={handleSaveDraft}
-                disabled={isLoading}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-              >
-                {isLoading && isDraft ? <LoadingSpinner size="sm" /> : 'Save Draft'}
-              </button>
-              <button
-                onClick={handlePublish}
-                disabled={isLoading}
-                className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
-              >
-                {isLoading && !isDraft ? <LoadingSpinner size="sm" /> : 'Publish'}
-              </button>
-            </div>
+            <button
+              onClick={handleSave}
+              disabled={isLoading}
+              className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
+            >
+              {isLoading ? <LoadingSpinner size="sm" /> : 'Create Blog'}
+            </button>
           </div>
 
           {error && (
