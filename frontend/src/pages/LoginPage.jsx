@@ -71,8 +71,10 @@ const LoginPage = () => {
       if (response.ok) {
         // Store token in localStorage
         localStorage.setItem('token', data.token);
+        // Update Redux state
+        dispatch(setCredentials({ user: data.user, token: data.token }));
         // Redirect to dashboard
-        navigate('/');
+        navigate('/dashboard');
       } else {
         setError(data.message || 'Invalid email or password. Please try again.');
       }
