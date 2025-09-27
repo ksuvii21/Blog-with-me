@@ -77,9 +77,9 @@ document.head.appendChild(styleSheet);
 const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  
-  const theme = React.useMemo(() => 
-    createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light')), 
+
+  const theme = React.useMemo(() =>
+    createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light')),
     [isDarkMode]
   );
 
@@ -89,7 +89,7 @@ const Layout = ({ children }) => {
   }, []);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  
+
   const toggleDarkMode = () => {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
@@ -98,7 +98,7 @@ const Layout = ({ children }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ 
+      <Box sx={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -114,51 +114,62 @@ const Layout = ({ children }) => {
         />
 
         {/* Main Content */}
-        <Box sx={{ 
-          display: 'flex', 
+        <Box sx={{
+          display: 'flex',
           flex: 1,
           mt: 8, // Header height
         }}>
-          {/* Sidebar */}
-          <Box sx={{ 
-            display: { xs: isSidebarOpen ? 'block' : 'none', md: 'block' },
-            position: { xs: 'fixed', md: 'static' },
-            top: 64,
-            left: 0,
-            bottom: 0,
-            zIndex: 1200,
+          {/* Sidebar - Desktop */}
+          <Box sx={{
+            display: { xs: 'none', md: 'block' },
             width: 280,
-            height: { xs: 'calc(100vh - 64px)', md: 'auto' }
+            flexShrink: 0
           }}>
-            <Sidebar isMobile={!isSidebarOpen} toggleSidebar={toggleSidebar} />
+            <Sidebar isMobile={false} toggleSidebar={toggleSidebar} />
           </Box>
 
-          {/* Overlay for mobile sidebar */}
+          {/* Sidebar - Mobile */}
           {isSidebarOpen && (
-            <Box 
-              sx={{
+            <>
+              <Box sx={{
+                display: { xs: 'block', md: 'none' },
                 position: 'fixed',
                 top: 64,
                 left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                zIndex: 1100,
-                display: { xs: 'block', md: 'none' }
-              }}
-              onClick={toggleSidebar}
-            />
+                zIndex: 1200,
+                width: 280,
+                height: 'calc(100vh - 64px)'
+              }}>
+                <Sidebar isMobile={true} toggleSidebar={toggleSidebar} />
+              </Box>
+
+              {/* Overlay for mobile sidebar */}
+              <Box
+                sx={{
+                  position: 'fixed',
+                  top: 64,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  zIndex: 1100,
+                  display: { xs: 'block', md: 'none' }
+                }}
+                onClick={toggleSidebar}
+              />
+            </>
           )}
 
           {/* Main Content Area */}
-          <Box 
+          <Box
             component="main"
-            sx={{ 
+            sx={{
               flex: 1,
               minHeight: 'calc(100vh - 64px)',
-              ml: { md: '280px' },
-              width: { md: 'calc(100% - 280px)' },
               p: 3,
+              transition: 'margin-left 0.3s ease',
+              ml: { md: isSidebarOpen ? '280px' : 0 },
+              width: { md: isSidebarOpen ? 'calc(100% - 280px)' : '100%' }
             }}
           >
             {children}

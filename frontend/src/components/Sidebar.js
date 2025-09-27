@@ -21,24 +21,24 @@ import {
   People,
   Settings,
   Star,
-  Close
+  Close,
+  Add,
+  Search
 } from '@mui/icons-material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-const themeColors = {
-  orange: { main: '#FF9800' },
-  purple: { main: '#9C27B0' },
-};
 
 const Sidebar = ({ isMobile = false, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const menuItems = [
     { icon: Home, label: 'Home', path: '/', auth: false },
-    { icon: TrendingUp, label: 'Trending', path: '/trending', auth: false },
+    { icon: Search, label: 'Search', path: '/search', auth: false },
+    { icon: TrendingUp, label: 'Trending Tags', path: '/trending-tags', auth: false },
     { icon: Dashboard, label: 'Dashboard', path: '/dashboard', auth: true },
+    { icon: Add, label: 'Create Blog', path: '/create', auth: true },
     { icon: Favorite, label: 'Favorites', path: '/favorites', auth: true },
     { icon: Bookmark, label: 'Bookmarks', path: '/bookmarks', auth: true },
     { icon: People, label: 'Community', path: '/community', auth: false },
@@ -47,6 +47,13 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
   ];
 
   const handleItemClick = () => {
+    if (isMobile && toggleSidebar) {
+      toggleSidebar();
+    }
+  };
+
+  const handleTagClick = (tag) => {
+    navigate(`/tag/${tag.toLowerCase()}`);
     if (isMobile && toggleSidebar) {
       toggleSidebar();
     }
@@ -62,14 +69,18 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
         borderColor: 'divider',
         display: 'flex',
         flexDirection: 'column',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        position: 'fixed',
+        top: 64,
+        left: 0,
+        zIndex: 1200
       }}
     >
       {/* Mobile Header */}
       {isMobile && (
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           p: 2,
           borderBottom: '1px solid',
@@ -86,22 +97,22 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
 
       {/* Navigation Menu */}
       <Box sx={{ p: 2, flex: 1 }}>
-        <Typography variant="overline" sx={{ 
-          color: 'primary.main', 
+        <Typography variant="overline" sx={{
+          color: 'primary.main',
           fontWeight: 600,
           display: 'block',
           mb: 2
         }}>
           Navigation
         </Typography>
-        
+
         <List sx={{ p: 0 }}>
           {menuItems.map((item) => {
             if (item.auth && !user) return null;
-            if (item.admin && user?.role !== 'admin') return null;
-            
+            if (item.admin && user?.role !== 'admin' && user?.role !== 'superadmin') return null;
+
             const isActive = location.pathname === item.path;
-            
+
             return (
               <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
                 <ListItemButton
@@ -117,15 +128,15 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
                     }
                   }}
                 >
-                  <ListItemIcon sx={{ 
+                  <ListItemIcon sx={{
                     color: isActive ? 'white' : 'primary.main',
                     minWidth: 40
                   }}>
                     <item.icon />
                   </ListItemIcon>
-                  <ListItemText 
+                  <ListItemText
                     primary={item.label}
-                    primaryTypographyProps={{ 
+                    primaryTypographyProps={{
                       fontWeight: isActive ? 600 : 400
                     }}
                   />
@@ -138,8 +149,8 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
         <Divider sx={{ my: 3 }} />
 
         {/* Popular Tags */}
-        <Typography variant="overline" sx={{ 
-          color: 'secondary.main', 
+        <Typography variant="overline" sx={{
+          color: 'secondary.main',
           fontWeight: 600,
           display: 'block',
           mb: 2
@@ -147,16 +158,17 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
           Popular Tags
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          {['Technology', 'Travel', 'Food', 'Lifestyle'].map((tag) => (
+          {['Technology', 'Travel', 'Food', 'Lifestyle', 'Programming', 'Design'].map((tag) => (
             <Chip
               key={tag}
               label={tag}
               size="small"
               variant="outlined"
-              onClick={handleItemClick}
+              onClick={() => handleTagClick(tag)}
               sx={{
                 borderColor: 'primary.light',
                 color: 'text.secondary',
+                cursor: 'pointer',
                 '&:hover': {
                   bgcolor: 'primary.main',
                   color: 'white'
@@ -165,6 +177,29 @@ const Sidebar = ({ isMobile = false, toggleSidebar }) => {
             />
           ))}
         </Box>
+
+        {/* User Info Section */}
+        {user && (
+          <>
+            <Divider sx={{ my: 3 }} />
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                Welcome back,
+              </Typography>
+              <Typography variant="body1" fontWeight="bold" color="primary.main">
+                {user.username}
+              </Typography>
+              {user.role === 'admin' && (
+                <Chip
+                  label="Admin"
+                  size="small"
+                  color="secondary"
+                  sx={{ mt: 1 }}
+                />
+              )}
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );
