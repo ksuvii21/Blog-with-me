@@ -202,7 +202,7 @@ api.interceptors.response.use(
 // Add a health check function
 api.healthCheck = async () => {
   try {
-    const response = await api.get('/health', { timeout: 5000 });
+    await api.get('/health', { timeout: 5000 });
     isBackendAvailable = true;
     return true;
   } catch (error) {
