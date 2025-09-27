@@ -98,7 +98,6 @@ const Layout = ({ children }) => {
         
         {/* Header - Always visible */}
         <Header
-          toggleSidebar={toggleSidebar}
           toggleDarkMode={toggleDarkMode}
           isDarkMode={isDarkMode}
           isHomePage={isHomePage}
@@ -178,8 +177,8 @@ const Layout = ({ children }) => {
           </Box>
         </Box>
 
-        {/* Footer - SINGLE footer */}
-        <Footer />
+        {/* Footer - Only on home page */}
+        {isHomePage && <Footer />}
 
         {/* Mobile Bottom Bar - Only on non-homepage mobile */}
         {!isHomePage && (

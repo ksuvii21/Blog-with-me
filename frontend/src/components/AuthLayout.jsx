@@ -138,9 +138,10 @@ const AuthLayout = ({ children, title, subtitle }) => {
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: { xs: 4, md: 8 },
+        paddingTop: { xs: 8, md: 12 },
         minHeight: '100vh'
       }}>
         <Box sx={{

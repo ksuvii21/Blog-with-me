@@ -19,7 +19,7 @@ const BlogCard = ({ blog, compact = false, theme }) => {
         <Typography variant="h6" fontWeight={600} color={theme?.primary}>
           {blog.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+        <Typography variant="body2" color="text.primary" sx={{ mt: 1, opacity: 0.8 }}>
           {compact ? `${blog.content.substring(0, 100)}...` : blog.content}
         </Typography>
         

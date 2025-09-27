@@ -14,7 +14,6 @@ import {
   Paper
 } from '@mui/material';
 import {
-  Menu as MenuIcon,
   Brightness4,
   Brightness7,
   Add,
@@ -27,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 import BackendStatus from './BackendStatus';
 
-const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode, isHomePage }) => {
+const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,16 +82,6 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode, isHomePage }) => {
       }}>
         {/* Left Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton
-            onClick={toggleSidebar}
-            sx={{ 
-              color: 'primary.main',
-              display: { xs: 'flex', lg: isHomePage ? 'flex' : 'none' }
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography 
               variant="h4" 
