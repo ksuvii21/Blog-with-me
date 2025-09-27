@@ -5,9 +5,8 @@ import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import {
   Box, Button, Typography, Paper, Fade, Container, Chip, Stack, IconButton,
-  Drawer, Avatar, Badge
+  Drawer, Avatar, Badge, Grid
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 import { TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime } from '@mui/icons-material';
 
 const TrendingPage = () => {
