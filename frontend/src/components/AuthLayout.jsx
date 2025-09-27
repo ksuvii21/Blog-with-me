@@ -146,10 +146,10 @@ const AuthLayout = ({ children, title, subtitle }) => {
       }}>
         <Box sx={{
           width: '100%',
-          maxWidth: 450,
+          maxWidth: 380,
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
-          padding: { xs: 4, md: 6 },
+          padding: { xs: 3, md: 4 },
           borderRadius: 4,
           boxShadow: '0 20px 40px rgba(156, 39, 176, 0.15)',
           border: '1px solid rgba(255, 152, 0, 0.2)'
