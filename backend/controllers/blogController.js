@@ -15,8 +15,8 @@ exports.createBlog = async (req, res) => {
       title,
       content,
       summary,
-      categories: categories ? categories.split(',').map(cat => cat.trim()) : [],
-      tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+      categories: Array.isArray(categories) ? categories.map(cat => cat.trim()) : [],
+      tags: Array.isArray(tags) ? tags.map(tag => tag.trim()) : [],
       featuredImage,
       author: req.user.id,
     });
