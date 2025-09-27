@@ -71,8 +71,6 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     setMounted(true);
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    setIsDarkMode(savedDarkMode);
   }, []);
 
   useEffect(() => {
