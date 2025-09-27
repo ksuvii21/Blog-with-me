@@ -414,7 +414,7 @@ const BlogsList = ({ blogs, isLoading, onDeleteClick, emptyMessage }) => {
   if (blogs.length === 0) {
     return (
       <Box sx={{ textAlign: 'center', py: 8, px: 3 }}>
-        
+        <BookIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
         <Typography variant="h6" color="text.secondary" gutterBottom>
           {emptyMessage}
         </Typography>
