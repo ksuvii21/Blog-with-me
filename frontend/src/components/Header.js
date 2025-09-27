@@ -14,8 +14,6 @@ import {
   Paper
 } from '@mui/material';
 import {
-  Brightness4,
-  Brightness7,
   Add,
   Notifications,
   Search,
@@ -162,13 +160,7 @@ const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
             <Search />
           </IconButton>
 
-          {/* Dark Mode Toggle */}
-          <IconButton 
-            onClick={toggleDarkMode} 
-            color="inherit"
-          >
-            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+
 
           {user ? (
             <>
