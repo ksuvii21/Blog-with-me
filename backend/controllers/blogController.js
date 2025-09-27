@@ -81,8 +81,8 @@ exports.updateBlog = async (req, res) => {
     blog.title = title || blog.title;
     blog.content = content || blog.content;
     blog.summary = summary || blog.summary;
-    blog.categories = categories ? categories.split(',').map(cat => cat.trim()) : blog.categories;
-    blog.tags = tags ? tags.split(',').map(tag => tag.trim()) : blog.tags;
+    blog.categories = Array.isArray(categories) ? categories.map(cat => cat.trim()) : blog.categories;
+    blog.tags = Array.isArray(tags) ? tags.map(tag => tag.trim()) : blog.tags;
     blog.featuredImage = featuredImage || blog.featuredImage;
 
     await blog.save();
