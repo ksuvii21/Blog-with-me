@@ -74,6 +74,23 @@ const AppContent = () => {
   );
 };
 
+const store = configureStore({
+  reducer: {
+    auth: authSlice,
+    blogs: blogSlice,
+    comments: commentSlice,
+    users: userSlice,
+  },
+  preloadedState: {
+    auth: {
+      user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+      token: localStorage.getItem('token') || null,
+      isLoading: false,
+      error: null
+    }
+  }
+});
+
 function App() {
   return (
     <Provider store={store}>
