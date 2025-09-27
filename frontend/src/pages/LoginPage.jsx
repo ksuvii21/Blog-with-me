@@ -22,9 +22,12 @@ import {
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../redux/slices/authSlice';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
