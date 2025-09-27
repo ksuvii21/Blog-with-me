@@ -248,7 +248,7 @@ const TrendingPage = () => {
               <>
                 <Grid container spacing={3}>
                   {trendingBlogs.map((blog, index) => (
-                    <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={blog._id}>
+                    <Grid item xs={12} sm={6} lg={4} key={blog._id}>
                       <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
                         <Box sx={{ position: 'relative' }}>
                           {/* Trending Badge */}
