@@ -91,8 +91,9 @@ const RegisterPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Store token in localStorage
+        // Store token and user in localStorage
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         // Update Redux state
         dispatch(setCredentials({ user: data.user, token: data.token }));
         // Redirect to dashboard
