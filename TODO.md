@@ -1,13 +1,5 @@
-# TODO: Make ProfilePage Work
+# Fix Build Errors for Netlify Deployment
 
-## Tasks
-- [x] Implement ProfilePage.jsx with full functionality: display user info, edit form, list user's blogs
-- [x] Test ProfilePage by running frontend and navigating to /profile after login (fixed avatar display issue)
-- [x] ProfilePage implementation complete with auth check, edit form, avatar upload, and blog listing
-- [x] Created ProfilePage.jsx with auth check, user info display, edit form with avatar upload, and user's blogs list
-
-## Details
-- ProfilePage.jsx: Add imports, auth check, useEffect for blogs, display section, edit form with avatar upload, blog list.
-- Use existing Redux thunks: fetchBlogs, updateProfile.
-- Handle loading/errors, redirect if not logged in.
-- Style with Tailwind (orange/purple theme).
+- [ ] Remove unused import 'Share' from frontend/src/components/BlogCard.js
+- [ ] Remove unused 'response' variable in frontend/src/utils/api.js healthCheck function
+- [ ] Run npm run build to verify the fixes

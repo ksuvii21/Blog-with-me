@@ -1,6 +1,6 @@
 // components/BlogCard.jsx
 import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
-import { Favorite, Share, Visibility, Comment } from '@mui/icons-material';
+import { Favorite, Visibility, Comment } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const BlogCard = ({ blog, compact = false, theme }) => {
