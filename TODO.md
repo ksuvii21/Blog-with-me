@@ -1,3 +1,1 @@
-- [x] Update LoginPage.jsx to redirect to /dashboard and update Redux state after login
-- [x] Update RegisterPage.jsx to redirect to /dashboard and update Redux state after registration
-- [x] Test the login and registration flow to ensure proper redirect
+
