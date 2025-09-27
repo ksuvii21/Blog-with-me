@@ -1,9 +1,7 @@
-// utils/cloudinary.js
+// utils/cloudinary.js - TEMPORARY FIX FOR TESTING
 export const uploadImage = async (file) => {
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = process.env.REACT_APP_UPLOAD_PRESET;
-  
-  console.log('Cloudinary Config:', { cloudName, uploadPreset }); // Debug log
+  const cloudName = 'dl5xtuwim'; // Your actual cloud name
+  const uploadPreset = 'blog-upload'; // Your actual upload preset
   
   const formData = new FormData();
   formData.append('file', file);
@@ -19,9 +17,7 @@ export const uploadImage = async (file) => {
     );
     
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Cloudinary response error:', errorText);
-      throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
+      throw new Error(`Upload failed: ${response.status}`);
     }
     
     const data = await response.json();
