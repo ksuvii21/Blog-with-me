@@ -3,11 +3,11 @@
   command = "npm run build"
 
 [build.environment]
-  REACT_APP_API_URL = "https://your-render-backend-url.onrender.com"
+  REACT_APP_API_URL = "https://writely-log.onrender.com/"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://your-render-backend-url.onrender.com/api/:splat"
+  to = "https://writely-log.onrender.com//api/:splat"
   status = 200
 
 [[headers]]
