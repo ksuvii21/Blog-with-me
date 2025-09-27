@@ -26,6 +26,7 @@ import SuperAdminDashboardPage from './pages/SuperAdminDashboardPage';
 import DiscoverPage from './pages/DiscoverPage';
 import TrendingPage from './pages/TrendingPage';
 import CommunityPage from './pages/CommunityPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Placeholder components for missing routes
 const FavoritesPage = () => <div>Favorites Page - Coming Soon</div>;
@@ -80,9 +81,17 @@ function App() {
             <Route path="/tag/:tag" element={<TagPage />} />
             <Route path="/trending-tags" element={<TrendingTagsPage />} />
             <Route path="/dashboard" element={<UserDashboardPage />} />
-            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route path="/admin" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            } />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/superadmin" element={<SuperAdminDashboardPage />} />
+            <Route path="/superadmin" element={
+              <ProtectedRoute requiredRole="superadmin">
+                <SuperAdminDashboardPage />
+              </ProtectedRoute>
+            } />
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/trending" element={<TrendingPage />} />
             <Route path="/community" element={<CommunityPage />} />
