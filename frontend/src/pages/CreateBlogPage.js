@@ -20,6 +20,12 @@ const CreateBlogPage = () => {
   const [featuredImage, setFeaturedImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [metaDescription, setMetaDescription] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+  const [wordCount, setWordCount] = useState(0);
+  const [readingTime, setReadingTime] = useState(0);
+  const [isPreview, setIsPreview] = useState(false);
 
 
   // Auto-save draft every 30 seconds
@@ -58,6 +64,14 @@ const CreateBlogPage = () => {
       }
     }
   }, []);
+
+  // Calculate word count and reading time
+  useEffect(() => {
+    const text = content.replace(/<[^>]*>/g, ''); // Remove HTML tags
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+    setWordCount(words.length);
+    setReadingTime(Math.ceil(words.length / 200)); // Average reading speed: 200 words per minute
+  }, [content]);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
