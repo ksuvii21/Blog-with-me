@@ -60,9 +60,9 @@ const ProfilePage = () => {
       {/* Profile Display */}
       <div className="flex items-center mb-6">
         <img
-          src={user?.profilePicture || '/default-avatar.png'}
-          alt="Avatar"
-          className="w-24 h-24 rounded-full mr-6 border-2 border-orange-500"
+          src={user?.profilePicture || 'https://via.placeholder.com/96x96/6B46C1/FFFFFF?text=👤'}
+          alt={`${user?.username}'s avatar`}
+          className="w-24 h-24 rounded-full mr-6 border-2 border-orange-500 object-cover"
         />
         <div>
           <h2 className="text-2xl font-semibold text-gray-800">{user?.username}</h2>
