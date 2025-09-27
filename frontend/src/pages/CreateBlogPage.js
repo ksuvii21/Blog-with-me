@@ -20,7 +20,7 @@ const CreateBlogPage = () => {
   const [featuredImage, setFeaturedImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
+
 
   // Auto-save draft every 30 seconds
   useEffect(() => {
@@ -87,7 +87,7 @@ const CreateBlogPage = () => {
     setCategories(categories.filter(cat => cat !== categoryToRemove));
   };
 
-  const handleSave = async (publish = false) => {
+  const handleSave = async () => {
     if (!title.trim()) {
       alert('Please enter a title');
       return;
@@ -109,8 +109,7 @@ const CreateBlogPage = () => {
         content,
         categories,
         featuredImage,
-        author: user._id,
-        published: publish
+        author: user._id
       };
 
       await dispatch(createBlog(blogData)).unwrap();
@@ -123,16 +122,6 @@ const CreateBlogPage = () => {
       console.error('Failed to save blog:', error);
       alert('Failed to save blog. Please try again.');
     }
-  };
-
-  const handleSaveDraft = () => {
-    setIsDraft(true);
-    handleSave(false);
-  };
-
-  const handlePublish = () => {
-    setIsDraft(false);
-    handleSave(true);
   };
 
   if (!user) {
