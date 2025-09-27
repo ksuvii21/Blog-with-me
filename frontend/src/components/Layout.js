@@ -1,9 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import MobileBottomBar from './MobileBottomBar';
 import { useLocation } from 'react-router-dom';
+
+const getDesignTokens = (mode) => ({
+  palette: {
+    mode,
+    primary: {
+      light: '#fed7aa', // orange-200
+      main: '#f97316', // orange-500
+      dark: '#ea580c', // orange-600
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#d8b4fe', // purple-300
+      main: '#a855f7', // purple-500
+      dark: '#9333ea', // purple-600
+      contrastText: '#fff',
+    },
+    background: {
+      default: mode === 'light' ? '#f8fafc' : '#0f172a',
+      paper: mode === 'light' ? '#ffffff' : '#1e293b',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+  },
+});
 
 const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
