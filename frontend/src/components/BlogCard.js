@@ -58,6 +58,7 @@ const BlogCard = ({ blog, compact = false, theme }) => {
         </Box>
       </CardContent>
     </Card>
+    </Link>
   );
 };
 
