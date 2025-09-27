@@ -70,6 +70,14 @@ const ProfilePage = () => {
           <p className="text-gray-500">{user?.bio || 'No bio yet.'}</p>
           <p className="text-sm text-orange-600 capitalize">{user?.role}</p>
           <p className="text-sm text-gray-500">{filteredBlogs.length} blogs</p>
+          {(user?.role === 'admin' || user?.role === 'superadmin') && (
+            <a
+              href={user.role === 'superadmin' ? '/superadmin' : '/admin'}
+              className="inline-block mt-2 bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 text-sm"
+            >
+              Go to {user.role === 'superadmin' ? 'Super Admin' : 'Admin'} Dashboard
+            </a>
+          )}
         </div>
       </div>
 
