@@ -5,6 +5,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import MobileBottomBar from './MobileBottomBar';
+import { useLocation } from 'react-router-dom';
 
 // Enhanced theme configuration
 const getDesignTokens = (mode) => ({
@@ -143,11 +144,15 @@ const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const location = useLocation();
 
   const theme = React.useMemo(() =>
     createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light')),
     [isDarkMode]
   );
+
+  // Check if current route is homepage
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     setMounted(true);
@@ -194,26 +199,29 @@ const Layout = ({ children }) => {
         <Box sx={{
           display: 'flex',
           flex: 1,
-          mt: { xs: 7, sm: 8 }, // Responsive header height
+          mt: { xs: 7, sm: 8 },
           minHeight: 'calc(100vh - 64px)'
         }}>
-          {/* Sidebar - Desktop */}
-          <Box sx={{
-            display: { xs: 'none', lg: 'block' },
-            width: 280,
-            flexShrink: 0,
-            position: 'fixed',
-            left: 0,
-            top: 64,
-            height: 'calc(100vh - 64px)',
-            zIndex: 100
-          }}>
-            <Sidebar isMobile={false} />
-          </Box>
+          {/* Desktop Sidebar - Show on all pages except homepage */}
+          {!isHomePage && (
+            <Box sx={{
+              display: { xs: 'none', lg: 'block' },
+              width: 280,
+              flexShrink: 0,
+              position: 'fixed',
+              left: 0,
+              top: 64,
+              height: 'calc(100vh - 64px)',
+              zIndex: 100
+            }}>
+              <Sidebar isMobile={false} />
+            </Box>
+          )}
 
-          {/* Sidebar - Mobile */}
+          {/* Mobile Sidebar - Show when sidebar is open */}
           {isSidebarOpen && (
             <>
+              {/* Mobile Sidebar */}
               <Box sx={{
                 display: { xs: 'block', lg: 'none' },
                 position: 'fixed',
@@ -251,21 +259,33 @@ const Layout = ({ children }) => {
               flex: 1,
               minHeight: 'calc(100vh - 64px)',
               p: { xs: 2, sm: 3 },
-              pb: { xs: 10, sm: 12 },
+              pb: { xs: 10, sm: 3 },
               transition: 'all 0.3s ease',
-              ml: { lg: 280 },
-              width: { lg: 'calc(100% - 280px)' }
+              // Full width on homepage, sidebar margin on other pages
+              ml: isHomePage ? 0 : { lg: '280px' },
+              width: isHomePage ? '100%' : { lg: 'calc(100% - 280px)' }
             }}
           >
             {children}
           </Box>
         </Box>
 
-        {/* Footer */}
+        {/* Single Footer */}
         <Footer />
 
-        {/* Mobile Bottom Navigation */}
-        <MobileBottomBar />
+        {/* Mobile Bottom Navigation - Only show on mobile for non-homepage */}
+        {!isHomePage && (
+          <Box sx={{ 
+            display: { xs: 'block', lg: 'none' },
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1100
+          }}>
+            <MobileBottomBar />
+          </Box>
+        )}
       </Box>
     </ThemeProvider>
   );
