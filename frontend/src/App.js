@@ -19,11 +19,13 @@ import UserDashboardPage from './pages/UserDashboardPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import SuperAdminDashboardPage from './pages/SuperAdminDashboardPage';
+import DiscoverPage from './pages/DiscoverPage';
+import TrendingPage from './pages/TrendingPage';
+import CommunityPage from './pages/CommunityPage';
 
 // Placeholder components for missing routes
 const FavoritesPage = () => <div>Favorites Page - Coming Soon</div>;
 const BookmarksPage = () => <div>Bookmarks Page - Coming Soon</div>;
-const CommunityPage = () => <div>Community Page - Coming Soon</div>;
 const SettingsPage = () => <div>Settings Page - Coming Soon</div>;
 
 function App() {
