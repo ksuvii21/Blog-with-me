@@ -87,9 +87,9 @@ const BlogDetailPage = () => {
   };
 
   // Related stories: show 3 other blogs by same author or in same category
-  const relatedStories = blogs
+  const relatedStories = currentBlog ? blogs
     .filter(b => b._id !== currentBlog._id && (b.author._id === currentBlog.author._id || b.categories.some(cat => currentBlog.categories.includes(cat))))
-    .slice(0, 3);
+    .slice(0, 3) : [];
 
   if (isLoading || !currentBlog) {
     return (
