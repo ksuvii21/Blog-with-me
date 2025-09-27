@@ -9,11 +9,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: MONGODB_URI
-        fromDatabase:
-          name: blogging-platform-db
-          property: connectionString
-      - key: JWT_SECRET
+      - key: MONGODB_ATLAS_URI
+        sync: false
+      - key: JWT_SECRET_KEY
         generateValue: true
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
@@ -21,11 +19,5 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-      - key: OPENAI_API_KEY
+      - key: REACT_APP_UPLOAD_PRESET
         sync: false
-
-databases:
-  - name: blogging-platform-db
-    databaseName: blogging_platform
-    user: admin
-    password: your_password_here
