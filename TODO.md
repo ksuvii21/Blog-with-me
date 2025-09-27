@@ -1,7 +1,7 @@
 # TODO: Make ProfilePage Work
 
 ## Tasks
-- [ ] Implement ProfilePage.jsx with full functionality: display user info, edit form, list user's blogs
+- [x] Implement ProfilePage.jsx with full functionality: display user info, edit form, list user's blogs
 - [ ] Test ProfilePage by running frontend and navigating to /profile after login
 
 ## Details
