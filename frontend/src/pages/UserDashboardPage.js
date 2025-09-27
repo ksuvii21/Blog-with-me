@@ -19,7 +19,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import BookIcon from '@mui/icons-material/Book'; // Using BookIcon instead of BlogIcon
+import BookIcon from '@mui/icons-material/Book';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // Tab Panel Component
@@ -31,6 +31,160 @@ function TabPanel({ children, value, index, ...other }) {
   );
 }
 
+// Blog Card Component
+const BlogCard = ({ blog, onDeleteClick }) => {
+  const theme = useTheme();
+  
+  return (
+    <Card 
+      elevation={2} 
+      sx={{ 
+        borderRadius: 3,
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: theme.shadows[8],
+        }
+      }}
+    >
+      <CardContent sx={{ p: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography 
+              variant="h6" 
+              component={Link}
+              to={`/blogs/${blog._id}`}
+              sx={{ 
+                fontWeight: 600,
+                textDecoration: 'none',
+                color: 'text.primary',
+                '&:hover': { color: 'primary.main' },
+                display: 'block',
+                mb: 1
+              }}
+            >
+              {blog.title}
+            </Typography>
+            
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              {blog.description || 'No description available'}
+            </Typography>
+
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+              {blog.categories.slice(0, 3).map((category, index) => (
+                <Chip
+                  key={index}
+                  label={category}
+                  size="small"
+                  variant="outlined"
+                  sx={{ 
+                    bgcolor: alpha(theme.palette.primary.main, 0.1),
+                    borderColor: alpha(theme.palette.primary.main, 0.3)
+                  }}
+                />
+              ))}
+              {blog.categories.length > 3 && (
+                <Chip label={`+${blog.categories.length - 3}`} size="small" variant="outlined" />
+              )}
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                <Typography variant="caption" color="text.secondary">
+                  {new Date(blog.createdAt).toLocaleDateString()}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <VisibilityIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                <Typography variant="caption" color="text.secondary">
+                  {blog.views || 0} views
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <FavoriteIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                <Typography variant="caption" color="text.secondary">
+                  {blog.likes?.length || 0} likes
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, ml: 2 }}>
+            <Tooltip title="Edit Blog">
+              <IconButton 
+                component={Link} 
+                to={`/edit/${blog._id}`} 
+                size="small"
+                sx={{ 
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.2) }
+                }}
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Blog">
+              <IconButton 
+                size="small"
+                onClick={() => onDeleteClick(blog)}
+                sx={{ 
+                  bgcolor: alpha(theme.palette.error.main, 0.1),
+                  '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.2) }
+                }}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+// Blogs List Component
+const BlogsList = ({ blogs, isLoading, onDeleteClick, emptyMessage }) => {
+  if (isLoading) {
+    return (
+      <Stack spacing={2} sx={{ p: 3 }}>
+        {[...Array(3)].map((_, index) => (
+          <Skeleton key={index} variant="rectangular" height={120} sx={{ borderRadius: 3 }} />
+        ))}
+      </Stack>
+    );
+  }
+
+  if (blogs.length === 0) {
+    return (
+      <Box sx={{ textAlign: 'center', py: 8, px: 3 }}>
+        <BookIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+        <Typography variant="h6" color="text.secondary" gutterBottom>
+          {emptyMessage}
+        </Typography>
+        <Button
+          component={Link}
+          to="/create"
+          variant="contained"
+          startIcon={<AddCircleOutlineIcon />}
+          sx={{ mt: 2 }}
+        >
+          Create Your First Blog
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Stack spacing={2} sx={{ p: 3 }}>
+      {blogs.map(blog => (
+        <BlogCard key={blog._id} blog={blog} onDeleteClick={onDeleteClick} />
+      ))}
+    </Stack>
+  );
+};
+
+// Main Component
 const UserDashboardPage = () => {
   const { user } = useSelector((state) => state.auth);
   const { blogs, isLoading } = useSelector((state) => state.blogs);
@@ -396,160 +550,6 @@ const UserDashboardPage = () => {
         </DialogActions>
       </Dialog>
     </Layout>
-  );
-};
-
-// Blogs List Component
-const BlogsList = ({ blogs, isLoading, onDeleteClick, emptyMessage }) => {
-  if (isLoading) {
-    return (
-      <Stack spacing={2} sx={{ p: 3 }}>
-        {[...Array(3)].map((_, index) => (
-          <Skeleton key={index} variant="rectangular" height={120} sx={{ borderRadius: 3 }} />
-        ))}
-      </Stack>
-    );
-  }
-
-  if (blogs.length === 0) {
-    return (
-      <Box sx={{ textAlign: 'center', py: 8, px: 3 }}>
-        <BookIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          {emptyMessage}
-        </Typography>
-        <Button
-          component={Link}
-          to="/create"
-          variant="contained"
-          startIcon={<AddCircleOutlineIcon />}
-          sx={{ mt: 2 }}
-        >
-          Create Your First Blog
-        </Button>
-      </Box>
-    );
-  }
-
-  return (
-    <Stack spacing={2} sx={{ p: 3 }}>
-      {blogs.map(blog => (
-        <BlogCard key={blog._id} blog={blog} onDeleteClick={onDeleteClick} />
-      ))}
-    </Stack>
-  );
-};
-
-// Blog Card Component
-const BlogCard = ({ blog, onDeleteClick }) => {
-  const theme = useTheme();
-  
-  return (
-    <Card 
-      elevation={2} 
-      sx={{ 
-        borderRadius: 3,
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          elevation: 8,
-          boxShadow: theme.shadows[8],
-        }
-      }}
-    >
-      <CardContent sx={{ p: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography 
-              variant="h6" 
-              component={Link}
-              to={`/blogs/${blog._id}`}
-              sx={{ 
-                fontWeight: 600,
-                textDecoration: 'none',
-                color: 'text.primary',
-                '&:hover': { color: 'primary.main' },
-                display: 'block',
-                mb: 1
-              }}
-            >
-              {blog.title}
-            </Typography>
-            
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              {blog.description || 'No description available'}
-            </Typography>
-
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-              {blog.categories.slice(0, 3).map((category, index) => (
-                <Chip
-                  key={index}
-                  label={category}
-                  size="small"
-                  variant="outlined"
-                  sx={{ 
-                    bgcolor: alpha(theme.palette.primary.main, 0.1),
-                    borderColor: alpha(theme.palette.primary.main, 0.3)
-                  }}
-                />
-              ))}
-              {blog.categories.length > 3 && (
-                <Chip label={`+${blog.categories.length - 3}`} size="small" variant="outlined" />
-              )}
-            </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                <Typography variant="caption" color="text.secondary">
-                  {new Date(blog.createdAt).toLocaleDateString()}
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <VisibilityIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                <Typography variant="caption" color="text.secondary">
-                  {blog.views || 0} views
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <FavoriteIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                <Typography variant="caption" color="text.secondary">
-                  {blog.likes?.length || 0} likes
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, ml: 2 }}>
-            <Tooltip title="Edit Blog">
-              <IconButton 
-                component={Link} 
-                to={`/edit/${blog._id}`} 
-                size="small"
-                sx={{ 
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.2) }
-                }}
-              >
-                <EditIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete Blog">
-              <IconButton 
-                size="small"
-                onClick={() => onDeleteClick(blog)}
-                sx={{ 
-                  bgcolor: alpha(theme.palette.error.main, 0.1),
-                  '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.2) }
-                }}
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Box>
-      </CardContent>
-    </Card>
   );
 };
 
