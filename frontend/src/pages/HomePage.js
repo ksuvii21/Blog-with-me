@@ -38,7 +38,7 @@ const HomePage = () => {
   const handleLoadMore = () => setVisibleCount((c) => c + 6);
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <Box sx={{ 
         width: '100%',
@@ -193,7 +193,7 @@ const HomePage = () => {
           </Box>
         </Fade>
       </Container>
-    </Layout>
+    </>
   );
 };
 

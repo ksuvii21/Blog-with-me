@@ -40,11 +40,14 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
 
   return (
     <AppBar 
-      position="static" 
+      position="fixed" 
       sx={{ 
+        top: 0,
         bgcolor: 'background.paper',
         color: 'text.primary',
-        boxShadow: 1
+        boxShadow: 3,
+        zIndex: 1300,
+        width: '100%'
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', px: 2 }}>

@@ -165,11 +165,13 @@ const Layout = ({ children }) => {
             component="main"
             sx={{
               flex: 1,
-              minHeight: 'calc(100vh - 64px)',
+              minHeight: 'calc(100vh - 64px - 80px)',
               p: 3,
+              pb: 10,
               transition: 'margin-left 0.3s ease',
-              ml: { md: isSidebarOpen ? '280px' : 0 },
-              width: { md: isSidebarOpen ? 'calc(100% - 280px)' : '100%' }
+              ml: { md: 280 },
+              width: { md: 'calc(100% - 280px)' },
+              pl: { md: 0 }
             }}
           >
             {children}
