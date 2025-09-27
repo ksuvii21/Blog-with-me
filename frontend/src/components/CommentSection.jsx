@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addComment } from '../redux/slices/blogSlice';
 import { Box, TextField, Button, Typography, Avatar, Paper, Divider } from '@mui/material';
 
-const CommentsSection = ({ blogId, comments }) => {
+const CommentSection = ({ blogId, comments }) => {
   const [commentText, setCommentText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
