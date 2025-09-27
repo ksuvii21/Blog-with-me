@@ -67,6 +67,8 @@ const Layout = ({ children }) => {
   const theme = createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light'));
 
   const isHomePage = location.pathname === '/';
+  const showSidebarPages = ['/', '/discover', '/trending', '/community'];
+  const canShowSidebar = showSidebarPages.includes(location.pathname);
 
   useEffect(() => {
     setMounted(true);
@@ -111,8 +113,8 @@ const Layout = ({ children }) => {
           minHeight: 'calc(100vh - 64px)'
         }}>
           
-          {/* Desktop Sidebar - Visible on homepage when toggled */}
-          {isHomePage && isSidebarOpen && (
+          {/* Desktop Sidebar - Visible on allowed pages when toggled */}
+          {canShowSidebar && isSidebarOpen && (
             <Box sx={{
               display: { xs: 'none', lg: 'block' },
               width: 280,
