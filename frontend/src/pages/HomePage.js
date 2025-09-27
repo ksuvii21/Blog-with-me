@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/blogSlice';
 import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
-import { 
-  Box, Button, TextField, Select, MenuItem, InputLabel, FormControl, 
-  Typography, Grid, Paper, Fade, Container, Chip, Stack, IconButton,
+import {
+  Box, Button, TextField, Select, MenuItem, InputLabel, FormControl,
+  Typography, Paper, Fade, Container, Chip, Stack, IconButton,
   Drawer
 } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { Search, FilterList, ExpandMore, Favorite, TrendingUp, NewReleases, Menu } from '@mui/icons-material';
 
 const HomePage = () => {
