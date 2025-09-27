@@ -22,7 +22,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(fetchBlogs()).then((result) => {
-      if (result.payload) {
+      if (result.payload && Array.isArray(result.payload)) {
         const allCategories = result.payload.flatMap(blog => blog.categories || []);
         setCategories([...new Set(allCategories)]);
       }

@@ -24,6 +24,7 @@ import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../redux/slices/authSlice';
+import api from '../utils/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -55,33 +56,21 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      const response = await api.post('/auth/login', {
+        email: formData.email,
+        password: formData.password,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Store token and user in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        // Update Redux state
-        dispatch(setCredentials({ user: data.user, token: data.token }));
-        // Redirect to dashboard
-        navigate('/dashboard');
-      } else {
-        setError(data.message || 'Invalid email or password. Please try again.');
-      }
+      // Store token and user in localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      // Update Redux state
+      dispatch(setCredentials({ user: response.data.user, token: response.data.token }));
+      // Redirect to dashboard
+      navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Network error. Please check if the backend server is running.');
+      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
