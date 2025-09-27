@@ -87,11 +87,7 @@ function App() {
               </ProtectedRoute>
             } />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/superadmin" element={
-              <ProtectedRoute requiredRole="superadmin">
-                <SuperAdminDashboardPage />
-              </ProtectedRoute>
-            } />
+
             <Route path="/discover" element={<DiscoverPage />} />
             <Route path="/trending" element={<TrendingPage />} />
             <Route path="/community" element={<CommunityPage />} />
