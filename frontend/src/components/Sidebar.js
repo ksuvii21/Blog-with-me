@@ -190,6 +190,8 @@ const Sidebar = ({ isMobile = false, toggleSidebar, showCloseButton = false }) =
             Join Our Community
           </Typography>
           <Button
+            component={Link}
+            to="/register"
             variant="contained"
             fullWidth
             sx={{
@@ -201,7 +203,10 @@ const Sidebar = ({ isMobile = false, toggleSidebar, showCloseButton = false }) =
           >
             Sign Up
           </Button>
-          <Button variant="outlined" fullWidth sx={{ borderRadius: 2 }}>
+          <Button 
+          component={Link}
+          to="/login"
+          variant="outlined" fullWidth sx={{ borderRadius: 2 }}>
             Login
           </Button>
         </Box>
@@ -381,9 +386,6 @@ const Sidebar = ({ isMobile = false, toggleSidebar, showCloseButton = false }) =
       }}>
         <Typography variant="caption" color="text.secondary">
           © 2024 BlogPlatform v2.0
-        </Typography>
-        <Typography variant="caption" color="primary.main" display="block" fontWeight={600}>
-          Orange-Purple Theme
         </Typography>
       </Box>
     </Box>
