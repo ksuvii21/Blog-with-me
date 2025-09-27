@@ -60,11 +60,10 @@ if (typeof document !== 'undefined') {
 
 const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
   const location = useLocation();
 
-  const theme = createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light'));
+  const theme = createTheme(getDesignTokens('light'));
 
   const isHomePage = location.pathname === '/';
   const showSidebarPages = [];
