@@ -19,14 +19,15 @@ import {
   Add,
   Notifications,
   Search,
-  Close
+  Close,
+  Menu
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 import BackendStatus from './BackendStatus';
 
-const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
+const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShowSidebar }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,11 +83,27 @@ const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
       }}>
         {/* Left Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Sidebar Toggle Button */}
+          {canShowSidebar && (
+            <IconButton
+              onClick={toggleSidebar}
+              sx={{
+                color: 'primary.main',
+                '&:hover': {
+                  bgcolor: 'primary.light',
+                  color: 'white'
+                }
+              }}
+            >
+              <Menu />
+            </IconButton>
+          )}
+
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <Typography 
-              variant="h4" 
+            <Typography
+              variant="h4"
               fontWeight="bold"
-              sx={{ 
+              sx={{
                 background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',

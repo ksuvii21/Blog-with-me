@@ -103,6 +103,8 @@ const Layout = ({ children }) => {
           toggleDarkMode={toggleDarkMode}
           isDarkMode={isDarkMode}
           isHomePage={isHomePage}
+          toggleSidebar={toggleSidebar}
+          canShowSidebar={canShowSidebar}
         />
 
         {/* Content area */}
