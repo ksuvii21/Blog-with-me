@@ -1,13 +1,17 @@
 [build]
-  publish = "build"
+  base = "frontend"
+  publish = "frontend/build"
   command = "npm run build"
 
 [build.environment]
-  REACT_APP_API_URL = "https://writely-log.onrender.com/"
+  NODE_VERSION = "18"
+  REACT_APP_API_URL = "https://writely-log.onrender.com"
+  REACT_APP_CLOUDINARY_CLOUD_NAME = "dl5xtuwim"
+  REACT_APP_UPLOAD_PRESET = "blog-upload"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://writely-log.onrender.com//api/:splat"
+  to = "https://writely-log.onrender.com/api/:splat"
   status = 200
 
 [[headers]]
