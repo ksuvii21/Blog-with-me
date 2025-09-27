@@ -19,15 +19,14 @@ import {
   Add,
   Notifications,
   Search,
-  Close,
-  Menu as MenuIcon
+  Close
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
 
-const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShowSidebar }) => {
+const Header = ({ toggleDarkMode, isDarkMode, isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,22 +82,6 @@ const Header = ({ toggleDarkMode, isDarkMode, isHomePage, toggleSidebar, canShow
       }}>
         {/* Left Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {/* Sidebar Toggle Button */}
-          {canShowSidebar && (
-            <IconButton
-              onClick={toggleSidebar}
-              sx={{
-                color: 'primary.main',
-                '&:hover': {
-                  bgcolor: 'primary.light',
-                  color: 'white'
-                }
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h4"

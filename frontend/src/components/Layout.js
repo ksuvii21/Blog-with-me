@@ -67,7 +67,7 @@ const Layout = ({ children }) => {
   const theme = createTheme(getDesignTokens(isDarkMode ? 'dark' : 'light'));
 
   const isHomePage = location.pathname === '/';
-  const showSidebarPages = ['/', '/discover', '/trending', '/community'];
+  const showSidebarPages = [];
   const canShowSidebar = showSidebarPages.includes(location.pathname);
 
   useEffect(() => {
@@ -75,6 +75,11 @@ const Layout = ({ children }) => {
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setIsDarkMode(savedDarkMode);
   }, []);
+
+  useEffect(() => {
+    // Set sidebar open by default on allowed pages, closed on others
+    setIsSidebarOpen(canShowSidebar);
+  }, [canShowSidebar]);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -103,8 +108,6 @@ const Layout = ({ children }) => {
           toggleDarkMode={toggleDarkMode}
           isDarkMode={isDarkMode}
           isHomePage={isHomePage}
-          toggleSidebar={toggleSidebar}
-          canShowSidebar={canShowSidebar}
         />
 
         {/* Content area */}

@@ -184,20 +184,19 @@ const CommunityPage = () => {
 
   return (
     <>
-      {/* Floating Sidebar */}
-      <Drawer
-        anchor="left"
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        sx={{
-          '& .MuiDrawer-paper': {
-            boxShadow: '0 0 30px rgba(255,152,0,0.3)',
-            border: 'none',
-          },
-        }}
-      >
-        {/* Sidebar content would be imported */}
-      </Drawer>
+<Drawer
+  anchor="left"
+  open={sidebarOpen}
+  onClose={() => setSidebarOpen(false)}
+  sx={{
+    '& .MuiDrawer-paper': {
+      boxShadow: '0 0 30px rgba(255,152,0,0.3)',
+      border: 'none',
+    },
+  }}
+>
+  <Sidebar isMobile={true} toggleSidebar={() => setSidebarOpen(false)} />
+</Drawer>
 
       {/* Hero Section */}
       <Box sx={{
