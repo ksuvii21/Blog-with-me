@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentBlog } from '../redux/slices/blogSlice'
 import Layout from '../components/Layout';
-import CommentSection from '../components/CommentSection';
+import CommentsSection from '../components/CommentsSection';
 import axios from 'axios';
 import { Box, Paper, Typography, Avatar, Chip, Stack, Button, Fade, IconButton, Tooltip, Divider, Snackbar } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -276,7 +276,7 @@ const BlogDetailPage = () => {
             )}
           </Paper>
           {/* Comments Section */}
-          <CommentSection blogId={currentBlog._id} />
+          <CommentsSection blogId={currentBlog._id} />
         </Box>
       </Fade>
     </Layout>
