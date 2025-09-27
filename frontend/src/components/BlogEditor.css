@@ -1,0 +1,37 @@
+.blog-editor .ql-editor {
+  min-height: 400px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.blog-editor .ql-editor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.blog-editor .ql-toolbar {
+  border-top: 1px solid #d1d5db;
+  border-left: 1px solid #d1d5db;
+  border-right: 1px solid #d1d5db;
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: #f9fafb;
+}
+
+.blog-editor .ql-container {
+  border-bottom: 1px solid #d1d5db;
+  border-left: 1px solid #d1d5db;
+  border-right: 1px solid #d1d5db;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.blog-editor .ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: normal;
+}
