@@ -1,7 +1,12 @@
-// utils/cloudinary.js - TEMPORARY FIX FOR TESTING
+// utils/cloudinary.js
 export const uploadImage = async (file) => {
-  const cloudName = 'dl5xtuwim'; // Your actual cloud name
-  const uploadPreset = 'blog-upload'; // Your actual upload preset
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.REACT_APP_UPLOAD_PRESET;
+  
+  if (!cloudName || !uploadPreset) {
+    console.error('Cloudinary configuration missing');
+    return null;
+  }
   
   const formData = new FormData();
   formData.append('file', file);
