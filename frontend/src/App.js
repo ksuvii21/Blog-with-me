@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
-import { store } from './redux/store';
-import { setCredentials } from './redux/slices/authSlice';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import authSlice from './redux/slices/authSlice';
+import blogSlice from './redux/slices/blogSlice';
+import commentSlice from './redux/slices/commentSlice';
+import userSlice from './redux/slices/userSlice';
 import Layout from './components/Layout';
 
 import HomePage from './pages/HomePage';
