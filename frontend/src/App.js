@@ -29,36 +29,52 @@ const FavoritesPage = () => <div>Favorites Page - Coming Soon</div>;
 const BookmarksPage = () => <div>Bookmarks Page - Coming Soon</div>;
 const SettingsPage = () => <div>Settings Page - Coming Soon</div>;
 
+const AppContent = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      dispatch(setCredentials({ token, user: JSON.parse(user) }));
+    }
+  }, [dispatch]);
+
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/blogs/:id" element={<BlogDetailPage />} />
+          <Route path="/create" element={<CreateBlogPage />} />
+          <Route path="/edit/:id" element={<EditBlogPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/author/:id" element={<AuthorProfilePage />} />
+          <Route path="/search" element={<SearchSuggestions />} />
+          <Route path="/tag/:tag" element={<TagPage />} />
+          <Route path="/trending-tags" element={<TrendingTagsPage />} />
+          <Route path="/dashboard" element={<UserDashboardPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/superadmin" element={<SuperAdminDashboardPage />} />
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/trending" element={<TrendingPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/bookmarks" element={<BookmarksPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
+};
+
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/blogs/:id" element={<BlogDetailPage />} />
-            <Route path="/create" element={<CreateBlogPage />} />
-            <Route path="/edit/:id" element={<EditBlogPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/author/:id" element={<AuthorProfilePage />} />
-            <Route path="/search" element={<SearchSuggestions />} />
-            <Route path="/tag/:tag" element={<TagPage />} />
-            <Route path="/trending-tags" element={<TrendingTagsPage />} />
-            <Route path="/dashboard" element={<UserDashboardPage />} />
-            <Route path="/admin" element={<AdminDashboardPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/superadmin" element={<SuperAdminDashboardPage />} />
-            <Route path="/discover" element={<DiscoverPage />} />
-            <Route path="/trending" element={<TrendingPage />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/bookmarks" element={<BookmarksPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Routes>
-        </Layout>
-      </Router>
+      <AppContent />
     </Provider>
   );
 }
