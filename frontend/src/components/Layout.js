@@ -52,57 +52,62 @@ const Layout = ({ children }) => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  const theme = createTheme(getDesignTokens('light'));
+
   if (!mounted) return <div />;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      
-      {/* Header - Always visible */}
-      <Header isHomePage={isHomePage} />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="min-h-screen flex flex-col bg-gray-50">
 
-      {/* Content area */}
-      <div className="flex flex-1 mt-16 min-h-[calc(100vh-4rem)]">
-        
-        {/* Desktop Sidebar - Visible on allowed pages when toggled */}
-        {canShowSidebar && isSidebarOpen && (
-          <div className="hidden lg:block fixed left-0 top-16 w-70 h-[calc(100vh-4rem-12rem)] z-10">
-            <Sidebar isMobile={false} showCloseButton={true} />
+        {/* Header - Always visible */}
+        <Header isHomePage={isHomePage} />
+
+        {/* Content area */}
+        <div className="flex flex-1 mt-16 min-h-[calc(100vh-4rem)]">
+
+          {/* Desktop Sidebar - Visible on allowed pages when toggled */}
+          {canShowSidebar && isSidebarOpen && (
+            <div className="hidden lg:block fixed left-0 top-16 w-70 h-[calc(100vh-4rem-12rem)] z-10">
+              <Sidebar isMobile={false} showCloseButton={true} />
+            </div>
+          )}
+
+          {/* Mobile Sidebar */}
+          {isSidebarOpen && (
+            <>
+              <div className="lg:hidden fixed top-16 left-0 z-[1300] w-70 h-[calc(100vh-4rem)]">
+                <Sidebar isMobile={true} toggleSidebar={toggleSidebar} />
+              </div>
+
+              {/* Overlay */}
+              <div
+                className="lg:hidden fixed top-16 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-[1200]"
+                onClick={toggleSidebar}
+              />
+            </>
+          )}
+
+          {/* Main content */}
+          <main className={`flex-1 min-h-[calc(100vh-4rem)] p-6 w-full ${
+            canShowSidebar && isSidebarOpen ? 'lg:ml-70 lg:w-[calc(100%-17.5rem)]' : ''
+          }`}>
+            {children}
+          </main>
+        </div>
+
+        {/* Footer - Only on home page */}
+        {isHomePage && <Footer />}
+
+        {/* Mobile Bottom Bar - Only on non-homepage mobile */}
+        {!isHomePage && (
+          <div className="lg:hidden">
+            <MobileBottomBar />
           </div>
         )}
-
-        {/* Mobile Sidebar */}
-        {isSidebarOpen && (
-          <>
-            <div className="lg:hidden fixed top-16 left-0 z-[1300] w-70 h-[calc(100vh-4rem)]">
-              <Sidebar isMobile={true} toggleSidebar={toggleSidebar} />
-            </div>
-            
-            {/* Overlay */}
-            <div
-              className="lg:hidden fixed top-16 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-[1200]"
-              onClick={toggleSidebar}
-            />
-          </>
-        )}
-
-        {/* Main content */}
-        <main className={`flex-1 min-h-[calc(100vh-4rem)] p-6 w-full ${
-          canShowSidebar && isSidebarOpen ? 'lg:ml-70 lg:w-[calc(100%-17.5rem)]' : ''
-        }`}>
-          {children}
-        </main>
       </div>
-
-      {/* Footer - Only on home page */}
-      {isHomePage && <Footer />}
-
-      {/* Mobile Bottom Bar - Only on non-homepage mobile */}
-      {!isHomePage && (
-        <div className="lg:hidden">
-          <MobileBottomBar />
-        </div>
-      )}
-    </div>
+    </ThemeProvider>
   );
 };
 
