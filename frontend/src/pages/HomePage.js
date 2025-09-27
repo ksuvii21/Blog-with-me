@@ -275,7 +275,7 @@ const HomePage = () => {
               </Box>
 
               <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Search blogs, authors, topics..."
@@ -294,7 +294,7 @@ const HomePage = () => {
                     }}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, md: 3 }}>
+                <Grid item xs={12} md={3}>
                   <FormControl fullWidth>
                     <InputLabel>Category</InputLabel>
                     <Select
@@ -310,7 +310,7 @@ const HomePage = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid size={{ xs: 12, md: 3 }}>
+                <Grid item xs={12} md={3}>
                   <FormControl fullWidth>
                     <InputLabel>Sort By</InputLabel>
                     <Select
