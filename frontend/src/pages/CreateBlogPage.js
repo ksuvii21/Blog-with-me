@@ -16,6 +16,7 @@ const CreateBlogPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [categoryInput, setCategoryInput] = useState('');
   const [featuredImage, setFeaturedImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
@@ -26,6 +27,30 @@ const CreateBlogPage = () => {
   const [wordCount, setWordCount] = useState(0);
   const [readingTime, setReadingTime] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
+
+  // Predefined categories
+  const predefinedCategories = [
+    'Technology',
+    'Lifestyle',
+    'Travel',
+    'Food',
+    'Health',
+    'Business',
+    'Education',
+    'Entertainment',
+    'Sports',
+    'Science',
+    'Art',
+    'Music',
+    'Photography',
+    'Writing',
+    'Personal Development',
+    'Finance',
+    'Politics',
+    'Environment',
+    'Fashion',
+    'Gaming'
+  ];
 
 
   // Auto-save draft every 30 seconds
@@ -94,6 +119,13 @@ const CreateBlogPage = () => {
     if (categoryInput.trim() && !categories.includes(categoryInput.trim())) {
       setCategories([...categories, categoryInput.trim()]);
       setCategoryInput('');
+    }
+  };
+
+  const handleAddCategoryFromDropdown = () => {
+    if (selectedCategory && !categories.includes(selectedCategory)) {
+      setCategories([...categories, selectedCategory]);
+      setSelectedCategory('');
     }
   };
 
@@ -239,19 +271,41 @@ const CreateBlogPage = () => {
               Categories
             </label>
             <div className="flex gap-2 mb-3">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+              >
+                <option value="">Select a category...</option>
+                {predefinedCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleAddCategoryFromDropdown}
+                disabled={!selectedCategory}
+                className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors disabled:opacity-50"
+              >
+                Add
+              </button>
+            </div>
+            <div className="flex gap-2 mb-3">
               <input
                 type="text"
                 value={categoryInput}
                 onChange={(e) => setCategoryInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
-                placeholder="Add a category..."
+                placeholder="Or add a custom category..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
               />
               <button
                 onClick={handleAddCategory}
-                className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors"
+                disabled={!categoryInput.trim()}
+                className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors disabled:opacity-50"
               >
-                Add
+                Add Custom
               </button>
             </div>
             <div className="flex flex-wrap gap-2">
