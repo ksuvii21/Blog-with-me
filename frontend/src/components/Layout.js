@@ -168,8 +168,8 @@ const Layout = ({ children }) => {
               minHeight: 'calc(100vh - 64px)',
               p: 3,
               width: '100%',
-              // Apply sidebar margin only on homepage desktop when sidebar is open
-              ...(isHomePage && isSidebarOpen && {
+              // Apply sidebar margin only on allowed pages desktop when sidebar is open
+              ...(canShowSidebar && isSidebarOpen && {
                 marginLeft: { lg: '280px' },
                 width: { lg: 'calc(100% - 280px)' }
               })
