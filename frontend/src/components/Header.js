@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   AppBar, 
   Toolbar, 
@@ -9,7 +9,12 @@ import {
   Avatar, 
   Menu, 
   MenuItem,
-  Badge
+  Badge,
+  ClickAwayListener,
+  Paper,
+  List,
+  ListItem,
+  ListItemText
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -17,7 +22,8 @@ import {
   Brightness7,
   Add,
   Notifications,
-  Search
+  Search,
+  Close
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,13 +35,33 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchRef = useRef(null);
 
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
+  
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
     handleMenuClose();
+  };
+
+  const handleSearchToggle = () => {
+    setSearchOpen(!searchOpen);
+    if (!searchOpen) {
+      setTimeout(() => searchRef.current?.focus(), 100);
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setSearchOpen(false);
+      setSearchQuery('');
+    }
   };
 
   return (
@@ -45,30 +71,40 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
         top: 0,
         bgcolor: 'background.paper',
         color: 'text.primary',
-        boxShadow: 3,
+        boxShadow: '0 2px 20px rgba(0,0,0,0.1)',
         zIndex: 1300,
-        width: '100%'
+        width: '100%',
+        backdropFilter: 'blur(10px)',
+        background: 'rgba(255, 255, 255, 0.9)'
       }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between', px: 2 }}>
+      <Toolbar sx={{ 
+        justifyContent: 'space-between', 
+        px: { xs: 1, sm: 2 },
+        minHeight: { xs: 60, sm: 64 }
+      }}>
         {/* Left Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <IconButton
             onClick={toggleSidebar}
-            sx={{ color: 'primary.main', display: { md: 'none' } }}
+            sx={{ 
+              color: 'primary.main',
+              display: { lg: 'none' }
+            }}
           >
             <MenuIcon />
           </IconButton>
 
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography 
-              variant="h5" 
+              variant="h4" 
               fontWeight="bold"
               sx={{ 
                 background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '1.5rem', sm: '2rem' }
               }}
             >
               BlogPlatform
@@ -76,46 +112,74 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
           </Link>
         </Box>
 
-        {/* Center Section - Search */}
+        {/* Center Section - Search (Desktop) */}
         <Box sx={{ 
           display: { xs: 'none', md: 'flex' }, 
           flex: 1, 
-          maxWidth: 400, 
-          mx: 4 
+          maxWidth: 500, 
+          mx: 4,
+          position: 'relative'
         }}>
-          <Box sx={{ 
-            position: 'relative', 
-            width: '100%',
-            '& input': {
+          <Box 
+            component="form"
+            onSubmit={handleSearchSubmit}
+            sx={{ 
+              position: 'relative', 
               width: '100%',
-              padding: '8px 16px 8px 40px',
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-              bgcolor: 'background.default',
-              outline: 'none',
-              transition: 'all 0.3s ease',
-              '&:focus': {
-                borderColor: 'primary.main',
-                boxShadow: '0 0 0 2px rgba(255, 152, 0, 0.2)'
+              '& input': {
+                width: '100%',
+                padding: '10px 16px 10px 44px',
+                border: '2px solid',
+                borderColor: 'divider',
+                borderRadius: 3,
+                bgcolor: 'background.default',
+                outline: 'none',
+                fontSize: '14px',
+                transition: 'all 0.3s ease',
+                '&:focus': {
+                  borderColor: 'primary.main',
+                  boxShadow: '0 0 0 3px rgba(255, 152, 0, 0.1)'
+                }
               }
-            }
-          }}>
+            }}
+          >
             <Search sx={{ 
               position: 'absolute', 
-              left: 12, 
+              left: 14, 
               top: '50%', 
               transform: 'translateY(-50%)',
-              color: 'primary.main' 
+              color: 'primary.main',
+              fontSize: 20
             }} />
-            <input type="text" placeholder="Search blogs..." />
+            <input 
+              type="text" 
+              placeholder="Search blogs, topics, authors..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </Box>
         </Box>
-            <BackendStatus />
+
+        {/* Backend Status */}
+        <BackendStatus />
+
         {/* Right Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* Mobile Search Toggle */}
+          <IconButton 
+            onClick={handleSearchToggle}
+            sx={{ display: { md: 'none' } }}
+            color="inherit"
+          >
+            <Search />
+          </IconButton>
+
           {/* Dark Mode Toggle */}
-          <IconButton onClick={toggleDarkMode} color="inherit">
+          <IconButton 
+            onClick={toggleDarkMode} 
+            color="inherit"
+            sx={{ display: { xs: 'none', sm: 'flex' } }}
+          >
             {isDarkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
 
@@ -129,8 +193,16 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
                 variant="contained"
                 sx={{
                   display: { xs: 'none', sm: 'flex' },
-                  bgcolor: 'primary.main',
-                  '&:hover': { bgcolor: 'primary.dark' }
+                  background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
+                  borderRadius: 3,
+                  px: 3,
+                  fontWeight: 600,
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Create
@@ -148,7 +220,12 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
                 <Avatar 
                   src={user.profilePicture} 
                   alt={user.username}
-                  sx={{ width: 32, height: 32 }}
+                  sx={{ 
+                    width: 36, 
+                    height: 36,
+                    border: '2px solid',
+                    borderColor: 'primary.main'
+                  }}
                 />
               </IconButton>
 
@@ -156,38 +233,106 @@ const Header = ({ toggleSidebar, toggleDarkMode, isDarkMode }) => {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
+                PaperProps={{
+                  sx: {
+                    mt: 1.5,
+                    minWidth: 200,
+                    borderRadius: 3,
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                  }
+                }}
               >
                 <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
-                  Profile
+                  👤 Profile
                 </MenuItem>
                 <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard">
-                  Dashboard
+                  📊 Dashboard
                 </MenuItem>
                 {user.role === 'admin' && (
                   <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
-                    Admin Panel
+                    ⚙️ Admin Panel
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>🚪 Logout</MenuItem>
               </Menu>
             </>
           ) : (
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button component={Link} to="/login" color="inherit">
+              <Button 
+                component={Link} 
+                to="/login" 
+                color="inherit"
+                sx={{ display: { xs: 'none', sm: 'flex' } }}
+              >
                 Login
               </Button>
               <Button 
                 component={Link} 
                 to="/register" 
                 variant="contained"
-                sx={{ bgcolor: 'primary.main' }}
+                sx={{ 
+                  background: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
+                  borderRadius: 3,
+                  fontWeight: 600
+                }}
               >
-                Register
+                Join Free
               </Button>
             </Box>
           )}
         </Box>
       </Toolbar>
+
+      {/* Mobile Search Panel */}
+      {searchOpen && (
+        <ClickAwayListener onClickAway={() => setSearchOpen(false)}>
+          <Paper 
+            sx={{ 
+              position: 'absolute', 
+              top: '100%', 
+              left: 0, 
+              right: 0,
+              p: 2,
+              borderRadius: 0,
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+            }}
+          >
+            <Box 
+              component="form"
+              onSubmit={handleSearchSubmit}
+              sx={{ display: 'flex', gap: 1 }}
+            >
+              <Box sx={{ position: 'relative', flex: 1 }}>
+                <Search sx={{ 
+                  position: 'absolute', 
+                  left: 12, 
+                  top: '50%', 
+                  transform: 'translateY(-50%)',
+                  color: 'primary.main'
+                }} />
+                <input 
+                  ref={searchRef}
+                  type="text" 
+                  placeholder="Search blogs, topics, authors..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 12px 12px 40px',
+                    border: '2px solid #ddd',
+                    borderRadius: 8,
+                    outline: 'none',
+                    fontSize: '16px'
+                  }}
+                />
+              </Box>
+              <IconButton onClick={() => setSearchOpen(false)}>
+                <Close />
+              </IconButton>
+            </Box>
+          </Paper>
+        </ClickAwayListener>
+      )}
     </AppBar>
   );
 };
