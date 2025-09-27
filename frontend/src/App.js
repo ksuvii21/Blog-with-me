@@ -30,15 +30,15 @@ const BookmarksPage = () => <div>Bookmarks Page - Coming Soon</div>;
 const SettingsPage = () => <div>Settings Page - Coming Soon</div>;
 
 const AppContent = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    if (token && user) {
-      dispatch(setCredentials({ token, user: JSON.parse(user) }));
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   const user = localStorage.getItem('user');
+  //   if (token && user) {
+  //     dispatch(setCredentials({ token, user: JSON.parse(user) }));
+  //   }
+  // }, [dispatch]);
 
   return (
     <Router>
