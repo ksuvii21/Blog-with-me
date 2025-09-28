@@ -83,7 +83,7 @@ const HomePage = () => {
             boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
             border: 'none',
             borderRadius: '0 24px 24px 0',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 100%)',
           },
         }}
       >
