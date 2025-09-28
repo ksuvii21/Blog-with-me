@@ -162,33 +162,21 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-          bio: '',
-          profilePicture: ''
-        }),
+      const response = await api.post('/auth/register', {
+        username: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        bio: '',
+        profilePicture: ''
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        dispatch(setCredentials({ user: data.user, token: data.token }));
-        navigate('/dashboard');
-      } else {
-        setError(data.message || 'Registration failed. Please try again.');
-      }
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      dispatch(setCredentials({ user: response.data.user, token: response.data.token }));
+      navigate('/dashboard');
     } catch (err) {
       console.error('Registration error:', err);
-      setError('Network error. Please check if the backend server is running.');
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
