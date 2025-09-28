@@ -4,26 +4,26 @@
 - ✅ Rich text editor (Quill.js) implemented in BlogEditor.jsx
 - ✅ Create functionality complete in CreateBlogPage.js
 - ✅ Delete functionality available in UserDashboardPage.js
-- ❌ Edit functionality incomplete in EditBlogPage.js
+- ✅ Edit functionality complete in EditBlogPage.js
 
 ## Tasks
-- [ ] Create TODO.md file (this file)
-- [ ] Fix EditBlogPage.js to load and edit blog data
-  - [ ] Add state variables for title, content, categories, featuredImage, etc.
-  - [ ] Fetch blog data on mount using fetchBlogById thunk
-  - [ ] Populate form states with blog data
-  - [ ] Update BlogEditor usage to pass content and setContent
-  - [ ] Implement handleSave to dispatch updateBlog thunk
-  - [ ] Add validation and error handling
-  - [ ] Add image upload handling for featuredImage changes
-  - [ ] Add category management (add/remove)
-  - [ ] Navigate to blog detail after successful update
-- [ ] Test edit functionality
-  - [ ] Run frontend development server
-  - [ ] Create a test blog
-  - [ ] Edit the blog via EditBlogPage
-  - [ ] Verify rich text content loads and saves correctly
-  - [ ] Verify delete works from dashboard
+- [x] Create TODO.md file (this file)
+- [x] Fix EditBlogPage.js to load and edit blog data
+  - [x] Add state variables for title, content, categories, featuredImage, etc.
+  - [x] Fetch blog data on mount using fetchBlogById thunk
+  - [x] Populate form states with blog data
+  - [x] Update BlogEditor usage to pass content and setContent
+  - [x] Implement handleSave to dispatch updateBlog thunk
+  - [x] Add validation and error handling
+  - [x] Add image upload handling for featuredImage changes
+  - [x] Add category management (add/remove)
+  - [x] Navigate to blog detail after successful update
+- [x] Test edit functionality
+  - [x] Run frontend development server
+  - [x] Create a test blog
+  - [x] Edit the blog via EditBlogPage
+  - [x] Verify rich text content loads and saves correctly
+  - [x] Verify delete works from dashboard
 - [ ] Optional: Add tags and summary fields to Create/Edit forms for full model support
 
 ## Notes
