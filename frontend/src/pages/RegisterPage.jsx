@@ -39,6 +39,7 @@ import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../redux/slices/authSlice';
+import api from '../utils/api';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
