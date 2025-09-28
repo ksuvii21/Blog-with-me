@@ -132,7 +132,8 @@ exports.likeBlog = async (req, res) => {
     }
 
     await blog.save();
-    res.json({ likes: blog.likes.length });
+    await blog.populate('likes', 'username');
+    res.json({ likes: blog.likes });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server error');

@@ -207,6 +207,27 @@ const blogSlice = createSlice({
       .addCase(deleteBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // Like Blog
+      .addCase(likeBlog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(likeBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const blogId = action.meta.arg;
+        const blog = state.blogs.find(b => b._id === blogId);
+        if (blog) {
+          blog.likes = action.payload.likes;
+        }
+        if (state.currentBlog && state.currentBlog._id === blogId) {
+          state.currentBlog.likes = action.payload.likes;
+        }
+        state.error = null;
+      })
+      .addCase(likeBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
