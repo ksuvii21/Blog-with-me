@@ -11,12 +11,16 @@ import {
   Step,
   StepLabel,
   StepContent,
-  InputAdornment
+  InputAdornment,
+  IconButton
 } from '@mui/material';
 import {
   Email,
   CheckCircle,
-  Security
+  Security,
+  Google,
+  LinkedIn,
+  GitHub
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
@@ -237,13 +241,42 @@ const ForgotPasswordPage = () => {
             </Box>
           )}
 
+          {/* Social Links */}
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Or connect with
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
+              {[
+                { provider: 'Google', icon: Google, color: '#DB4437', link: '/' },
+                { provider: 'LinkedIn', icon: LinkedIn, color: '#0077B5', link: 'https://www.linkedin.com/in/kritika-gupta2106' },
+                { provider: 'GitHub', icon: GitHub, color: '#333', link: 'https://github.com/ksuvii21' }
+              ].map((social) => (
+                <IconButton
+                  key={social.provider}
+                  onClick={() => window.open(social.link, '_blank')}
+                  sx={{
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    '&:hover': {
+                      borderColor: social.color,
+                      backgroundColor: `${social.color}08`
+                    }
+                  }}
+                >
+                  <social.icon sx={{ color: social.color }} />
+                </IconButton>
+              ))}
+            </Box>
+          </Box>
+
           {/* Back to Login Link */}
           <Box sx={{ textAlign: 'center', mt: 3 }}>
             <Typography variant="body2" color="text.secondary">
               Remember your password?{' '}
-              <Link 
-                href="/login" 
-                sx={{ 
+              <Link
+                href="/login"
+                sx={{
                   color: themeColors.orange.main,
                   fontWeight: 600,
                   textDecoration: 'none',
