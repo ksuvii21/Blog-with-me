@@ -357,9 +357,9 @@ const HomePage = () => {
           {/* Category Explorer */}
           <Fade in timeout={800}>
             <Box sx={{ mb: 8, textAlign: 'center' }}>
-              <Typography variant="h3" fontWeight="bold" sx={{ 
-                mb: 2, 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              <Typography variant="h3" fontWeight="bold" sx={{
+                mb: 2,
+                background: themeColors.gradient.hero,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 color: 'transparent',
