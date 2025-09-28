@@ -706,16 +706,16 @@ const HomePage = () => {
                 }
               </Typography>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-                <Button 
-                  variant="contained" 
+                <Button
+                  variant="contained"
                   href="/create"
                   size="large"
                   startIcon={<AutoStories />}
-                  sx={{ 
+                  sx={{
                     borderRadius: 4,
                     px: 4,
                     py: 1.5,
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: themeColors.gradient.button,
                   }}
                 >
                   Write Your First Story
