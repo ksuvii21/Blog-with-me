@@ -10,7 +10,12 @@ import {
   Alert,
   Fade,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Tabs,
+  Tab
 } from '@mui/material';
 import {
   Visibility,
@@ -20,7 +25,8 @@ import {
   Person,
   Google,
   Facebook,
-  GitHub
+  GitHub,
+  ExpandMore
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
