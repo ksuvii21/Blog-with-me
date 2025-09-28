@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentBlog } from '../redux/slices/blogSlice'
+import { setCurrentBlog, likeBlog } from '../redux/slices/blogSlice'
 import Layout from '../components/Layout';
 import CommentSection from '../components/CommentSection';
 import axios from 'axios';
@@ -47,18 +47,22 @@ const BlogDetailPage = () => {
   }, [currentBlog, user]);
 
   // Animated claps handler
-  const handleClap = () => {
+  const handleClap = async () => {
     if (!user) {
       alert('Please login to clap for this blog.');
       return;
     }
     setClapAnimating(true);
     setTimeout(() => setClapAnimating(false), 500);
-    setIsClapped((prev) => !prev);
-    setClapCount((prev) => (isClapped ? prev - 1 : prev + 1));
-    dispatch({ type: 'blogs/likeBlog/pending' });
-    dispatch({ type: 'blogs/likeBlog/fulfilled', payload: { id: currentBlog._id, likes: isClapped ? currentBlog.likes.length - 1 : currentBlog.likes.length + 1 } });
-    dispatch({ type: 'blogs/likeBlog', payload: currentBlog._id });
+    try {
+      const result = await dispatch(likeBlog(currentBlog._id)).unwrap();
+      setClapCount(result.likes.length);
+      setIsClapped(result.likes.some(like => like._id === user.id));
+    } catch (error) {
+      console.error('Like failed:', error);
+      // Revert animation if failed
+      setClapAnimating(false);
+    }
   };
 
   // Highlight-to-share handler

@@ -18,6 +18,10 @@
   - [x] Add image upload handling for featuredImage changes
   - [x] Add category management (add/remove)
   - [x] Navigate to blog detail after successful update
+- [x] Fix likes functionality
+  - [x] Update backend likeBlog to return populated likes array
+  - [x] Add likeBlog.fulfilled case in blogSlice to update state
+  - [x] Fix BlogDetailPage handleClap to use likeBlog thunk properly
 - [x] Test edit functionality
   - [x] Run frontend development server
   - [x] Create a test blog
