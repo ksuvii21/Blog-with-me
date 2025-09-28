@@ -14,6 +14,28 @@ import {
   ArrowForward, Category, Timeline
 } from '@mui/icons-material';
 
+// Orange and Purple Theme Colors (same as AdminDashboard)
+const themeColors = {
+  orange: {
+    light: '#FFB74D',
+    main: '#FF9800',
+    dark: '#F57C00',
+    gradient: 'linear-gradient(135deg, #FF9800 0%, #FF5722 100%)'
+  },
+  purple: {
+    light: '#BA68C8',
+    main: '#9C27B0',
+    dark: '#7B1FA2',
+    gradient: 'linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)'
+  },
+  gradient: {
+    hero: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+    card: 'linear-gradient(145deg, rgba(255,152,0,0.1) 0%, rgba(156,39,176,0.1) 100%)',
+    button: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
+    dashboard: 'linear-gradient(135deg, #FFF3E0 0%, #F3E5F5 100%)'
+  }
+};
+
 const HomePage = () => {
   const { blogs, isLoading, error } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
@@ -94,7 +116,7 @@ const HomePage = () => {
       <Box sx={{
         width: '100%',
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+        background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
@@ -108,9 +130,9 @@ const HomePage = () => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(255, 152, 0, 0.3) 0%, transparent 50%),
             radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
+            radial-gradient(circle at 40% 40%, rgba(255, 152, 0, 0.2) 0%, transparent 50%)
           `,
           animation: 'pulse 4s ease-in-out infinite'
         },
