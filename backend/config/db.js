@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogging-platform';
+  const uri = process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/blogging-platform';
 
-  if (!process.env.MONGODB_URI) {
+  if (!process.env.MONGODB_ATLAS_URI && !process.env.MONGODB_URI) {
     console.log('Using local MongoDB connection (fallback)');
   } else {
     console.log('Using MongoDB Atlas connection');
