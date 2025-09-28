@@ -173,7 +173,7 @@ const HomePage = () => {
           <Grid container spacing={6} alignItems="center" sx={{ minHeight: '100vh' }}>
             <Grid item xs={12} lg={7}>
               <Fade in timeout={1200}>
-                <Box>
+                <Box sx={{ textAlign: 'center' }}>
                   {/* Status Badge */}
                   <Chip 
                     label="🚀 Join 50K+ Active Writers" 
@@ -221,7 +221,8 @@ const HomePage = () => {
                     mb: 6, 
                     opacity: 0.9, 
                     fontWeight: 300,
-                    maxWidth: 500,
+                    maxWidth: 600,
+                    mx: 'auto',
                     fontSize: { xs: '1.2rem', md: '1.4rem' },
                     lineHeight: 1.6
                   }}>
@@ -229,7 +230,7 @@ const HomePage = () => {
                   </Typography>
 
                   {/* CTA Buttons */}
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ mb: 8 }}>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ mb: 8, justifyContent: 'center' }}>
                     <Button
                       variant="contained"
                       size="large"
@@ -277,7 +278,7 @@ const HomePage = () => {
                   </Stack>
 
                   {/* Enhanced Stats */}
-                  <Grid container spacing={3}>
+                  <Grid container spacing={3} justifyContent="center">
                     {[
                       { number: '50K+', label: 'Writers', icon: People },
                       { number: '100K+', label: 'Stories', icon: AutoStories },
