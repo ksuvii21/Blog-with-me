@@ -497,7 +497,7 @@ const RegisterPage = () => {
                   provider: 'GitHub', 
                   icon: GitHub, 
                   color: '#333', 
-                  bgColor: '#333', 
+                  bgColor: '#1c1c1cff', 
                   link: 'https://github.com/ksuvii21' 
                 }
               ].map((social) => (
