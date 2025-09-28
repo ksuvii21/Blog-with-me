@@ -40,7 +40,7 @@ A full-stack blogging application built with the MERN stack (MongoDB, Express.js
 
 ### Live Demo
 - **Website Link**: [Blog-with-me Demo](https://blog-with-me.netlify.app) <!-- Replace with actual deployed URL, e.g., Netlify or Vercel -->
-- **GitHub Repository**: [github.com/yourusername/Blog-with-me](https://github.com/hp/Blog-with-me) <!-- Adjust username/repo as needed -->
+- **GitHub Repository**: [github.com/hp/Blog-with-me](https://github.com/hp/Blog-with-me) <!-- Adjust username/repo as needed -->
 
 ## 🛠️ Technology Stack
 
@@ -234,9 +234,11 @@ Follow ESLint/Prettier rules. Add tests for new features.
 
 MIT License - see [LICENSE](LICENSE) file.
 
-## 📞 Contact
+## 📞 Contact & Social Media
 
-- GitHub: [hp](https://github.com/hp)
+- **LinkedIn**: [Kritika Gupta](https://www.linkedin.com/in/kritika-gupta2106)
+- **GitHub**: [ksuvii21](https://github.com/ksuvii21)
+- **Portfolio**: [Personal Portfolio](https://ksuvii21.github.io/ksuvii.github.io/)
 - Issues: [Create Issue](https://github.com/hp/Blog-with-me/issues)
 
 ## 📈 Future Enhancements (from TODO.md)
