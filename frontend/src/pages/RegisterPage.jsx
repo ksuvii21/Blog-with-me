@@ -11,9 +11,6 @@ import {
   Fade,
   FormControlLabel,
   Checkbox,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Tabs,
   Tab
 } from '@mui/material';
@@ -25,8 +22,7 @@ import {
   Person,
   Google,
   Facebook,
-  GitHub,
-  ExpandMore
+  GitHub
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +43,7 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   const themeColors = {
     orange: { main: '#FF9800' },
@@ -60,6 +57,10 @@ const RegisterPage = () => {
       ...formData,
       [e.target.name]: value
     });
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   const handleSubmit = async (e) => {
@@ -228,34 +229,46 @@ const RegisterPage = () => {
           />
 
           {/* Terms Agreement */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="agreeToTerms"
-                checked={formData.agreeToTerms}
-                onChange={handleChange}
-                sx={{
-                  color: themeColors.orange.main,
-                  '&.Mui-checked': {
+          <Box sx={{ mb: 3 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onChange={handleChange}
+                  sx={{
                     color: themeColors.orange.main,
-                  },
-                }}
-              />
-            }
-            label={
-              <Typography variant="body2">
-                I agree to the{' '}
-                <Link href="/terms" sx={{ color: themeColors.purple.main }}>
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link href="/privacy" sx={{ color: themeColors.purple.main }}>
-                  Privacy Policy
-                </Link>
-              </Typography>
-            }
-            sx={{ mb: 3 }}
-          />
+                    '&.Mui-checked': {
+                      color: themeColors.orange.main,
+                    },
+                  }}
+                />
+              }
+              label={
+                <Typography variant="body2">
+                  I agree to the Terms of Service and Privacy Policy
+                </Typography>
+              }
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
+              <Tabs value={tabValue} onChange={handleTabChange} aria-label="terms and privacy tabs">
+                <Tab label="Terms of Service" />
+                <Tab label="Privacy Policy" />
+              </Tabs>
+              <Box sx={{ p: 2, border: '1px solid', borderTop: 'none', borderColor: 'divider' }}>
+                {tabValue === 0 && (
+                  <Typography variant="body2">
+                    Welcome to Blog with Me! By using our platform, you agree to create and share original content responsibly. Users must respect copyright laws, avoid harmful content, and engage positively with the community. We reserve the right to moderate content and suspend accounts for violations. Enjoy blogging!
+                  </Typography>
+                )}
+                {tabValue === 1 && (
+                  <Typography variant="body2">
+                    Your privacy matters. We collect email, username, and profile data to provide personalized blogging experiences. Blog content is public, but personal information is protected. We use secure servers and do not share data without consent. Contact us for any privacy concerns.
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          </Box>
 
           {/* Register Button */}
           <Button
