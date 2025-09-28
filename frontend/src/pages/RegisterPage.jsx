@@ -21,7 +21,7 @@ import {
   Lock,
   Person,
   Google,
-  Facebook,
+  LinkedIn,
   GitHub
 } from '@mui/icons-material';
 import AuthLayout from '../components/AuthLayout';
@@ -304,13 +304,13 @@ const RegisterPage = () => {
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
               {[
-                { provider: 'Google', icon: Google, color: '#DB4437' },
-                { provider: 'Facebook', icon: Facebook, color: '#4267B2' },
-                { provider: 'GitHub', icon: GitHub, color: '#333' }
+                { provider: 'Google', icon: Google, color: '#DB4437', link: '/' },
+                { provider: 'LinkedIn', icon: LinkedIn, color: '#0077B5', link: 'https://www.linkedin.com/in/kritika-gupta2106' },
+                { provider: 'GitHub', icon: GitHub, color: '#333', link: 'https://github.com/ksuvii21' }
               ].map((social) => (
                 <IconButton
                   key={social.provider}
-                  onClick={() => console.log(`Register with ${social.provider}`)}
+                  onClick={() => window.open(social.link, '_blank')}
                   sx={{
                     border: '1px solid',
                     borderColor: 'divider',
