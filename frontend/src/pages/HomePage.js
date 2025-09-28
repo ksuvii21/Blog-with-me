@@ -662,18 +662,18 @@ const HomePage = () => {
               
               {visibleCount < filteredBlogs.length && (
                 <Box textAlign="center" mt={10}>
-                  <Button 
-                    variant="contained" 
+                  <Button
+                    variant="contained"
                     onClick={handleLoadMore}
                     endIcon={<ExpandMore />}
                     size="large"
-                    sx={{ 
-                      borderRadius: 4, 
+                    sx={{
+                      borderRadius: 4,
                       fontWeight: 700,
                       px: 6,
                       py: 2,
                       fontSize: '1.1rem',
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      background: themeColors.gradient.button,
                       boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)',
                       '&:hover': {
                         transform: 'translateY(-3px)',
