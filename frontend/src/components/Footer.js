@@ -40,7 +40,7 @@ const Footer = () => {
                 mb: 2
               }}
             >
-              BlogPlatform
+              Writely-Log
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
               A modern platform for writers and readers to share, discover, and connect through meaningful content.
@@ -216,7 +216,7 @@ const Footer = () => {
           textAlign: 'center'
         }}>
           <Typography variant="body2" color="text.secondary">
-            © 2024 BlogPlatform. All rights reserved. | Made with ❤️ for writers and readers worldwide
+            © 2025 KSG Writely-Log. All rights reserved. | Made with ❤️ for writers and readers worldwide
           </Typography>
         </Box>
       </Box>

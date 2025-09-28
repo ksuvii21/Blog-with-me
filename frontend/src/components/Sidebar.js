@@ -385,7 +385,7 @@ const Sidebar = ({ isMobile = false, toggleSidebar, showCloseButton = false }) =
         textAlign: 'center'
       }}>
         <Typography variant="caption" color="text.secondary">
-          © 2024 BlogPlatform v2.0
+          © 2025 KSG Writely-Log v2.0
         </Typography>
       </Box>
     </Box>

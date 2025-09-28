@@ -92,7 +92,7 @@ const Header = ({ isHomePage }) => {
                 fontSize: { xs: '1.5rem', sm: '2rem' }
               }}
             >
-              BlogPlatform
+              Writely-Log
             </Typography>
           </Link>
         </Box>
