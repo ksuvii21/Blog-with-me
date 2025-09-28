@@ -1,23 +1,13 @@
-const OpenAI = require('openai');
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 exports.generateSummary = async (req, res) => {
   const { content } = req.body;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: `Summarize the following blog content in 2-3 sentences: ${content}` }],
-      max_tokens: 150,
-    });
-
-    res.json({ summary: response.choices[0].message.content.trim() });
+    // Mock summary: Take first 100 characters and add a generic ending
+    const summary = content.length > 100 ? content.substring(0, 100) + '...' : content;
+    res.json({ summary: `Summary: ${summary}` });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: 'AI summary generation failed' });
+    res.status(500).json({ message: 'Summary generation failed' });
   }
 };
 
@@ -25,16 +15,13 @@ exports.suggestTitle = async (req, res) => {
   const { content } = req.body;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: `Suggest an SEO-friendly, catchy title for this blog content: ${content}` }],
-      max_tokens: 50,
-    });
-
-    res.json({ title: response.choices[0].message.content.trim() });
+    // Mock title: Use first few words of content
+    const words = content.split(' ').slice(0, 5).join(' ');
+    const title = words ? `${words}...` : 'Untitled Blog Post';
+    res.json({ title });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: 'AI title suggestion failed' });
+    res.status(500).json({ message: 'Title suggestion failed' });
   }
 };
 
@@ -42,17 +29,12 @@ exports.suggestTags = async (req, res) => {
   const { content } = req.body;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: `Suggest 5-7 relevant tags for this blog content, separated by commas: ${content}` }],
-      max_tokens: 100,
-    });
-
-    const tags = response.choices[0].message.content.trim().split(',').map(tag => tag.trim());
+    // Mock tags: Some default tags
+    const tags = ['blog', 'writing', 'content', 'article'];
     res.json({ tags });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: 'AI tag suggestion failed' });
+    res.status(500).json({ message: 'Tag suggestion failed' });
   }
 };
 
