@@ -22,6 +22,8 @@
   - [x] Update backend likeBlog to return populated likes array
   - [x] Add likeBlog.fulfilled case in blogSlice to update state
   - [x] Fix BlogDetailPage handleClap to use likeBlog thunk properly
+- [x] Add social media links to LoginPage.jsx footer (LinkedIn, GitHub, Portfolio)
+- [x] Update README.md with comprehensive documentation, features, tech stack tables, API docs
 - [x] Test edit functionality
   - [x] Run frontend development server
   - [x] Create a test blog
