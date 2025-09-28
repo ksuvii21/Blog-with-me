@@ -424,12 +424,12 @@ const HomePage = () => {
 
           {/* Enhanced Search and Filter */}
           <Fade in timeout={1000}>
-            <Card elevation={0} sx={{ 
-              p: 6, 
-              mb: 8, 
+            <Card elevation={0} sx={{
+              p: 6,
+              mb: 8,
               borderRadius: 6,
-              background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%)',
-              border: '1px solid rgba(102, 126, 234, 0.1)',
+              background: themeColors.gradient.card,
+              border: '1px solid rgba(255,152,0,0.1)',
               position: 'relative',
               overflow: 'hidden',
               '&::before': {
@@ -439,7 +439,7 @@ const HomePage = () => {
                 left: 0,
                 right: 0,
                 height: 4,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                background: themeColors.gradient.button
               }
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
