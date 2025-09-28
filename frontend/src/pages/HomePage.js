@@ -113,241 +113,228 @@ const HomePage = () => {
       </Drawer>
 
       {/* Revolutionary Hero Section */}
-      <Box sx={{
-        width: '100%',
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+{/* Revolutionary Hero Section */}
+<Box sx={{
+  width: '100%',
+  minHeight: '100vh',
+  background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+  color: 'white',
+  position: 'relative',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center', // Ensure full center alignment
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: `
+      radial-gradient(circle at 20% 80%, rgba(255, 152, 0, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 152, 0, 0.2) 0%, transparent 50%)
+    `,
+    animation: 'pulse 4s ease-in-out infinite'
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.08"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+    animation: 'float 20s ease-in-out infinite'
+  }
+}}>
+  <Container maxWidth="xl" sx={{ 
+    position: 'relative', 
+    zIndex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }}>
+    {/* Floating Menu Button */}
+    <IconButton
+      onClick={() => setSidebarOpen(true)}
+      sx={{
+        position: 'fixed',
+        top: 24,
+        left: 24,
+        zIndex: 1000,
         color: 'white',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `
-            radial-gradient(circle at 20% 80%, rgba(255, 152, 0, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(255, 152, 0, 0.2) 0%, transparent 50%)
-          `,
-          animation: 'pulse 4s ease-in-out infinite'
+        bgcolor: 'rgba(255,255,255,0.15)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        '&:hover': {
+          bgcolor: 'rgba(255,255,255,0.25)',
+          transform: 'scale(1.1)',
         },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.08"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-          animation: 'float 20s ease-in-out infinite'
-        }
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+      }}
+    >
+      <Menu />
+    </IconButton>
+
+    {/* Centered Content */}
+    <Box sx={{ 
+      textAlign: 'center',
+      width: '100%',
+      maxWidth: '1200px',
+      mx: 'auto',
+      py: 4
+    }}>
+      {/* Status Badge - Perfectly Centered */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <Chip 
+          label="🚀 Join 50K+ Active Writers" 
+          sx={{ 
+            bgcolor: 'rgba(255,255,255,0.15)', 
+            color: 'white',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            fontWeight: 600,
+            fontSize: '0.9rem',
+            px: 2,
+            '&:hover': {
+              bgcolor: 'rgba(255,255,255,0.2)',
+            }
+          }} 
+        />
+      </Box>
+      
+      {/* Main Headline - Perfectly Centered */}
+      <Typography variant="h1" sx={{
+        mb: 3,
+        fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem', lg: '5rem' },
+        fontWeight: 900,
+        lineHeight: 1.1,
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        color: 'transparent',
+        letterSpacing: '-0.02em',
+        textAlign: 'center'
       }}>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-          {/* Floating Menu Button */}
-          <IconButton
-            onClick={() => setSidebarOpen(true)}
+        Write Your Story,
+        <Box component="span" sx={{
+          display: 'block',
+          background: 'linear-gradient(135deg, #ffd700 0%, #ffed4a 100%)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          color: 'transparent',
+        }}>
+          Share Your Voice
+        </Box>
+      </Typography>
+      
+      {/* Subheadline - Perfectly Centered */}
+      <Typography variant="h5" sx={{ 
+        mb: 6, 
+        opacity: 0.9, 
+        fontWeight: 300,
+        maxWidth: '600px',
+        mx: 'auto',
+        fontSize: { xs: '1.2rem', md: '1.4rem' },
+        lineHeight: 1.6,
+        textAlign: 'center'
+      }}>
+        Discover extraordinary stories, share your unique perspective, and connect with a global community of passionate storytellers.
+      </Typography>
+
+      {/* CTA Buttons - Centered */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center',
+        mb: 8 
+      }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ justifyContent: 'center' }}>
+          <Button
+            variant="contained"
+            size="large"
+            href="/register"
+            endIcon={<ArrowForward />}
             sx={{
-              position: 'fixed',
-              top: 24,
-              left: 24,
-              zIndex: 1000,
-              color: 'white',
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              fontWeight: 700,
+              px: 6,
+              py: 2,
+              borderRadius: 5,
+              fontSize: '1.1rem',
+              background: 'linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%)',
+              boxShadow: '0 10px 30px rgba(255, 107, 107, 0.4)',
               '&:hover': {
-                bgcolor: 'rgba(255,255,255,0.25)',
-                transform: 'scale(1.1)',
+                transform: 'translateY(-3px)',
+                boxShadow: '0 15px 40px rgba(255, 107, 107, 0.5)',
               },
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            <Menu />
-          </IconButton>
-
-          <Grid container spacing={6} alignItems="center" sx={{ minHeight: '100vh' }}>
-            <Grid item xs={12} lg={7}>
-              <Fade in timeout={1200}>
-                <Box sx={{ textAlign: 'center' }}>
-                  {/* Status Badge */}
-                  <Chip 
-                    label="🚀 Join 50K+ Active Writers" 
-                    sx={{ 
-                      bgcolor: 'rgba(255,255,255,0.15)', 
-                      color: 'white',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      mb: 4,
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      px: 2,
-                      '&:hover': {
-                        bgcolor: 'rgba(255,255,255,0.2)',
-                      }
-                    }} 
-                  />
-                  
-                  {/* Main Headline */}
-                  <Typography variant="h1" sx={{
-                    mb: 3,
-                    fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem', lg: '5rem' },
-                    fontWeight: 900,
-                    lineHeight: 1.1,
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    color: 'transparent',
-                    letterSpacing: '-0.02em'
-                  }}>
-                    Write Your Story,
-                    <Box component="span" sx={{
-                      display: 'block',
-                      background: 'linear-gradient(135deg, #ffd700 0%, #ffed4a 100%)',
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      color: 'transparent',
-                    }}>
-                      Share Your Voice
-                    </Box>
-                  </Typography>
-                  
-                  {/* Subheadline */}
-                  <Typography variant="h5" sx={{ 
-                    mb: 6, 
-                    opacity: 0.9, 
-                    fontWeight: 300,
-                    maxWidth: 600,
-                    mx: 'auto',
-                    fontSize: { xs: '1.2rem', md: '1.4rem' },
-                    lineHeight: 1.6
-                  }}>
-                    Discover extraordinary stories, share your unique perspective, and connect with a global community of passionate storytellers.
-                  </Typography>
-
-                  {/* CTA Buttons */}
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ mb: 8, justifyContent: 'center' }}>
-                    <Button
-                      variant="contained"
-                      size="large"
-                      href="/register"
-                      endIcon={<ArrowForward />}
-                      sx={{
-                        fontWeight: 700,
-                        px: 6,
-                        py: 2,
-                        borderRadius: 5,
-                        fontSize: '1.1rem',
-                        background: 'linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%)',
-                        boxShadow: '0 10px 30px rgba(255, 107, 107, 0.4)',
-                        '&:hover': {
-                          transform: 'translateY(-3px)',
-                          boxShadow: '0 15px 40px rgba(255, 107, 107, 0.5)',
-                        },
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}
-                    >
-                      Start Your Journey
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      href="/discover"
-                      sx={{
-                        fontWeight: 600,
-                        px: 6,
-                        py: 2,
-                        borderRadius: 5,
-                        borderColor: 'rgba(255,255,255,0.5)',
-                        color: 'white',
-                        backdropFilter: 'blur(10px)',
-                        '&:hover': {
-                          bgcolor: 'rgba(255,255,255,0.1)',
-                          borderColor: 'white',
-                          transform: 'translateY(-2px)',
-                        },
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}
-                    >
-                      Explore Stories
-                    </Button>
-                  </Stack>
-
-                  {/* Enhanced Stats */}
-                  <Grid container spacing={3} justifyContent="center">
-                    {[
-                      { number: '50K+', label: 'Writers', icon: People },
-                      { number: '100K+', label: 'Stories', icon: AutoStories },
-                      { number: '2M+', label: 'Readers', icon: Visibility },
-                      { number: '4.9★', label: 'Rating', icon: Star }
-                    ].map((stat, index) => (
-                      <Grid item xs={6} sm={3} key={index}>
-                        <Box textAlign="center" sx={{
-                          p: 2,
-                          borderRadius: 3,
-                          bgcolor: 'rgba(255,255,255,0.1)',
-                          backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(255,255,255,0.2)',
-                        }}>
-                          <stat.icon sx={{ fontSize: 24, mb: 1, opacity: 0.8 }} />
-                          <Typography variant="h5" fontWeight="bold">
-                            {stat.number}
-                          </Typography>
-                          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                            {stat.label}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
-              </Fade>
-            </Grid>
-
-            {/* Hero Illustration/Animation */}
-            <Grid item xs={12} lg={5}>
-              <Fade in timeout={1500}>
-                <Box sx={{
-                  position: 'relative',
-                  height: { xs: 300, md: 500 },
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  {/* Animated Floating Cards */}
-                  {[1, 2, 3].map((i) => (
-                    <Card key={i} sx={{
-                      position: 'absolute',
-                      width: 200,
-                      height: 120,
-                      borderRadius: 4,
-                      background: 'rgba(255,255,255,0.15)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      animation: `float 6s ease-in-out infinite ${i * 0.5}s`,
-                      transform: `translate(${i * 30 - 45}px, ${i * 40 - 60}px) rotate(${i * 10 - 15}deg)`,
-                    }}>
-                      <CardContent sx={{ color: 'white' }}>
-                        <Typography variant="h6" gutterBottom>
-                          Story {i}
-                        </Typography>
-                        <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                          Amazing content that inspires and engages readers worldwide.
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </Box>
-              </Fade>
-            </Grid>
-          </Grid>
-        </Container>
+            START YOUR JOURNEY
+          </Button>
+          <Button
+            variant="outlined"
+            size="large"
+            href="/discover"
+            sx={{
+              fontWeight: 600,
+              px: 6,
+              py: 2,
+              borderRadius: 5,
+              borderColor: 'rgba(255,255,255,0.5)',
+              color: 'white',
+              backdropFilter: 'blur(10px)',
+              '&:hover': {
+                bgcolor: 'rgba(255,255,255,0.1)',
+                borderColor: 'white',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+          >
+            EXPLORE STORIES
+          </Button>
+        </Stack>
       </Box>
 
+      {/* Stats Grid - Perfectly Centered */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center',
+        width: '100%'
+      }}>
+        <Grid container spacing={3} justifyContent="center" sx={{ maxWidth: '800px' }}>
+          {[
+            { number: '50K+', label: 'Writers', icon: People },
+            { number: '100K+', label: 'Stories', icon: AutoStories },
+            { number: '2M+', label: 'Readers', icon: Visibility },
+            { number: '4.9★', label: 'Rating', icon: Star }
+          ].map((stat, index) => (
+            <Grid item xs={6} sm={3} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box textAlign="center" sx={{
+                p: 2,
+                borderRadius: 3,
+                bgcolor: 'rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                minWidth: '140px'
+              }}>
+                <stat.icon sx={{ fontSize: 24, mb: 1, opacity: 0.8 }} />
+                <Typography variant="h5" fontWeight="bold">
+                  {stat.number}
+                </Typography>
+                <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                  {stat.label}
+                </Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Box>
+  </Container>
+</Box>
       {/* Main Content Section */}
       <Box sx={{ 
         py: 10, 
