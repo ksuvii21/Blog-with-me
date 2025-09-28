@@ -26,20 +26,20 @@ A full-stack blogging application built with the MERN stack (MongoDB, Express.js
 
 ### Screenshots
 - **Home/Dashboard**: List of blogs with search and categories.
-  ![Home Page](https://via.placeholder.com/800x400?text=Blog+List+Dashboard) <!-- Replace with actual screenshot URL if available -->
+  ![Home Page](https://github.com/ksuvii21/Blog-with-me/blob/main/images/Home%20Page.png) <!-- Replace with actual screenshot URL if available -->
 
 - **Create/Edit Blog**: Form with title, rich text editor, categories, and image upload.
-  ![Create Blog](https://via.placeholder.com/800x600?text=Create+Blog+Page) <!-- Replace with actual screenshot -->
+  ![Create Blog](https://github.com/ksuvii21/Blog-with-me/blob/main/images/Create%20Blog.png) <!-- Replace with actual screenshot -->
 
 - **Blog Detail**: Full post view with likes, comments, and edit button for authors.
-  ![Blog Detail](https://via.placeholder.com/800x600?text=Blog+Detail+Page) <!-- Replace with actual screenshot -->
+  ![Blog Detail](https://github.com/ksuvii21/Blog-with-me/blob/main/images/Blog%20Detail.png) <!-- Replace with actual screenshot -->
 
 - **User Dashboard**: Manage personal blogs with edit/delete actions.
-  ![User Dashboard](https://via.placeholder.com/800x400?text=User+Dashboard) <!-- Replace with actual screenshot -->
+  ![User Dashboard](https://github.com/ksuvii21/Blog-with-me/blob/main/images/User%20Dashboard.png) <!-- Replace with actual screenshot -->
 
 ### Live Demo
-- **Website Link**: [Blog-with-me Demo](https://blog-with-me.netlify.app) <!-- Replace with actual deployed URL, e.g., Netlify or Vercel -->
-- **GitHub Repository**: [github.com/hp/Blog-with-me](https://github.com/hp/Blog-with-me) <!-- Adjust username/repo as needed -->
+- **Website Link**: [Writely-Log](https://writely-log.netlify.app/) <!-- Replace with actual deployed URL, e.g., Netlify or Vercel -->
+- **GitHub Repository**: [github.com/ksuvii21/Blog-with-me](https://github.com/ksuvii21/Blog-with-me) <!-- Adjust username/repo as needed -->
 
 ## 🛠️ Technology Stack
 
