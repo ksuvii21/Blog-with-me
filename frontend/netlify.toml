@@ -5,7 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  REACT_APP_API_URL = "https://writely-log.onrender.com"
+  REACT_APP_API_URL = "https://writely-log.onrender.com/api"
   REACT_APP_CLOUDINARY_CLOUD_NAME = "dl5xtuwim"
   REACT_APP_UPLOAD_PRESET = "blog-upload"
 

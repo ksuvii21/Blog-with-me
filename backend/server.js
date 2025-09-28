@@ -28,6 +28,10 @@ app.use('/api/blogs/:blogId/comments', commentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/ai', aiRoutes);
 
+app.get('/api', (req, res) => {
+  res.send('Blogging Platform API');
+});
+
 app.get('/', (req, res) => {
   res.send('Blogging Platform API');
 });
