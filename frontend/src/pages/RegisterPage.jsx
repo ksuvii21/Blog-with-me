@@ -11,8 +11,10 @@ import {
   Fade,
   FormControlLabel,
   Checkbox,
-  Tabs,
-  Tab
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import {
   Visibility,
@@ -43,7 +45,8 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
+  const [termsOpen, setTermsOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const themeColors = {
     orange: { main: '#FF9800' },
@@ -59,9 +62,7 @@ const RegisterPage = () => {
     });
   };
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -246,28 +247,18 @@ const RegisterPage = () => {
               }
               label={
                 <Typography variant="body2">
-                  I agree to the Terms of Service and Privacy Policy
+                  I agree to the{' '}
+                  <Link component="button" onClick={() => setTermsOpen(true)} sx={{ color: themeColors.orange.main, textDecoration: 'underline' }}>
+                    Terms of Service
+                  </Link>
+                  {' '}and{' '}
+                  <Link component="button" onClick={() => setPrivacyOpen(true)} sx={{ color: themeColors.orange.main, textDecoration: 'underline' }}>
+                    Privacy Policy
+                  </Link>
                 </Typography>
               }
             />
-            <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2 }}>
-              <Tabs value={tabValue} onChange={handleTabChange} aria-label="terms and privacy tabs">
-                <Tab label="Terms of Service" />
-                <Tab label="Privacy Policy" />
-              </Tabs>
-              <Box sx={{ p: 2, border: '1px solid', borderTop: 'none', borderColor: 'divider' }}>
-                {tabValue === 0 && (
-                  <Typography variant="body2">
-                    Welcome to Blog with Me! By using our platform, you agree to create and share original content responsibly. Users must respect copyright laws, avoid harmful content, and engage positively with the community. We reserve the right to moderate content and suspend accounts for violations. All content posted on our platform must be original and not infringe on any third-party rights. Users are prohibited from posting spam, offensive material, or content that promotes hate, violence, or illegal activities. We encourage respectful interactions and community building. Accounts found violating these terms may be suspended or terminated. By registering, you acknowledge that you are at least 13 years old and have the legal capacity to enter into this agreement. We may update these terms at any time, and continued use constitutes acceptance. Enjoy blogging and connecting with like-minded individuals!
-                  </Typography>
-                )}
-                {tabValue === 1 && (
-                  <Typography variant="body2">
-                    Your privacy matters. We collect email, username, and profile data to provide personalized blogging experiences. Blog content is public, but personal information is protected. We use secure servers and do not share data without consent. We may collect information such as your IP address, browser type, and usage patterns to improve our services. Cookies are used to enhance user experience and remember preferences. We do not sell personal data to third parties, but may share aggregated, anonymized data for analytics. Users can request data deletion or updates by contacting support. We comply with applicable privacy laws and take reasonable measures to protect your information. By using our platform, you consent to these practices. For more details, please review our full privacy policy or contact us directly.
-                  </Typography>
-                )}
-              </Box>
-            </Box>
+
           </Box>
 
           {/* Register Button */}
@@ -345,6 +336,30 @@ const RegisterPage = () => {
           </Box>
         </Box>
       </Fade>
+
+      <Dialog open={termsOpen} onClose={() => setTermsOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Terms of Service</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2">
+            Welcome to Blog with Me! By using our platform, you agree to create and share original content responsibly. Users must respect copyright laws, avoid harmful content, and engage positively with the community. We reserve the right to moderate content and suspend accounts for violations. All content posted on our platform must be original and not infringe on any third-party rights. Users are prohibited from posting spam, offensive material, or content that promotes hate, violence, or illegal activities. We encourage respectful interactions and community building. Accounts found violating these terms may be suspended or terminated. By registering, you acknowledge that you are at least 13 years old and have the legal capacity to enter into this agreement. We may update these terms at any time, and continued use constitutes acceptance. Enjoy blogging and connecting with like-minded individuals!
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setTermsOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={privacyOpen} onClose={() => setPrivacyOpen(false)} maxWidth="md" fullWidth>
+        <DialogTitle>Privacy Policy</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2">
+            Your privacy matters. We collect email, username, and profile data to provide personalized blogging experiences. Blog content is public, but personal information is protected. We use secure servers and do not share data without consent. We may collect information such as your IP address, browser type, and usage patterns to improve our services. Cookies are used to enhance user experience and remember preferences. We do not sell personal data to third parties, but may share aggregated, anonymized data for analytics. Users can request data deletion or updates by contacting support. We comply with applicable privacy laws and take reasonable measures to protect your information. By using our platform, you consent to these practices. For more details, please review our full privacy policy or contact us directly.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPrivacyOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </AuthLayout>
   );
 };
