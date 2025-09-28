@@ -76,10 +76,7 @@ const LoginPage = () => {
     }
   };
 
-  const socialLogin = (provider) => {
-    // Implement social login logic
-    console.log(`Logging in with ${provider}`);
-  };
+
 
   return (
     <AuthLayout
