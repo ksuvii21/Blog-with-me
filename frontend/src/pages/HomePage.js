@@ -204,15 +204,15 @@ const HomePage = () => {
                     color: 'transparent',
                     letterSpacing: '-0.02em'
                   }}>
-                    Where Stories
-                    <Box component="span" sx={{ 
+                    Write Your Story,
+                    <Box component="span" sx={{
                       display: 'block',
                       background: 'linear-gradient(135deg, #ffd700 0%, #ffed4a 100%)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
                       color: 'transparent',
                     }}>
-                      Come Alive
+                      Share Your Voice
                     </Box>
                   </Typography>
                   
