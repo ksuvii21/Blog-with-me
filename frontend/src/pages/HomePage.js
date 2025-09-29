@@ -63,31 +63,31 @@ const AnimatedFlowers = () => {
       zIndex: 0
     }}>
       {/* Special Hibiscus Flower - Left Center */}
-<Box
-  sx={{
-    position: 'absolute',
-    left: '2%',     // push it further left into circled area
-    top: '28%',     // raise it higher to fit inside
-    transform: 'translateY(-50%)',
-    width: '500px', // reduced size so it doesn’t overlap button/text
-    height: '500px',
-    animation: `float 6s ease-in-out infinite`,
-    animationDelay: '0s',
-    opacity: 0.8,
-    filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
-    zIndex: 2,
-  }}
->
-  <img 
-    src="/picture.png" 
-    alt="flower" 
-    style={{ 
-      width: '100%', 
-      height: '100%',
-      objectFit: 'contain'
-    }} 
-  />
-</Box>
+    <Box
+      sx={{
+      position: 'absolute',
+      left: '2%',     // push it further left into circled area
+      top: '28%',     // raise it higher to fit inside
+      transform: 'translateY(-50%)',
+      width: '500px', // reduced size so it doesn’t overlap button/text
+      height: '500px',
+      animation: `float 6s ease-in-out infinite`,
+      animationDelay: '0s',
+      opacity: 0.8,
+      filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
+      zIndex: 2,
+      }}
+    >
+    <img 
+      src="/picture.png" 
+      alt="flower" 
+      style={{ 
+        width: '100%', 
+        height: '100%',
+        objectFit: 'contain'
+      }} 
+    />
+    </Box>
       {/* Smaller Flower - Right Top */}
       <Box
         sx={{
@@ -302,18 +302,54 @@ const HomePage = () => {
               left: 24,
               zIndex: 1000,
               color: 'white',
-              bgcolor: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              bgcolor: 'rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(20px)',
+              border: '2px solid rgba(255,255,255,0.3)',
+              width: 56,
+              height: 56,
+              animation: 'pulse 2s ease-in-out infinite',
               '&:hover': {
-                bgcolor: 'rgba(255,255,255,0.25)',
-                transform: 'scale(1.1) rotate(90deg)',
+                bgcolor: 'rgba(255,255,255,0.3)',
+                transform: 'scale(1.15) rotate(90deg)',
+                boxShadow: '0 0 30px rgba(255,255,255,0.5)',
               },
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              '& .menu-icon': {
+                transition: 'transform 0.3s ease',
+              },
+              '&:hover .menu-icon': {
+                transform: 'scale(1.2)',
+              }
             }}
           >
-            <Menu />
+            <Menu className="menu-icon" />
           </IconButton>
+
+    left: 24,
+    zIndex: 1000,
+    color: 'white',
+    bgcolor: 'rgba(255,255,255,0.2)',
+    backdropFilter: 'blur(20px)',
+    border: '2px solid rgba(255,255,255,0.3)',
+    width: 56,
+    height: 56,
+    animation: 'pulse 2s ease-in-out infinite',
+    '&:hover': {
+      bgcolor: 'rgba(255,255,255,0.3)',
+      transform: 'scale(1.15) rotate(90deg)',
+      boxShadow: '0 0 30px rgba(255,255,255,0.5)',
+    },
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    '& .menu-icon': {
+      transition: 'transform 0.3s ease',
+    },
+    '&:hover .menu-icon': {
+      transform: 'scale(1.2)',
+    }
+  }}
+>
+  <Menu className="menu-icon" />
+</IconButton>
 
           {/* Centered Content */}
           <Box sx={{ 
