@@ -66,7 +66,7 @@ const AnimatedFlowers = () => {
       <Box
   sx={{
     position: 'absolute',
-    left: '5%',
+    left: '15%',
     top: '50%',
     transform: 'translateY(-50%)',
     width: '700px',
