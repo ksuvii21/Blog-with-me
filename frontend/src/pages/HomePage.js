@@ -68,7 +68,8 @@ const AnimatedFlowers = () => {
           position: 'absolute',
           left: '15%',
           top: '45%',
-          fontSize: '80px',
+          width: '80px',
+          height: '80px',
           animation: `float 6s ease-in-out infinite`,
           animationDelay: '0s',
           opacity: 0.8,
@@ -76,7 +77,15 @@ const AnimatedFlowers = () => {
           zIndex: 2,
         }}
       >
-        🌺
+        <img 
+          src="/flower.png" 
+          alt="flower" 
+          style={{ 
+            width: '100%', 
+            height: '100%',
+            objectFit: 'contain'
+          }} 
+        />
       </Box>
 
       {/* Smaller Flower - Right Top */}
@@ -85,7 +94,8 @@ const AnimatedFlowers = () => {
           position: 'absolute',
           right: '10%',
           top: '15%',
-          fontSize: '40px',
+          width: '40px',
+          height: '40px',
           animation: `float 8s ease-in-out infinite`,
           animationDelay: '2s',
           opacity: 0.7,
@@ -93,7 +103,15 @@ const AnimatedFlowers = () => {
           zIndex: 1,
         }}
       >
-        🌸
+        <img 
+          src="/flower.png" 
+          alt="flower" 
+          style={{ 
+            width: '100%', 
+            height: '100%',
+            objectFit: 'contain'
+          }} 
+        />
       </Box>
 
       {flowers.map((flower) => (
