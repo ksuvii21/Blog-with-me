@@ -197,16 +197,11 @@ const BlogEditor = ({ content, setContent, wordCount = 0 }) => {
           </Box>
         </Box>
 
-        {/* Custom Toolbar */}
-        <CustomToolbar />
-
         {/* React Quill Editor */}
         <Box sx={{
           '& .blog-editor': {
             border: `2px solid ${alpha(themeColors.orange.main, 0.2)}`,
-            borderTop: 'none',
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
+            borderRadius: 3,
             overflow: 'hidden',
             boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
             transition: 'all 0.3s ease',
@@ -220,8 +215,6 @@ const BlogEditor = ({ content, setContent, wordCount = 0 }) => {
             fontSize: '16px',
             lineHeight: 1.6,
             border: 'none',
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
             minHeight: '400px',
             background: 'white'
           },
@@ -238,15 +231,15 @@ const BlogEditor = ({ content, setContent, wordCount = 0 }) => {
               marginBottom: '0.5em',
               fontWeight: 700
             },
-            '& h1': { 
+            '& h1': {
               color: themeColors.orange.dark,
               fontSize: '2.5rem'
             },
-            '& h2': { 
+            '& h2': {
               color: themeColors.purple.dark,
               fontSize: '2rem'
             },
-            '& h3': { 
+            '& h3': {
               color: themeColors.orange.main,
               fontSize: '1.5rem'
             },
@@ -296,7 +289,10 @@ const BlogEditor = ({ content, setContent, wordCount = 0 }) => {
           },
           '& .ql-toolbar.ql-snow': {
             border: 'none',
-            padding: 0
+            borderBottom: `1px solid ${alpha(themeColors.orange.main, 0.1)}`,
+            background: themeColors.gradient.card,
+            borderTopLeftRadius: 3,
+            borderTopRightRadius: 3
           }
         }}>
           <ReactQuill
