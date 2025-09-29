@@ -91,18 +91,14 @@ const Header = ({ isHomePage }) => {
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h4"
-              fontWeight="900" // Extra bold
+              fontWeight="700"
               sx={{
                 background: PRIMARY_GRADIENT,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontSize: { xs: '1.6rem', sm: '2.2rem' },
-                letterSpacing: '-1px', // Tighter kerning
-                transition: 'transform 0.3s ease-in-out',
-                '&:hover': {
-                    transform: 'translateY(-2px)' // Dynamic effect
-                }
+                letterSpacing: '-1px'
               }}
             >
               Writely.log
