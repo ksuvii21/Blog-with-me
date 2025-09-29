@@ -3,11 +3,12 @@ import {
   Box, Paper, Typography, Grid, Stack, Button, Fade, Divider, 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
   IconButton, Chip, Tooltip, Card, CardContent, LinearProgress,
-  useTheme, alpha, Slide, Zoom, Fab
+  useTheme, alpha, Slide, Zoom, Fab, Container
 } from '@mui/material';
 import {
   BarChart, TrendingUp, People, Article, Delete, Visibility,
-  ThumbUp, Refresh, ExpandLess, Dashboard, Tag, Security
+  ThumbUp, Refresh, ExpandLess, Dashboard, Tag, Security,
+  LocalFireDepartment, AutoStories, Favorite, RocketLaunch
 } from '@mui/icons-material';
 import {
   Chart as ChartJS,
@@ -130,26 +131,6 @@ const AdminDashboardPage = () => {
     }
   };
 
-  // Analytics Data
-  const totalUsers = users.length;
-  const totalBlogs = blogs.length;
-  const totalViews = blogs.reduce((sum, blog) => sum + (blog.views || 0), 0);
-  const totalLikes = blogs.reduce((sum, blog) => sum + (blog.likes || 0), 0);
-
-  // Trending tags
-  const trendingTags = (() => {
-    const tagCount = {};
-    blogs.forEach(blog => {
-      (blog.tags || blog.categories || []).forEach(tag => {
-        tagCount[tag] = (tagCount[tag] || 0) + 1;
-      });
-    });
-    return Object.entries(tagCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([tag, count]) => ({ tag, count }));
-  })();
-
   // Chart data
   const blogTrendsData = {
     labels: blogs.slice(0, 7).map(blog => blog.title.substring(0, 15) + '...'),
@@ -182,47 +163,23 @@ const AdminDashboardPage = () => {
     ]
   };
 
-  // User management
-  const handleDeleteUser = async (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      try {
-        await api.delete(`/users/${id}`);
-        setUsers(users.filter(u => u._id !== id));
-      } catch (err) {
-        alert('Failed to delete user');
-      }
-    }
-  };
-
-  // Blog management
-  const handleDeleteBlog = async (id) => {
-    if (window.confirm('Are you sure you want to delete this blog?')) {
-      try {
-        await api.delete(`/blogs/${id}`);
-        setBlogs(blogs.filter(b => b._id !== id));
-      } catch (err) {
-        alert('Failed to delete blog');
-      }
-    }
-  };
-
   const StatCard = ({ icon, value, label, color, delay }) => (
     <Slide direction="up" in timeout={600} style={{ transitionDelay: `${delay}ms` }}>
-      <Paper sx={{
-        p: 3,
+      <Card sx={{
+        p: 4,
         background: themeColors.gradient.card,
         border: `2px solid ${alpha(color, 0.2)}`,
-        borderRadius: 3,
+        borderRadius: 4,
         textAlign: 'center',
         transition: 'all 0.3s ease',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: `0 8px 25px ${alpha(color, 0.3)}`
+          transform: 'translateY(-8px)',
+          boxShadow: `0 20px 40px ${alpha(color, 0.3)}`
         }
       }}>
         <Box sx={{
           display: 'inline-flex',
-          p: 1,
+          p: 2,
           borderRadius: '50%',
           background: alpha(color, 0.1),
           color: color,
@@ -230,13 +187,13 @@ const AdminDashboardPage = () => {
         }}>
           {icon}
         </Box>
-        <Typography variant="h4" fontWeight={800} color={color}>
+        <Typography variant="h3" fontWeight={800} color={color}>
           {value}
         </Typography>
-        <Typography variant="body2" color="text.secondary" fontWeight={600}>
+        <Typography variant="h6" color="text.secondary" fontWeight={600}>
           {label}
         </Typography>
-      </Paper>
+      </Card>
     </Slide>
   );
 
@@ -247,52 +204,55 @@ const AdminDashboardPage = () => {
         background: themeColors.gradient.dashboard,
         py: 4 
       }}>
-        <Box id="back-to-top-anchor" />
-        <Box maxWidth="xl" mx="auto" px={3}>
-          {/* Header Section */}
-          <Box sx={{ mb: 6, textAlign: 'center' }}>
+        <Container maxWidth="xl">
+          {/* Hero Header */}
+          <Box sx={{ 
+            background: themeColors.gradient.hero,
+            color: 'white',
+            py: 8,
+            borderRadius: 4,
+            mb: 6,
+            textAlign: 'center',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
             <Box sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              p: 2,
-              borderRadius: 3,
-              background: themeColors.gradient.card,
-              mb: 3
-            }}>
-              <Dashboard sx={{ fontSize: 40, color: themeColors.orange.main, mr: 2 }} />
-              <Typography variant="h3" fontWeight={900} sx={{
-                background: themeColors.gradient.button,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                Admin Dashboard
-              </Typography>
-            </Box>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
-              Comprehensive platform analytics, user management, and content oversight
+              position: 'absolute',
+              top: -50,
+              right: -50,
+              width: 200,
+              height: 200,
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.1)'
+            }} />
+            <RocketLaunch sx={{ fontSize: 60, mb: 3, opacity: 0.9 }} />
+            <Typography variant="h2" fontWeight="900" sx={{ mb: 2 }}>
+              Admin Dashboard
+            </Typography>
+            <Typography variant="h5" sx={{ opacity: 0.9, fontWeight: 300 }}>
+              Comprehensive platform analytics and management
             </Typography>
           </Box>
 
           {error && (
             <Paper sx={{ 
-              p: 2, 
-              mb: 3, 
+              p: 3, 
+              mb: 4, 
               background: alpha('#ff4444', 0.1),
-              border: `1px solid ${alpha('#ff4444', 0.3)}`,
-              borderRadius: 2
+              border: `2px solid ${alpha('#ff4444', 0.3)}`,
+              borderRadius: 3
             }}>
-              <Typography color="error" align="center">
+              <Typography color="error" align="center" variant="h6">
                 {error}
               </Typography>
             </Paper>
           )}
 
           {/* Stats Overview */}
-          <Grid container spacing={3} sx={{ mb: 6 }}>
+          <Grid container spacing={4} sx={{ mb: 8 }}>
             <Grid item xs={12} sm={6} md={3}>
               <StatCard 
-                icon={<Article sx={{ fontSize: 30 }} />}
+                icon={<AutoStories sx={{ fontSize: 40 }} />}
                 value={stats.blogs}
                 label="Total Blogs"
                 color={themeColors.orange.main}
@@ -301,7 +261,7 @@ const AdminDashboardPage = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <StatCard 
-                icon={<People sx={{ fontSize: 30 }} />}
+                icon={<People sx={{ fontSize: 40 }} />}
                 value={stats.users}
                 label="Total Users"
                 color={themeColors.purple.main}
@@ -310,7 +270,7 @@ const AdminDashboardPage = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <StatCard 
-                icon={<Visibility sx={{ fontSize: 30 }} />}
+                icon={<Visibility sx={{ fontSize: 40 }} />}
                 value={stats.views}
                 label="Total Views"
                 color={themeColors.orange.dark}
@@ -319,7 +279,7 @@ const AdminDashboardPage = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <StatCard 
-                icon={<ThumbUp sx={{ fontSize: 30 }} />}
+                icon={<Favorite sx={{ fontSize: 40 }} />}
                 value={stats.likes}
                 label="Total Likes"
                 color={themeColors.purple.dark}
@@ -328,20 +288,26 @@ const AdminDashboardPage = () => {
             </Grid>
           </Grid>
 
-          {/* Main Content Grid */}
+          {/* Main Content */}
           <Grid container spacing={4}>
             {/* Analytics Section */}
             <Grid item xs={12} lg={8}>
-              <Paper elevation={2} sx={{ 
+              <Card sx={{ 
                 p: 4, 
                 borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: `1px solid ${alpha(themeColors.orange.main, 0.2)}`
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px)',
+                border: `2px solid ${alpha(themeColors.orange.main, 0.2)}`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
               }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                  <BarChart sx={{ color: themeColors.orange.main, mr: 2 }} />
-                  <Typography variant="h5" fontWeight={700} color={themeColors.orange.dark}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                  <LocalFireDepartment sx={{ color: themeColors.orange.main, mr: 2, fontSize: 32 }} />
+                  <Typography variant="h4" fontWeight={800} sx={{
+                    background: themeColors.gradient.button,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
                     Platform Analytics
                   </Typography>
                   <Button 
@@ -352,8 +318,12 @@ const AdminDashboardPage = () => {
                       background: themeColors.gradient.button,
                       color: 'white',
                       fontWeight: 600,
+                      borderRadius: 3,
+                      px: 4,
+                      py: 1,
                       '&:hover': {
-                        background: 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)'
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(255, 152, 0, 0.4)'
                       }
                     }}
                   >
@@ -361,39 +331,14 @@ const AdminDashboardPage = () => {
                   </Button>
                 </Box>
 
-                {/* Trending Tags */}
-                <Box sx={{ mb: 4 }}>
-                  <Typography variant="h6" fontWeight={600} sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Tag sx={{ mr: 1, color: themeColors.purple.main }} />
-                    Trending Tags
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                    {trendingTags.length > 0 ? trendingTags.map((tag, index) => (
-                      <Chip 
-                        key={tag.tag}
-                        label={`#${tag.tag} (${tag.count})`}
-                        sx={{
-                          background: themeColors.gradient.card,
-                          color: themeColors.purple.dark,
-                          fontWeight: 600,
-                          border: `1px solid ${alpha(themeColors.purple.main, 0.3)}`,
-                          animation: `fadeIn 0.5s ease ${index * 100}ms both`
-                        }}
-                      />
-                    )) : (
-                      <Typography color="text.secondary">No tags available</Typography>
-                    )}
-                  </Box>
-                </Box>
-
                 {/* Charts Grid */}
-                <Grid container spacing={3}>
+                <Grid container spacing={4}>
                   <Grid item xs={12} md={6}>
-                    <Paper sx={{ p: 2, background: alpha(themeColors.orange.main, 0.05), borderRadius: 3 }}>
-                      <Typography variant="subtitle1" fontWeight={600} color={themeColors.orange.dark} align="center">
+                    <Card sx={{ p: 3, background: themeColors.gradient.card, borderRadius: 3 }}>
+                      <Typography variant="h6" fontWeight={700} color={themeColors.orange.dark} align="center" gutterBottom>
                         Blog Performance
                       </Typography>
-                      <Box sx={{ height: 200, mt: 2 }}>
+                      <Box sx={{ height: 250, mt: 2 }}>
                         <Bar
                           data={blogTrendsData}
                           options={{
@@ -406,14 +351,14 @@ const AdminDashboardPage = () => {
                           }}
                         />
                       </Box>
-                    </Paper>
+                    </Card>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Paper sx={{ p: 2, background: alpha(themeColors.purple.main, 0.05), borderRadius: 3 }}>
-                      <Typography variant="subtitle1" fontWeight={600} color={themeColors.purple.dark} align="center">
+                    <Card sx={{ p: 3, background: themeColors.gradient.card, borderRadius: 3 }}>
+                      <Typography variant="h6" fontWeight={700} color={themeColors.purple.dark} align="center" gutterBottom>
                         User Activity
                       </Typography>
-                      <Box sx={{ height: 200, mt: 2 }}>
+                      <Box sx={{ height: 250, mt: 2 }}>
                         <Pie
                           data={userActivityData}
                           options={{
@@ -426,100 +371,85 @@ const AdminDashboardPage = () => {
                           }}
                         />
                       </Box>
-                    </Paper>
+                    </Card>
                   </Grid>
                 </Grid>
-              </Paper>
+              </Card>
             </Grid>
 
             {/* Quick Actions Sidebar */}
             <Grid item xs={12} lg={4}>
-              <Paper elevation={2} sx={{ 
-                p: 3, 
+              <Card sx={{ 
+                p: 4, 
                 borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: `1px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px)',
+                border: `2px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
                 mb: 4
               }}>
-                <Typography variant="h6" fontWeight={700} color={themeColors.purple.dark} sx={{ mb: 2 }}>
-                  <Security sx={{ mr: 1, verticalAlign: 'middle' }} />
+                <Typography variant="h5" fontWeight={800} color={themeColors.purple.dark} sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+                  <Security sx={{ mr: 2 }} />
                   Quick Actions
                 </Typography>
                 <Stack spacing={2}>
-                  <Button variant="outlined" fullWidth sx={{ justifyContent: 'flex-start', py: 1.5 }}>
-                    Manage User Roles
-                  </Button>
-                  <Button variant="outlined" fullWidth sx={{ justifyContent: 'flex-start', py: 1.5 }}>
-                    Content Moderation
-                  </Button>
-                  <Button variant="outlined" fullWidth sx={{ justifyContent: 'flex-start', py: 1.5 }}>
-                    System Settings
-                  </Button>
-                  <Button variant="outlined" fullWidth sx={{ justifyContent: 'flex-start', py: 1.5 }}>
-                    Generate Reports
-                  </Button>
-                </Stack>
-              </Paper>
-
-              {/* Recent Activity */}
-              <Paper elevation={2} sx={{ 
-                p: 3, 
-                borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: `1px solid ${alpha(themeColors.orange.main, 0.2)}`
-              }}>
-                <Typography variant="h6" fontWeight={700} color={themeColors.orange.dark} sx={{ mb: 2 }}>
-                  <TrendingUp sx={{ mr: 1, verticalAlign: 'middle' }} />
-                  Recent Activity
-                </Typography>
-                <Stack spacing={2}>
-                  {blogs.slice(0, 3).map(blog => (
-                    <Box key={blog._id} sx={{ 
-                      p: 2, 
-                      borderRadius: 2, 
-                      background: themeColors.gradient.card,
-                      border: `1px solid ${alpha(themeColors.orange.main, 0.1)}`
-                    }}>
-                      <Typography variant="subtitle2" fontWeight={600}>
-                        {blog.title}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        By {blog.author?.username} • {new Date(blog.createdAt).toLocaleDateString()}
-                      </Typography>
-                    </Box>
+                  {['Manage User Roles', 'Content Moderation', 'System Settings', 'Generate Reports'].map((action, index) => (
+                    <Button 
+                      key={action}
+                      variant="outlined" 
+                      fullWidth 
+                      sx={{ 
+                        justifyContent: 'flex-start', 
+                        py: 2,
+                        borderRadius: 2,
+                        borderColor: themeColors.purple.main,
+                        color: themeColors.purple.main,
+                        fontWeight: 600,
+                        '&:hover': {
+                          background: themeColors.purple.main,
+                          color: 'white',
+                          transform: 'translateX(8px)'
+                        },
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      {action}
+                    </Button>
                   ))}
                 </Stack>
-              </Paper>
+              </Card>
             </Grid>
           </Grid>
 
           {/* Management Tables */}
-          <Grid container spacing={4} sx={{ mt: 2, mb: 6 }}>
+          <Grid container spacing={4} sx={{ mt: 2, mb: 8 }}>
             {/* User Management */}
             <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ 
+              <Card sx={{ 
                 p: 4, 
                 borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: `1px solid ${alpha(themeColors.purple.main, 0.2)}`
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px)',
+                border: `2px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
               }}>
-                <Typography variant="h5" fontWeight={700} sx={{ 
-                  mb: 3,
+                <Typography variant="h4" fontWeight={800} sx={{ 
+                  mb: 4,
                   display: 'flex',
                   alignItems: 'center',
-                  color: themeColors.purple.dark
+                  background: themeColors.gradient.button,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
                 }}>
-                  <People sx={{ mr: 1 }} />
+                  <People sx={{ mr: 2 }} />
                   User Management
                 </Typography>
                 <TableContainer>
-                  <Table size="small">
+                  <Table>
                     <TableHead>
                       <TableRow sx={{ background: alpha(themeColors.purple.main, 0.1) }}>
-                        <TableCell sx={{ fontWeight: 700, color: themeColors.purple.dark }}>Username</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: themeColors.purple.dark }}>User</TableCell>
                         <TableCell sx={{ fontWeight: 700, color: themeColors.purple.dark }}>Email</TableCell>
                         <TableCell sx={{ fontWeight: 700, color: themeColors.purple.dark }}>Role</TableCell>
                         <TableCell align="right" sx={{ fontWeight: 700, color: themeColors.purple.dark }}>Actions</TableCell>
@@ -530,18 +460,22 @@ const AdminDashboardPage = () => {
                         <TableRow 
                           key={user._id} 
                           sx={{ 
-                            animation: `slideInLeft 0.5s ease ${index * 100}ms both`,
-                            '&:hover': { background: alpha(themeColors.purple.main, 0.05) }
+                            '&:hover': { background: alpha(themeColors.purple.main, 0.05) },
+                            animation: `slideInLeft 0.5s ease ${index * 100}ms both`
                           }}
                         >
-                          <TableCell>{user.username}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                              <Avatar src={user.profilePicture} sx={{ width: 40, height: 40 }} />
+                              <Typography fontWeight={600}>{user.username}</Typography>
+                            </Box>
+                          </TableCell>
                           <TableCell>{user.email}</TableCell>
                           <TableCell>
                             <Chip 
                               label={user.role} 
-                              size="small"
                               sx={{ 
-                                background: user.role === 'admin' ? themeColors.orange.main : themeColors.purple.main,
+                                background: user.role === 'admin' ? themeColors.gradient.button : themeColors.purple.main,
                                 color: 'white',
                                 fontWeight: 600
                               }}
@@ -550,10 +484,12 @@ const AdminDashboardPage = () => {
                           <TableCell align="right">
                             <Tooltip title="Delete User">
                               <IconButton 
-                                color="error" 
-                                onClick={() => handleDeleteUser(user._id)}
                                 sx={{
-                                  '&:hover': { background: alpha('#ff4444', 0.1) }
+                                  color: '#ff4444',
+                                  '&:hover': { 
+                                    background: alpha('#ff4444', 0.1),
+                                    transform: 'scale(1.1)'
+                                  }
                                 }}
                               >
                                 <Delete />
@@ -565,34 +501,38 @@ const AdminDashboardPage = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              </Paper>
+              </Card>
             </Grid>
 
             {/* Blog Management */}
             <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ 
+              <Card sx={{ 
                 p: 4, 
                 borderRadius: 4,
-                background: 'rgba(255, 255, 255, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: `1px solid ${alpha(themeColors.orange.main, 0.2)}`
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(20px)',
+                border: `2px solid ${alpha(themeColors.orange.main, 0.2)}`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
               }}>
-                <Typography variant="h5" fontWeight={700} sx={{ 
-                  mb: 3,
+                <Typography variant="h4" fontWeight={800} sx={{ 
+                  mb: 4,
                   display: 'flex',
                   alignItems: 'center',
-                  color: themeColors.orange.dark
+                  background: themeColors.gradient.button,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
                 }}>
-                  <Article sx={{ mr: 1 }} />
+                  <Article sx={{ mr: 2 }} />
                   Blog Management
                 </Typography>
                 <TableContainer>
-                  <Table size="small">
+                  <Table>
                     <TableHead>
                       <TableRow sx={{ background: alpha(themeColors.orange.main, 0.1) }}>
                         <TableCell sx={{ fontWeight: 700, color: themeColors.orange.dark }}>Title</TableCell>
                         <TableCell sx={{ fontWeight: 700, color: themeColors.orange.dark }}>Author</TableCell>
-                        <TableCell sx={{ fontWeight: 700, color: themeColors.orange.dark }}>Created</TableCell>
+                        <TableCell sx={{ fontWeight: 700, color: themeColors.orange.dark }}>Date</TableCell>
                         <TableCell align="right" sx={{ fontWeight: 700, color: themeColors.orange.dark }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
@@ -601,26 +541,26 @@ const AdminDashboardPage = () => {
                         <TableRow 
                           key={blog._id}
                           sx={{ 
-                            animation: `slideInRight 0.5s ease ${index * 100}ms both`,
-                            '&:hover': { background: alpha(themeColors.orange.main, 0.05) }
+                            '&:hover': { background: alpha(themeColors.orange.main, 0.05) },
+                            animation: `slideInRight 0.5s ease ${index * 100}ms both`
                           }}
                         >
-                          <TableCell sx={{ maxWidth: 200 }}>
-                            <Tooltip title={blog.title}>
-                              <Typography noWrap variant="body2">
-                                {blog.title}
-                              </Typography>
-                            </Tooltip>
+                          <TableCell>
+                            <Typography fontWeight={600} noWrap sx={{ maxWidth: 200 }}>
+                              {blog.title}
+                            </Typography>
                           </TableCell>
                           <TableCell>{blog.author?.username || 'N/A'}</TableCell>
                           <TableCell>{new Date(blog.createdAt).toLocaleDateString()}</TableCell>
                           <TableCell align="right">
                             <Tooltip title="Delete Blog">
                               <IconButton 
-                                color="error" 
-                                onClick={() => handleDeleteBlog(blog._id)}
                                 sx={{
-                                  '&:hover': { background: alpha('#ff4444', 0.1) }
+                                  color: '#ff4444',
+                                  '&:hover': { 
+                                    background: alpha('#ff4444', 0.1),
+                                    transform: 'scale(1.1)'
+                                  }
                                 }}
                               >
                                 <Delete />
@@ -632,54 +572,27 @@ const AdminDashboardPage = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              </Paper>
+              </Card>
             </Grid>
           </Grid>
-
-          <Divider sx={{ my: 5, borderColor: alpha(themeColors.purple.main, 0.3) }} />
-          
-          <Typography 
-            variant="body1" 
-            align="center" 
-            color="text.secondary"
-            sx={{ fontStyle: 'italic' }}
-          >
-            Advanced analytics and real-time monitoring features coming soon...
-          </Typography>
-        </Box>
+        </Container>
 
         {/* Scroll to Top Button */}
         <ScrollTop>
           <Fab 
             size="medium" 
-            aria-label="scroll back to top"
             sx={{
               background: themeColors.gradient.button,
               color: 'white',
               '&:hover': {
-                background: 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)'
+                background: 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)',
+                transform: 'scale(1.1)'
               }
             }}
           >
             <ExpandLess />
           </Fab>
         </ScrollTop>
-
-        {/* Custom Animations */}
-        <style jsx global>{`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-          }
-          @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-          }
-        `}</style>
       </Box>
     </Fade>
   );
