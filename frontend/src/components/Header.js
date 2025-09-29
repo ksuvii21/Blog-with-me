@@ -131,7 +131,7 @@ const Header = ({ isHomePage }) => {
           fontWeight="900"
           sx={{
             background: isHomePage 
-              ? 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              ? 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)'
               : themeColors.gradient.text,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
