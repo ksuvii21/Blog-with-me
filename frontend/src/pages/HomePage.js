@@ -79,7 +79,7 @@ const AnimatedFlowers = () => {
   }}
 >
   <img 
-    src="/image.png" 
+    src="/picture.png" 
     alt="flower" 
     style={{ 
       width: '100%', 
@@ -104,7 +104,7 @@ const AnimatedFlowers = () => {
         }}
       >
         <img 
-          src="/image.png" 
+          src="/picture.png" 
           alt="flower" 
           style={{ 
             width: '100%', 
