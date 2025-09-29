@@ -281,6 +281,189 @@ const TrendingPage = () => {
       {/* Enhanced Hero Section - Matching HomePage Style */}
       <Box sx={{
         width: '100%',
+        minHeight: '80vh',
+        position: 'relative',
+        background: themeColors.gradient.hero,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          opacity: 0.1
+        }
+      }}>
+        <FloatingFireAnimation />
+
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          <Fade in timeout={600}>
+            <Box textAlign="center">
+              {/* Timeframe Selector */}
+              <Box sx={{ mb: 4 }}>
+                <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
+                  {timeframes.map((tf) => (
+                    <Button
+                      key={tf.value}
+                      variant={timeframe === tf.value ? 'contained' : 'outlined'}
+                      startIcon={<tf.icon />}
+                      onClick={() => setTimeframe(tf.value)}
+                      sx={{
+                        px: 4,
+                        py: 2,
+                        borderRadius: 4,
+                        fontWeight: 700,
+                        fontSize: '1.1rem',
+                        background: timeframe === tf.value ? themeColors.gradient.button : 'rgba(255,255,255,0.1)',
+                        border: `2px solid ${timeframe === tf.value ? 'transparent' : 'rgba(255,255,255,0.3)'}`,
+                        color: timeframe === tf.value ? 'white' : 'white',
+                        backdropFilter: 'blur(10px)',
+                        '&:hover': {
+                          transform: 'translateY(-3px)',
+                          boxShadow: '0 15px 35px rgba(0,0,0,0.2)',
+                          background: timeframe === tf.value ? themeColors.gradient.button : 'rgba(255,255,255,0.2)'
+                        },
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      {tf.label}
+                    </Button>
+                  ))}
+                </Stack>
+              </Box>
+
+              {/* Main Hero Content */}
+              <Typography variant="h1" sx={{
+                fontSize: { xs: '3rem', md: '5rem' },
+                fontWeight: 900,
+                mb: 3,
+                background: 'linear-gradient(135deg, #ffffff 0%, #FFE082 50%, #ffffff 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 0 40px rgba(255,255,255,0.5)',
+                lineHeight: 1.1
+              }}>
+                🔥 TRENDING NOW
+              </Typography>
+
+              <Typography variant="h4" sx={{
+                fontSize: { xs: '1.5rem', md: '2rem' },
+                fontWeight: 600,
+                mb: 4,
+                color: 'rgba(255,255,255,0.9)',
+                maxWidth: 800,
+                mx: 'auto',
+                lineHeight: 1.4
+              }}>
+                Discover the hottest stories, viral content, and trending topics that everyone's talking about
+              </Typography>
+
+              {/* Trending Metrics */}
+              <Grid container spacing={4} justifyContent="center" sx={{ mb: 6 }}>
+                <Grid item xs={6} md={3}>
+                  <Box sx={{
+                    p: 3,
+                    borderRadius: 3,
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h3" fontWeight="bold" sx={{ color: '#FFE082', mb: 1 }}>
+                      {trendingMetrics.totalEngagement.toLocaleString()}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Total Engagement
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Box sx={{
+                    p: 3,
+                    borderRadius: 3,
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h3" fontWeight="bold" sx={{ color: '#FFE082', mb: 1 }}>
+                      {trendingMetrics.trendingWriters}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Trending Writers
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Box sx={{
+                    p: 3,
+                    borderRadius: 3,
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h3" fontWeight="bold" sx={{ color: '#FFE082', mb: 1 }}>
+                      {trendingMetrics.viralStories}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Viral Stories
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                  <Box sx={{
+                    p: 3,
+                    borderRadius: 3,
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    textAlign: 'center'
+                  }}>
+                    <Typography variant="h3" fontWeight="bold" sx={{ color: '#FFE082', mb: 1 }}>
+                      {trendingBlogs.length}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Hot Stories
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              {/* CTA Button */}
+              <Button
+                variant="contained"
+                size="large"
+                startIcon={<TrendingUp />}
+                sx={{
+                  px: 8,
+                  py: 3,
+                  borderRadius: 4,
+                  fontSize: '1.3rem',
+                  fontWeight: 700,
+                  background: 'linear-gradient(45deg, #ffffff 0%, #FFE082 100%)',
+                  color: themeColors.orange.dark,
+                  boxShadow: '0 10px 30px rgba(255,255,255,0.3)',
+                  '&:hover': {
+                    transform: 'translateY(-3px) scale(1.05)',
+                    boxShadow: '0 20px 40px rgba(255,255,255,0.4)',
+                    background: 'linear-gradient(45deg, #FFE082 0%, #ffffff 100%)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Explore Trending
+              </Button>
+            </Box>
+          </Fade>
+        </Container>
+      </Box>
 
       {/* Main Content */}
       <Box sx={{ py: 8, background: 'linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%)' }}>
