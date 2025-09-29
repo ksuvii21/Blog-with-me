@@ -74,15 +74,15 @@ const FloatingFireAnimation = () => {
 
   return (
     <Box sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      overflow: 'hidden',
-      pointerEvents: 'none',
-      zIndex: 0
-    }}>
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  overflow: 'hidden',
+  pointerEvents: 'none',
+  zIndex: 1 // Changed from 0 to 1, but keep it below the menu button (zIndex: 9999)
+}}>
       {/* Special Fire Elements - Left and Right */}
       <Box
         sx={{
@@ -211,24 +211,28 @@ const TrendingPage = () => {
       }
     })
     .map(blog => {
-      const likes = blog.likes || 0;
-      const views = blog.views || 0;
-      const comments = blog.comments?.length || 0;
-      const shares = blog.shares || 0;
-      
-      // Enhanced trending score calculation
-      const recency = Math.max(0, 1 - (new Date() - new Date(blog.createdAt)) / (7 * 24 * 60 * 60 * 1000));
-      const engagementRate = (likes + comments * 2 + shares * 3) / Math.max(views, 1);
-      const trendingScore = (likes * 1 + views * 0.1 + comments * 2 + shares * 3) * (1 + recency) * (1 + engagementRate);
-      
-      return {
-        ...blog,
-        trendingScore,
-        engagementRate
-      };
-    })
-    .sort((a, b) => b.trendingScore - a.trendingScore)
-    .slice(0, 20);
+    // Fix: Handle both array and number formats for likes
+    const likes = Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0);
+    const views = blog.views || 0;
+    const comments = Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0);
+    const shares = blog.shares || 0;
+    
+    // Enhanced trending score calculation
+    const recency = Math.max(0, 1 - (new Date() - new Date(blog.createdAt)) / (7 * 24 * 60 * 60 * 1000));
+    const engagementRate = (likes + comments * 2 + shares * 3) / Math.max(views, 1);
+    const trendingScore = (likes * 1 + views * 0.1 + comments * 2 + shares * 3) * (1 + recency) * (1 + engagementRate);
+    
+    return {
+      ...blog,
+      trendingScore,
+      engagementRate,
+      // Add formatted counts for display
+      formattedLikes: likes,
+      formattedComments: comments
+    };
+  })
+  .sort((a, b) => b.trendingScore - a.trendingScore)
+  .slice(0, 20);
 
   // Update trending metrics
   useEffect(() => {
@@ -301,25 +305,35 @@ const TrendingPage = () => {
       }}>
         <FloatingFireAnimation />
 
-        {/* Mobile Menu Button - Moved outside Container for full viewport positioning */}
-        <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 10, display: { xs: 'block', md: 'none' } }}>
-          <IconButton
-            onClick={() => setSidebarOpen(true)}
-            sx={{
-              background: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              color: 'white',
-              '&:hover': {
-                background: 'rgba(255,255,255,0.2)',
-                transform: 'scale(1.1)'
-              },
-              transition: 'all 0.3s ease'
-            }}
-          >
-            <Menu sx={{ fontSize: 28 }} />
-          </IconButton>
-        </Box>
+// In TrendingPage component, replace the mobile menu button section:
+
+{/* Mobile Menu Button - Fixed positioning */}
+<Box sx={{ 
+  position: 'fixed', // Changed from absolute to fixed
+  top: 20, 
+  left: 20, 
+  zIndex: 9999, // Increased z-index to ensure it's on top
+  display: { xs: 'block', md: 'none' } 
+}}>
+  <IconButton
+    onClick={() => setSidebarOpen(true)}
+    sx={{
+      background: 'rgba(255,255,255,0.2)',
+      backdropFilter: 'blur(10px)',
+      border: '2px solid rgba(255,255,255,0.3)',
+      color: 'white',
+      '&:hover': {
+        background: 'rgba(255,255,255,0.3)',
+        transform: 'scale(1.1)'
+      },
+      transition: 'all 0.3s ease',
+      width: 50,
+      height: 50
+    }}
+  >
+    <Menu sx={{ fontSize: 28 }} />
+  </IconButton>
+</Box>
 
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
           <Fade in timeout={600}>
