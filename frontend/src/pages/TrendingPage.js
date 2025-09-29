@@ -277,207 +277,124 @@ const TrendingPage = () => {
         <Sidebar isMobile={true} toggleSidebar={() => setSidebarOpen(false)} />
       </Drawer>
 
-      {/* Enhanced Hero Section */}
+      {/* Enhanced Hero Section - Matching HomePage Style */}
       <Box sx={{
         width: '100%',
-        minHeight: '100vh',
-        background: themeColors.gradient.hero,
-        color: 'white',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <FloatingFireAnimation />
-        
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-          <Fade in timeout={1000}>
-            <Box sx={{ textAlign: 'center', py: 8 }}>
-              {/* Floating Menu Button */}
-              <IconButton
-                onClick={() => setSidebarOpen(true)}
-                sx={{
-                  position: 'fixed',
-                  top: 80,
-                  left: 24,
-                  zIndex: 1400,
-                  color: 'white',
-                  bgcolor: 'rgba(255,255,255,0.15)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.25)',
-                    transform: 'scale(1.1) rotate(90deg)',
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <Menu />
-              </IconButton>
-
-              <Whatshot sx={{
-                fontSize: 80,
-                mb: 3,
-                background: 'linear-gradient(45deg, #FF6B35 30%, #FFD93D 90%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
-              }} />
-
-              <Typography variant="h1" fontWeight={900} sx={{
-                mb: 3,
-                fontSize: { xs: '2.5rem', md: '4rem' },
-                background: 'linear-gradient(45deg, #FF6B35 30%, #FFD93D 90%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                lineHeight: 1.2,
-                textShadow: '0 0 30px rgba(255,107,53,0.3)'
-              }}>
-                Trending Now
-                <Box component="span" sx={{
-                  display: 'block',
-                  background: 'linear-gradient(45deg, #FFFFFF 30%, #FFE0B2 90%)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  color: 'transparent',
-                }}>
-                  Viral Stories & Hot Topics
-                </Box>
-              </Typography>
-
-              <Typography variant="h5" sx={{
-                mb: 6,
-                opacity: 0.9,
-                fontWeight: 300,
-                maxWidth: 600,
-                mx: 'auto',
-                fontSize: { xs: '1.1rem', md: '1.5rem' }
-              }}>
-                Discover the hottest stories, viral posts, and trending topics that everyone's talking about right now.
-              </Typography>
-
-              {/* Interactive Timeframe Selector */}
-              <Fade in timeout={1400}>
-                <Card sx={{
-                  p: 4,
-                  maxWidth: 600,
-                  mx: 'auto',
-                  mb: 6,
-                  background: 'rgba(255,255,255,0.1)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: 4,
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.2)'
-                }}>
-                  <Typography variant="h5" fontWeight={700} sx={{ mb: 3, textAlign: 'center' }}>
-                    📊 Trending Timeframe
-                  </Typography>
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-                    {timeframes.map((tf, index) => (
-                      <Zoom in timeout={800} style={{ transitionDelay: `${index * 150}ms` }} key={tf.value}>
-                        <Button
-                          variant={timeframe === tf.value ? 'contained' : 'outlined'}
-                          startIcon={<tf.icon />}
-                          onClick={() => setTimeframe(tf.value)}
-                          sx={{
-                            fontWeight: 700,
-                            px: 4,
-                            py: 2,
-                            borderRadius: 4,
-                            minWidth: 150,
-                            borderColor: tf.color,
-                            color: timeframe === tf.value ? 'white' : tf.color,
-                            bgcolor: timeframe === tf.value ? tf.color : 'transparent',
-                            '&:hover': {
-                              bgcolor: timeframe === tf.value ? `${tf.color}DD` : alpha(tf.color, 0.1),
-                              transform: 'translateY(-4px) scale(1.05)',
-                              boxShadow: `0 8px 25px ${alpha(tf.color, 0.4)}`
-                            },
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                          }}
-                        >
-                          {tf.label}
-                        </Button>
-                      </Zoom>
-                    ))}
-                  </Stack>
-                </Card>
-              </Fade>
-
-              {/* Live Trending Metrics */}
-              <Fade in timeout={1600}>
-                <Grid container spacing={3} sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-                  {[
-                    { 
-                      number: trendingBlogs.length, 
-                      label: 'Trending Posts', 
-                      icon: TrendingUp,
-                      color: '#FF6B35'
-                    },
-                    { 
-                      number: trendingMetrics.totalEngagement.toLocaleString(), 
-                      label: 'Total Engagement', 
-                      icon: Favorite,
-                      color: '#FF9800'
-                    },
-                    { 
-                      number: trendingMetrics.trendingWriters, 
-                      label: 'Trending Writers', 
-                      icon: LocalFireDepartment,
-                      color: '#F44336'
-                    },
-                    { 
-                      number: trendingMetrics.viralStories, 
-                      label: 'Viral Stories', 
-                      icon: RocketLaunch,
-                      color: '#9C27B0'
-                    }
-                  ].map((stat, index) => (
-                    <Grid item xs={6} sm={3} key={stat.label}>
-                      <Zoom in timeout={1000} style={{ transitionDelay: `${index * 100}ms` }}>
-                        <Box sx={{
-                          p: 3,
-                          borderRadius: 3,
-                          bgcolor: 'rgba(255,255,255,0.1)',
-                          backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(255,255,255,0.2)',
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                          '&:hover': {
-                            bgcolor: 'rgba(255,255,255,0.15)',
-                            transform: 'translateY(-8px)',
-                            boxShadow: `0 15px 30px ${alpha(stat.color, 0.3)}`
-                          },
-                          transition: 'all 0.3s ease'
-                        }}>
-                          <stat.icon sx={{ fontSize: 36, mb: 1, color: stat.color }} />
-                          <Typography variant="h4" fontWeight="bold">
-                            {stat.number}
-                          </Typography>
-                          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                            {stat.label}
-                          </Typography>
-                        </Box>
-                      </Zoom>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Fade>
-            </Box>
-          </Fade>
-        </Container>
-      </Box>
 
       {/* Main Content */}
       <Box sx={{ py: 8, background: 'linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%)' }}>
         <Fade in timeout={800}>
           <Container maxWidth="xl">
+            {/* Search/Filter Section - Matching HomePage Style */}
+            <Fade in timeout={1000}>
+              <Card sx={{
+                p: 4,
+                mb: 8,
+                borderRadius: 4,
+                background: themeColors.gradient.card,
+                border: `2px solid ${alpha(themeColors.orange.main, 0.2)}`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
+                textAlign: 'center'
+              }}>
+                <Typography variant="h4" fontWeight="800" sx={{
+                  mb: 4,
+                  background: themeColors.gradient.hero,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  🔍 Discover Trending Content
+                </Typography>
+
+                <Grid container spacing={3} justifyContent="center">
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      placeholder="Search trending topics..."
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          borderRadius: 3,
+                          background: 'white',
+                          '&:hover': {
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: themeColors.orange.main
+                            }
+                          },
+                          '&.Mui-focused': {
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: themeColors.orange.main,
+                              borderWidth: 2
+                            }
+                          }
+                        }
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Search sx={{ color: themeColors.orange.main }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <FormControl fullWidth>
+                      <InputLabel>Sort By</InputLabel>
+                      <Select
+                        value="score"
+                        label="Sort By"
+                        sx={{
+                          borderRadius: 3,
+                          background: 'white',
+                          '&:hover': {
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: themeColors.orange.main
+                            }
+                          },
+                          '&.Mui-focused': {
+                            '& .MuiOutlinedInput-notchedOutline': {
+                              borderColor: themeColors.orange.main,
+                              borderWidth: 2
+                            }
+                          }
+                        }}
+                      >
+                        <MenuItem value="score">Trending Score</MenuItem>
+                        <MenuItem value="views">Most Viewed</MenuItem>
+                        <MenuItem value="likes">Most Liked</MenuItem>
+                        <MenuItem value="recent">Most Recent</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      size="large"
+                      sx={{
+                        height: 56,
+                        borderRadius: 3,
+                        background: themeColors.gradient.button,
+                        fontWeight: 600,
+                        '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 8px 25px rgba(255, 152, 0, 0.4)'
+                        },
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      <FilterList sx={{ mr: 1 }} />
+                      Apply Filters
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Fade>
+
             {/* Trending Categories */}
             {topCategories.length > 0 && (
-              <Box sx={{ mb: 6 }}>
+              <Box sx={{ mb: 8 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
                   <LocalFireDepartment sx={{ fontSize: 40, color: themeColors.orange.main, mr: 2 }} />
                   <Typography variant="h2" fontWeight="800" sx={{
@@ -490,7 +407,7 @@ const TrendingPage = () => {
                     Hot Categories
                   </Typography>
                 </Box>
-                
+
                 <Grid container spacing={2} justifyContent="center">
                   {topCategories.map((cat, index) => (
                     <Grid item key={cat.category}>
@@ -518,6 +435,108 @@ const TrendingPage = () => {
                 </Grid>
               </Box>
             )}
+
+            {/* Featured Trending Writers - New Section */}
+            <Box sx={{ mb: 8 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
+                <People sx={{ fontSize: 40, color: themeColors.purple.main, mr: 2 }} />
+                <Typography variant="h2" fontWeight="800" sx={{
+                  background: themeColors.gradient.hero,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textAlign: 'center'
+                }}>
+                  Trending Writers
+                </Typography>
+              </Box>
+
+              <Grid container spacing={3}>
+                {[
+                  { name: 'Sarah Chen', followers: 2500, stories: 45, avatar: '', bio: 'Tech innovator & AI enthusiast' },
+                  { name: 'Marcus Rodriguez', followers: 1800, stories: 32, avatar: '', bio: 'Travel blogger & photographer' },
+                  { name: 'Emma Thompson', followers: 3200, stories: 67, avatar: '', bio: 'Lifestyle & wellness expert' },
+                  { name: 'David Park', followers: 1400, stories: 28, avatar: '', bio: 'Business & finance writer' }
+                ].map((writer, index) => (
+                  <Grid item xs={12} sm={6} md={3} key={writer.name}>
+                    <Zoom in timeout={600} style={{ transitionDelay: `${index * 100}ms` }}>
+                      <Card sx={{
+                        height: '100%',
+                        borderRadius: 3,
+                        background: themeColors.gradient.card,
+                        border: `2px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                        '&:hover': {
+                          transform: 'translateY(-8px) scale(1.02)',
+                          borderColor: themeColors.purple.main,
+                          boxShadow: `0 15px 35px ${alpha(themeColors.purple.main, 0.2)}`
+                        },
+                        transition: 'all 0.3s ease'
+                      }}>
+                        <CardContent sx={{ textAlign: 'center', p: 3 }}>
+                          <Avatar
+                            sx={{
+                              width: 80,
+                              height: 80,
+                              mx: 'auto',
+                              mb: 2,
+                              border: `3px solid ${themeColors.purple.main}`,
+                              background: themeColors.gradient.button,
+                              fontSize: '2rem',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            {writer.name.charAt(0)}
+                          </Avatar>
+
+                          <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: themeColors.purple.dark }}>
+                            {writer.name}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                            {writer.bio}
+                          </Typography>
+
+                          <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 2 }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="h6" fontWeight="bold" color={themeColors.orange.main}>
+                                {writer.followers.toLocaleString()}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary">
+                                Followers
+                              </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="h6" fontWeight="bold" color={themeColors.purple.main}>
+                                {writer.stories}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary">
+                                Stories
+                              </Typography>
+                            </Box>
+                          </Box>
+
+                          <Button
+                            variant="contained"
+                            size="small"
+                            fullWidth
+                            sx={{
+                              borderRadius: 2,
+                              background: themeColors.gradient.button,
+                              fontWeight: 600,
+                              '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: `0 8px 25px ${alpha(themeColors.orange.main, 0.4)}`
+                              }
+                            }}
+                          >
+                            Follow
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </Zoom>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
 
             {/* Viral Stories Section */}
             <Box sx={{ mb: 8 }}>
