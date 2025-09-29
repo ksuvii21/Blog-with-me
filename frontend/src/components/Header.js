@@ -102,109 +102,111 @@ const Header = ({ isHomePage }) => {
 
   return (
     <AppBar
-      position="fixed"
-      sx={{
-        bgcolor: themeColors.background.white,
-        color: themeColors.text.primary,
-        boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
-        zIndex: 1300,
-        width: '100%',
-        borderBottom: `1px solid ${themeColors.border.light}`,
-        backdropFilter: 'blur(10px)',
-        background: isHomePage 
-          ? 'rgba(255, 255, 255, 0.1)' 
-          : 'rgba(255, 255, 255, 0.95)',
-        border: isHomePage ? '1px solid rgba(255,255,255,0.2)' : `1px solid ${themeColors.border.light}`,
-        backdropFilter: isHomePage ? 'blur(20px)' : 'blur(10px)'
-      }}
-    >
-      <Toolbar sx={{ 
-        justifyContent: 'space-between', 
-        px: { xs: 2, sm: 3, md: 4 },
-        minHeight: { xs: 70, sm: 80 } 
-      }}>
-        {/* Left Section - Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Typography
-              variant="h4"
-              fontWeight="900"
-              sx={{
-                background: isHomePage 
-                  ? 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
-                  : themeColors.gradient.text,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '1.8rem', sm: '2.3rem' },
-                letterSpacing: '-1.5px',
-                textShadow: isHomePage ? '0 2px 4px rgba(255,255,255,0.3)' : '0 2px 4px rgba(255,152,0,0.1)'
-              }}
-            >
-              Writely Log
-            </Typography>
-          </Link>
-        </Box>
+  position="fixed"
+  sx={{
+    bgcolor: isHomePage ? 'transparent' : themeColors.background.white,
+    color: isHomePage ? 'white' : themeColors.text.primary,
+    boxShadow: isHomePage ? 'none' : '0 2px 20px rgba(0,0,0,0.08)',
+    zIndex: 1300,
+    width: '100%',
+    borderBottom: isHomePage ? '1px solid rgba(255,255,255,0.2)' : `1px solid ${themeColors.border.light}`,
+    backdropFilter: isHomePage ? 'blur(20px)' : 'blur(10px)',
+    background: isHomePage 
+      ? 'rgba(255, 255, 255, 0.1)' 
+      : 'rgba(255, 255, 255, 0.95)',
+  }}
+>
+  <Toolbar sx={{ 
+    justifyContent: 'space-between', 
+    px: { xs: 2, sm: 3, md: 4 },
+    minHeight: { xs: 70, sm: 80 },
+    // Add this to ensure content is visible
+    background: isHomePage ? 'transparent' : 'inherit',
+  }}>
+    {/* Left Section - Logo */}
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Link to="/" style={{ textDecoration: 'none' }}>
+        <Typography
+          variant="h4"
+          fontWeight="900"
+          sx={{
+            background: isHomePage 
+              ? 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              : themeColors.gradient.text,
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontSize: { xs: '1.8rem', sm: '2.3rem' },
+            letterSpacing: '-1.5px',
+            textShadow: isHomePage ? '0 2px 4px rgba(255,255,255,0.3)' : '0 2px 4px rgba(255,152,0,0.1)'
+          }}
+        >
+          Writely Log
+        </Typography>
+      </Link>
+    </Box>
 
-        {/* Center Section - Search (Desktop) */}
-        <Box sx={{ 
-          display: { xs: 'none', md: 'flex' }, 
-          flex: 1, 
-          maxWidth: 600, 
-          mx: 4
-        }}>
-          <Box 
-            component="form"
-            onSubmit={handleSearchSubmit}
-            sx={{ 
-              position: 'relative', 
-              width: '100%',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            <Search sx={{ 
-              position: 'absolute', 
-              left: 16, 
-              top: '50%', 
-              transform: 'translateY(-50%)',
-              color: themeColors.text.secondary, 
-              fontSize: 22
-            }} />
-            <TextField
-              variant="outlined"
-              placeholder="Search stories, authors, or topics..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              size="small"
-              sx={{
-                width: '100%',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 3,
-                  backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f8fafc',
-                  color: isHomePage ? 'white' : 'inherit',
-                  paddingLeft: '50px',
-                  border: isHomePage ? '1px solid rgba(255,255,255,0.3)' : '1px solid #e2e8f0',
-                  '&:hover fieldset': {
-                    borderColor: themeColors.orange.main,
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: themeColors.purple.main,
-                    boxShadow: '0 0 0 3px rgba(156, 39, 176, 0.1)'
-                  },
-                  '& .MuiInputBase-input::placeholder': {
-                    color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary,
-                  }
-                },
-                '& .MuiInputBase-input': {
-                  padding: '12px 14px',
-                  fontSize: '15px',
-                  fontWeight: 500,
-                  color: isHomePage ? 'white' : 'inherit'
-                }
-              }}
-            />
-          </Box>
-        </Box>
+    {/* Center Section - Search (Desktop) */}
+    <Box sx={{ 
+      display: { xs: 'none', md: 'flex' }, 
+      flex: 1, 
+      maxWidth: 600, 
+      mx: 4
+    }}>
+      <Box 
+        component="form"
+        onSubmit={handleSearchSubmit}
+        sx={{ 
+          position: 'relative', 
+          width: '100%',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        <Search sx={{ 
+          position: 'absolute', 
+          left: 16, 
+          top: '50%', 
+          transform: 'translateY(-50%)',
+          color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary, 
+          fontSize: 22
+        }} />
+        <TextField
+          variant="outlined"
+          placeholder="Search stories, authors, or topics..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          size="small"
+          sx={{
+            width: '100%',
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              backgroundColor: isHomePage ? 'rgba(255,255,255,0.15)' : '#f8fafc',
+              color: isHomePage ? 'white' : 'inherit',
+              paddingLeft: '50px',
+              border: isHomePage ? '1px solid rgba(255,255,255,0.3)' : '1px solid #e2e8f0',
+              '&:hover fieldset': {
+                borderColor: isHomePage ? 'rgba(255,255,255,0.5)' : themeColors.orange.main,
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: isHomePage ? 'white' : themeColors.purple.main,
+                boxShadow: isHomePage ? '0 0 0 2px rgba(255,255,255,0.2)' : '0 0 0 3px rgba(156, 39, 176, 0.1)'
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary,
+              }
+            },
+            '& .MuiInputBase-input': {
+              padding: '12px 14px',
+              fontSize: '15px',
+              fontWeight: 500,
+              color: isHomePage ? 'white' : 'inherit'
+            }
+          }}
+        />
+      </Box>
+    </Box>
+
+    {/* Rest of your header code remains the same... */}
 
         {/* Right Section */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
