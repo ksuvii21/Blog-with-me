@@ -234,7 +234,7 @@ const TrendingPage = () => {
   useEffect(() => {
     if (trendingBlogs.length > 0) {
       setTrendingMetrics({
-        totalEngagement: trendingBlogs.reduce((sum, blog) => sum + (blog.likes || 0) + (blog.views || 0), 0),
+        totalEngagement: trendingBlogs.reduce((sum, blog) => sum + (blog.likes?.length || 0) + (blog.views || 0), 0),
         trendingWriters: new Set(trendingBlogs.map(blog => blog.author?.username)).size,
         viralStories: trendingBlogs.filter(blog => blog.trendingScore > 1000).length
       });
