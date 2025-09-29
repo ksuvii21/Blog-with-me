@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs, deleteBlog } from '../redux/slices/blogSlice';
+import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
 import {
   Box, Typography, Avatar, Button, Grid, Chip, Fade, Stack, IconButton,
@@ -87,14 +88,11 @@ const StatsCard = ({ icon, title, value, subtitle, color }) => (
 );
 
 // Enhanced Blog Card Component
-const BlogCard = ({ blog, onDeleteClick, index }) => {
+const BlogCard = ({ blog, onDeleteClick }) => {
   const theme = useTheme();
-  
+
   return (
     <MotionCard
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
       elevation={2}
       sx={{
         borderRadius: 3,
@@ -584,7 +582,6 @@ const UserDashboardPage = () => {
                   value={stats.totalBlogs}
                   subtitle="Published articles"
                   color={theme.palette.primary.main}
-                  delay={0.1}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
@@ -594,7 +591,6 @@ const UserDashboardPage = () => {
                   value={stats.totalViews}
                   subtitle="All-time reads"
                   color={theme.palette.info.main}
-                  delay={0.2}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
@@ -604,7 +600,6 @@ const UserDashboardPage = () => {
                   value={stats.totalLikes}
                   subtitle="Reader appreciation"
                   color={theme.palette.error.main}
-                  delay={0.3}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
@@ -614,7 +609,6 @@ const UserDashboardPage = () => {
                   value={`${stats.engagementRate}%`}
                   subtitle="Likes & comments per view"
                   color={theme.palette.success.main}
-                  delay={0.4}
                 />
               </Grid>
             </Grid>
