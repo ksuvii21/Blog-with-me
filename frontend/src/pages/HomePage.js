@@ -63,14 +63,14 @@ const AnimatedFlowers = () => {
       zIndex: 0
     }}>
       {/* Special Hibiscus Flower - Left Center */}
-      <Box
+<Box
   sx={{
     position: 'absolute',
-    left: '5%',   // Move flower to the left side
-    top: '35%',   // Adjust vertically to align with circled area
+    left: '2%',     // push it further left into circled area
+    top: '28%',     // raise it higher to fit inside
     transform: 'translateY(-50%)',
-    width: '700px',
-    height: '700px',
+    width: '500px', // reduced size so it doesn’t overlap button/text
+    height: '500px',
     animation: `float 6s ease-in-out infinite`,
     animationDelay: '0s',
     opacity: 0.8,
@@ -88,7 +88,6 @@ const AnimatedFlowers = () => {
     }} 
   />
 </Box>
-
       {/* Smaller Flower - Right Top */}
       <Box
         sx={{
