@@ -5,9 +5,9 @@ import { setCurrentBlog, likeBlog } from '../redux/slices/blogSlice'
 import Layout from '../components/Layout';
 import CommentSection from '../components/CommentSection';
 import axios from 'axios';
-import { 
-  Box, Container, Card, Typography, Avatar, Chip, Stack, Button, 
-  Fade, IconButton, Tooltip, Divider, Snackbar, Paper, Grid 
+import {
+  Box, Container, Card, Typography, Avatar, Chip, Stack, Button,
+  Fade, IconButton, Tooltip, Divider, Snackbar, Paper, Grid, alpha
 } from '@mui/material';
 import { 
   Favorite, Share, Edit, Bookmark, ArrowBack, 
