@@ -5,21 +5,117 @@ import BlogCard from '../components/BlogCard';
 import Sidebar from '../components/Sidebar';
 import {
   Box, Button, Typography, Paper, Fade, Container, Chip, Stack, IconButton,
-  Drawer, Avatar, Badge, Grid
+  Drawer, Avatar, Badge, Grid, Zoom, Slide, alpha, Card, CardContent
 } from '@mui/material';
-import { TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime } from '@mui/icons-material';
+import { 
+  TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime, 
+  LocalFireDepartment, EmojiEvents, RocketLaunch, FlashOn,
+  BarChart, TrendingFlat, NewReleases
+} from '@mui/icons-material';
+
+// Orange and Purple Theme Colors
+const themeColors = {
+  orange: {
+    light: '#FFB74D',
+    main: '#FF9800',
+    dark: '#F57C00',
+    gradient: 'linear-gradient(135deg, #FF9800 0%, #FF5722 100%)'
+  },
+  purple: {
+    light: '#BA68C8',
+    main: '#9C27B0',
+    dark: '#7B1FA2',
+    gradient: 'linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)'
+  },
+  gradient: {
+    hero: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+    card: 'linear-gradient(145deg, rgba(255,152,0,0.1) 0%, rgba(156,39,176,0.1) 100%)',
+    button: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)'
+  }
+};
+
+// Floating Fire Animation
+const FloatingFireAnimation = () => {
+  const fireElements = Array.from({ length: 15 }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    delay: Math.random() * 5,
+    duration: 8 + Math.random() * 7,
+    size: 20 + Math.random() * 40
+  }));
+
+  return (
+    <Box sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      zIndex: 0
+    }}>
+      {fireElements.map((item) => (
+        <Box
+          key={item.id}
+          sx={{
+            position: 'absolute',
+            left: `${item.left}%`,
+            top: '-50px',
+            fontSize: `${item.size}px`,
+            animation: `floatFire ${item.duration}s linear infinite`,
+            animationDelay: `${item.delay}s`,
+            opacity: 0.7,
+            color: '#FF6B35'
+          }}
+        >
+          🔥
+        </Box>
+      ))}
+      <style jsx>{`
+        @keyframes floatFire {
+          0% {
+            transform: translateY(-50px) rotate(0deg) scale(0.8);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.7;
+            transform: scale(1.2);
+          }
+          40% {
+            transform: scale(1.5);
+            opacity: 1;
+          }
+          90% {
+            opacity: 0.7;
+            transform: scale(0.9);
+          }
+          100% {
+            transform: translateY(100vh) rotate(360deg) scale(0.5);
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </Box>
+  );
+};
 
 const TrendingPage = () => {
   const { blogs, isLoading, error } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [timeframe, setTimeframe] = useState('week');
+  const [trendingMetrics, setTrendingMetrics] = useState({
+    totalEngagement: 0,
+    trendingWriters: 0,
+    viralStories: 0
+  });
 
   useEffect(() => {
     dispatch(fetchBlogs());
   }, [dispatch]);
 
-  // Sort blogs by trending score (likes + views) and recency
+  // Enhanced trending algorithm with multiple factors
   const trendingBlogs = blogs
     .filter(blog => {
       const blogDate = new Date(blog.createdAt);
@@ -28,7 +124,7 @@ const TrendingPage = () => {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
       switch (timeframe) {
-        case 'day':
+        case 'today':
           return diffDays <= 1;
         case 'week':
           return diffDays <= 7;
@@ -38,71 +134,108 @@ const TrendingPage = () => {
           return true;
       }
     })
-    .sort((a, b) => {
-      const scoreA = (a.likes || 0) + (a.views || 0) * 0.1;
-      const scoreB = (b.likes || 0) + (b.views || 0) * 0.1;
-      return scoreB - scoreA;
+    .map(blog => {
+      const likes = blog.likes || 0;
+      const views = blog.views || 0;
+      const comments = blog.comments?.length || 0;
+      const shares = blog.shares || 0;
+      
+      // Enhanced trending score calculation
+      const recency = Math.max(0, 1 - (new Date() - new Date(blog.createdAt)) / (7 * 24 * 60 * 60 * 1000));
+      const engagementRate = (likes + comments * 2 + shares * 3) / Math.max(views, 1);
+      const trendingScore = (likes * 1 + views * 0.1 + comments * 2 + shares * 3) * (1 + recency) * (1 + engagementRate);
+      
+      return {
+        ...blog,
+        trendingScore,
+        engagementRate
+      };
     })
+    .sort((a, b) => b.trendingScore - a.trendingScore)
     .slice(0, 20);
 
+  // Update trending metrics
+  useEffect(() => {
+    if (trendingBlogs.length > 0) {
+      setTrendingMetrics({
+        totalEngagement: trendingBlogs.reduce((sum, blog) => sum + (blog.likes || 0) + (blog.views || 0), 0),
+        trendingWriters: new Set(trendingBlogs.map(blog => blog.author?.username)).size,
+        viralStories: trendingBlogs.filter(blog => blog.trendingScore > 1000).length
+      });
+    }
+  }, [trendingBlogs]);
+
   const timeframes = [
-    { value: 'day', label: 'Today', icon: AccessTime },
-    { value: 'week', label: 'This Week', icon: TrendingUp },
-    { value: 'month', label: 'This Month', icon: Whatshot }
+    { value: 'today', label: 'Today', icon: FlashOn, color: '#FF6B35' },
+    { value: 'week', label: 'This Week', icon: TrendingUp, color: '#FF9800' },
+    { value: 'month', label: 'This Month', icon: Whatshot, color: '#F44336' }
   ];
+
+  // Top trending categories
+  const trendingCategories = trendingBlogs
+    .flatMap(blog => blog.categories || [])
+    .reduce((acc, category) => {
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+    }, {});
+  
+  const topCategories = Object.entries(trendingCategories)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([category, count]) => ({ category, count }));
 
   return (
     <>
-<Drawer
-  anchor="left"
-  open={sidebarOpen}
-  onClose={() => setSidebarOpen(false)}
-  sx={{
-    '& .MuiDrawer-paper': {
-      boxShadow: '0 0 30px rgba(255,152,0,0.3)',
-      border: 'none',
-    },
-  }}
->
-  <Sidebar isMobile={true} toggleSidebar={() => setSidebarOpen(false)} />
-</Drawer>
+      <Drawer
+        anchor="left"
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            boxShadow: '0 20px 60px rgba(255,152,0,0.3)',
+            border: 'none',
+            borderRadius: '0 24px 24px 0',
+            background: themeColors.gradient.hero,
+          },
+        }}
+      >
+        <Sidebar isMobile={true} toggleSidebar={() => setSidebarOpen(false)} />
+      </Drawer>
 
-      {/* Hero Section */}
+      {/* Enhanced Hero Section */}
       <Box sx={{
         width: '100%',
-        background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 100%)',
+        minHeight: '100vh',
+        background: themeColors.gradient.hero,
         color: 'white',
-        py: { xs: 8, md: 12 },
-        px: 2,
-        textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'url("data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-          animation: 'float 20s ease-in-out infinite'
-        }
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <FloatingFireAnimation />
+        
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
           <Fade in timeout={1000}>
-            <Box>
-              {/* Menu Button */}
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              {/* Floating Menu Button */}
               <IconButton
                 onClick={() => setSidebarOpen(true)}
                 sx={{
-                  position: 'absolute',
-                  top: 20,
-                  left: 20,
+                  position: 'fixed',
+                  top: 80,
+                  left: 24,
+                  zIndex: 1400,
                   color: 'white',
-                  bgcolor: 'rgba(255,255,255,0.2)',
+                  bgcolor: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.2)',
                   '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.3)',
-                  }
+                    bgcolor: 'rgba(255,255,255,0.25)',
+                    transform: 'scale(1.1) rotate(90deg)',
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 <Menu />
@@ -111,192 +244,466 @@ const TrendingPage = () => {
               <Whatshot sx={{
                 fontSize: 80,
                 mb: 3,
-                background: 'linear-gradient(45deg, #FFFFFF 30%, #FFE0B2 90%)',
+                background: 'linear-gradient(45deg, #FF6B35 30%, #FFD93D 90%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
               }} />
 
               <Typography variant="h1" fontWeight={900} sx={{
                 mb: 3,
                 fontSize: { xs: '2.5rem', md: '4rem' },
-                background: 'linear-gradient(45deg, #FFFFFF 30%, #FFE0B2 90%)',
+                background: 'linear-gradient(45deg, #FF6B35 30%, #FFD93D 90%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 color: 'transparent',
-                lineHeight: 1.2
+                lineHeight: 1.2,
+                textShadow: '0 0 30px rgba(255,107,53,0.3)'
               }}>
                 Trending Now
+                <Box component="span" sx={{
+                  display: 'block',
+                  background: 'linear-gradient(45deg, #FFFFFF 30%, #FFE0B2 90%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                }}>
+                  Viral Stories & Hot Topics
+                </Box>
               </Typography>
 
               <Typography variant="h5" sx={{
-                mb: 4,
+                mb: 6,
                 opacity: 0.9,
                 fontWeight: 300,
                 maxWidth: 600,
                 mx: 'auto',
                 fontSize: { xs: '1.1rem', md: '1.5rem' }
               }}>
-                Discover the hottest stories, viral posts, and trending topics that everyone's talking about.
+                Discover the hottest stories, viral posts, and trending topics that everyone's talking about right now.
               </Typography>
 
-              {/* Timeframe Selector */}
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-                {timeframes.map((tf) => (
-                  <Button
-                    key={tf.value}
-                    variant={timeframe === tf.value ? 'contained' : 'outlined'}
-                    startIcon={<tf.icon />}
-                    onClick={() => setTimeframe(tf.value)}
-                    sx={{
-                      fontWeight: 600,
-                      px: 3,
-                      py: 1.5,
-                      borderRadius: 3,
-                      borderColor: 'white',
-                      color: timeframe === tf.value ? 'primary.main' : 'white',
-                      bgcolor: timeframe === tf.value ? 'white' : 'transparent',
-                      '&:hover': {
-                        bgcolor: timeframe === tf.value ? 'grey.100' : 'rgba(255,255,255,0.1)',
-                        transform: 'translateY(-2px)',
-                      },
-                      transition: 'all 0.3s ease'
-                    }}
-                  >
-                    {tf.label}
-                  </Button>
-                ))}
-              </Stack>
+              {/* Interactive Timeframe Selector */}
+              <Fade in timeout={1400}>
+                <Card sx={{
+                  p: 4,
+                  maxWidth: 600,
+                  mx: 'auto',
+                  mb: 6,
+                  background: 'rgba(255,255,255,0.1)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: 4,
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.2)'
+                }}>
+                  <Typography variant="h5" fontWeight={700} sx={{ mb: 3, textAlign: 'center' }}>
+                    📊 Trending Timeframe
+                  </Typography>
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
+                    {timeframes.map((tf, index) => (
+                      <Zoom in timeout={800} style={{ transitionDelay: `${index * 150}ms` }} key={tf.value}>
+                        <Button
+                          variant={timeframe === tf.value ? 'contained' : 'outlined'}
+                          startIcon={<tf.icon />}
+                          onClick={() => setTimeframe(tf.value)}
+                          sx={{
+                            fontWeight: 700,
+                            px: 4,
+                            py: 2,
+                            borderRadius: 4,
+                            minWidth: 150,
+                            borderColor: tf.color,
+                            color: timeframe === tf.value ? 'white' : tf.color,
+                            bgcolor: timeframe === tf.value ? tf.color : 'transparent',
+                            '&:hover': {
+                              bgcolor: timeframe === tf.value ? `${tf.color}DD` : alpha(tf.color, 0.1),
+                              transform: 'translateY(-4px) scale(1.05)',
+                              boxShadow: `0 8px 25px ${alpha(tf.color, 0.4)}`
+                            },
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                          }}
+                        >
+                          {tf.label}
+                        </Button>
+                      </Zoom>
+                    ))}
+                  </Stack>
+                </Card>
+              </Fade>
+
+              {/* Live Trending Metrics */}
+              <Fade in timeout={1600}>
+                <Grid container spacing={3} sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
+                  {[
+                    { 
+                      number: trendingBlogs.length, 
+                      label: 'Trending Posts', 
+                      icon: TrendingUp,
+                      color: '#FF6B35'
+                    },
+                    { 
+                      number: trendingMetrics.totalEngagement.toLocaleString(), 
+                      label: 'Total Engagement', 
+                      icon: Favorite,
+                      color: '#FF9800'
+                    },
+                    { 
+                      number: trendingMetrics.trendingWriters, 
+                      label: 'Trending Writers', 
+                      icon: LocalFireDepartment,
+                      color: '#F44336'
+                    },
+                    { 
+                      number: trendingMetrics.viralStories, 
+                      label: 'Viral Stories', 
+                      icon: RocketLaunch,
+                      color: '#9C27B0'
+                    }
+                  ].map((stat, index) => (
+                    <Grid item xs={6} sm={3} key={stat.label}>
+                      <Zoom in timeout={1000} style={{ transitionDelay: `${index * 100}ms` }}>
+                        <Box sx={{
+                          p: 3,
+                          borderRadius: 3,
+                          bgcolor: 'rgba(255,255,255,0.1)',
+                          backdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          textAlign: 'center',
+                          cursor: 'pointer',
+                          '&:hover': {
+                            bgcolor: 'rgba(255,255,255,0.15)',
+                            transform: 'translateY(-8px)',
+                            boxShadow: `0 15px 30px ${alpha(stat.color, 0.3)}`
+                          },
+                          transition: 'all 0.3s ease'
+                        }}>
+                          <stat.icon sx={{ fontSize: 36, mb: 1, color: stat.color }} />
+                          <Typography variant="h4" fontWeight="bold">
+                            {stat.number}
+                          </Typography>
+                          <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                            {stat.label}
+                          </Typography>
+                        </Box>
+                      </Zoom>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Fade>
             </Box>
           </Fade>
         </Container>
       </Box>
 
       {/* Main Content */}
-      <Box sx={{ py: 8, width: '100%' }}>
+      <Box sx={{ py: 8, background: 'linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%)' }}>
         <Fade in timeout={800}>
-          <Box sx={{ width: '100%', maxWidth: '1200px', mx: 'auto', px: { xs: 2, sm: 3 } }}>
-            {/* Trending Stats */}
-            <Box sx={{ mb: 6, textAlign: 'center' }}>
-              <Typography variant="h4" fontWeight="bold" sx={{ mb: 3, color: 'primary.main' }}>
-                🔥 Hot Right Now
-              </Typography>
-              <Stack direction="row" spacing={4} justifyContent="center" flexWrap="wrap">
-                {[
-                  { label: 'Trending Posts', value: trendingBlogs.length, icon: TrendingUp },
-                  { label: 'Total Engagement', value: trendingBlogs.reduce((sum, blog) => sum + (blog.likes || 0) + (blog.views || 0), 0), icon: Favorite },
-                  { label: 'Active Writers', value: new Set(trendingBlogs.map(blog => blog.author?.username)).size, icon: Visibility }
-                ].map((stat, index) => (
-                  <Box key={index} textAlign="center" sx={{ minWidth: 120 }}>
-                    <stat.icon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="h4" fontWeight="bold" color="primary.main">
-                      {stat.value.toLocaleString()}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {stat.label}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </Box>
-
-            {/* Blog Feed */}
-            {isLoading ? (
-              <Box textAlign="center" py={10}>
-                <Box sx={{
-                  display: 'inline-block',
-                  p: 3,
-                  borderRadius: '50%',
-                  mb: 2,
-                  bgcolor: 'background.default'
-                }}>
-                  <Box sx={{
-                    width: 50,
-                    height: 50,
-                    border: '4px solid',
-                    borderColor: 'primary.light',
-                    borderTopColor: 'primary.main',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite'
-                  }} />
+          <Container maxWidth="xl">
+            {/* Trending Categories */}
+            {topCategories.length > 0 && (
+              <Box sx={{ mb: 6 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
+                  <LocalFireDepartment sx={{ fontSize: 40, color: themeColors.orange.main, mr: 2 }} />
+                  <Typography variant="h2" fontWeight="800" sx={{
+                    background: themeColors.gradient.hero,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    textAlign: 'center'
+                  }}>
+                    Hot Categories
+                  </Typography>
                 </Box>
-                <Typography variant="h6" color="primary.main" fontWeight={600}>
-                  Finding trending content...
-                </Typography>
-                <Typography variant="body2" color="text.secondary" mt={1}>
-                  Analyzing the hottest posts right now
-                </Typography>
-              </Box>
-            ) : error ? (
-              <Box textAlign="center" py={10}>
-                <Favorite sx={{ fontSize: 64, color: 'error.light', mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" color="error" gutterBottom>
-                  Oops! Something went wrong
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {error}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  sx={{ mt: 2 }}
-                  onClick={() => dispatch(fetchBlogs())}
-                >
-                  Try Again
-                </Button>
-              </Box>
-            ) : trendingBlogs.length > 0 ? (
-              <>
-                <Grid container spacing={3}>
-                  {trendingBlogs.map((blog, index) => (
-                    <Grid item xs={12} sm={6} lg={4} key={blog._id}>
-                      <Fade in timeout={500} style={{ transitionDelay: `${index * 100}ms` }}>
-                        <Box sx={{ position: 'relative' }}>
-                          {/* Trending Badge */}
-                          <Box sx={{
-                            position: 'absolute',
-                            top: -10,
-                            right: -10,
-                            zIndex: 2,
-                            bgcolor: 'error.main',
+                
+                <Grid container spacing={2} justifyContent="center">
+                  {topCategories.map((cat, index) => (
+                    <Grid item key={cat.category}>
+                      <Zoom in timeout={600} style={{ transitionDelay: `${index * 100}ms` }}>
+                        <Chip
+                          icon={<Whatshot sx={{ color: '#FF6B35' }} />}
+                          label={`${cat.category} (${cat.count})`}
+                          sx={{
+                            px: 2,
+                            py: 3,
+                            fontSize: '1rem',
+                            fontWeight: 700,
+                            background: themeColors.gradient.button,
                             color: 'white',
-                            borderRadius: '50%',
-                            width: 40,
-                            height: 40,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: 3
-                          }}>
-                            <Typography variant="caption" fontWeight="bold">
-                              #{index + 1}
-                            </Typography>
-                          </Box>
-                          <BlogCard blog={blog} />
-                        </Box>
-                      </Fade>
+                            '&:hover': {
+                              transform: 'scale(1.1)',
+                              boxShadow: '0 8px 20px rgba(255, 107, 53, 0.4)'
+                            },
+                            transition: 'all 0.3s ease'
+                          }}
+                        />
+                      </Zoom>
                     </Grid>
                   ))}
                 </Grid>
-              </>
-            ) : (
-              <Box textAlign="center" py={10}>
-                <Whatshot sx={{ fontSize: 64, color: 'primary.light', mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6" gutterBottom>
-                  No trending content yet
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                  Check back later for the latest trending posts!
-                </Typography>
-                <Button
-                  variant="contained"
-                  href="/create"
-                  sx={{ borderRadius: 3 }}
-                >
-                  Be the First Trend
-                </Button>
               </Box>
             )}
-          </Box>
+
+            {/* Viral Stories Section */}
+            <Box sx={{ mb: 8 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <RocketLaunch sx={{ fontSize: 40, color: themeColors.purple.main, mr: 2 }} />
+                  <Typography variant="h2" fontWeight="800" sx={{
+                    background: themeColors.gradient.hero,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    🔥 Viral Stories
+                  </Typography>
+                </Box>
+                <Chip
+                  icon={<NewReleases />}
+                  label={`${timeframe.charAt(0).toUpperCase() + timeframe.slice(1)}'s Top Picks`}
+                  sx={{
+                    bgcolor: themeColors.gradient.button,
+                    color: 'white',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    px: 2
+                  }}
+                />
+              </Box>
+
+              {isLoading ? (
+                <Box textAlign="center" py={10}>
+                  <Box sx={{
+                    display: 'inline-flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 3
+                  }}>
+                    <Box sx={{
+                      width: 80,
+                      height: 80,
+                      border: '4px solid',
+                      borderColor: themeColors.orange.light,
+                      borderTopColor: themeColors.orange.main,
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }} />
+                    <Typography variant="h4" color={themeColors.orange.main} fontWeight={600}>
+                      Analyzing Trends...
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Finding the hottest content right now
+                    </Typography>
+                  </Box>
+                </Box>
+              ) : error ? (
+                <Zoom in timeout={800}>
+                  <Card sx={{
+                    p: 8,
+                    textAlign: 'center',
+                    borderRadius: 4,
+                    background: themeColors.gradient.card,
+                    border: `2px solid ${alpha('#ff4444', 0.3)}`,
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+                  }}>
+                    <Favorite sx={{ fontSize: 80, color: '#ff4444', mb: 3, opacity: 0.6 }} />
+                    <Typography variant="h3" fontWeight="bold" gutterBottom color="error">
+                      Oops! Something went wrong
+                    </Typography>
+                    <Typography variant="h6" color="text.secondary" sx={{ mb: 4, maxWidth: 500, mx: 'auto' }}>
+                      We couldn't load trending content. Please try again.
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      onClick={() => dispatch(fetchBlogs())}
+                      size="large"
+                      sx={{
+                        background: themeColors.gradient.button,
+                        borderRadius: 4,
+                        px: 6,
+                        py: 1.5,
+                        fontWeight: 600,
+                        fontSize: '1.1rem'
+                      }}
+                    >
+                      Try Again
+                    </Button>
+                  </Card>
+                </Zoom>
+              ) : trendingBlogs.length > 0 ? (
+                <>
+                  <Grid container spacing={4}>
+                    {trendingBlogs.map((blog, index) => (
+                      <Grid item xs={12} sm={6} lg={4} key={blog._id}>
+                        <Fade in timeout={600} style={{ transitionDelay: `${index * 100}ms` }}>
+                          <Box sx={{ 
+                            position: 'relative',
+                            '&:hover': {
+                              transform: 'translateY(-12px)',
+                              transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                            }
+                          }}>
+                            {/* Trending Badge with Rank */}
+                            <Box sx={{
+                              position: 'absolute',
+                              top: -12,
+                              right: -12,
+                              zIndex: 2,
+                              background: index < 3 ? 
+                                (index === 0 ? 'linear-gradient(45deg, #FFD700, #FF6B35)' :
+                                 index === 1 ? 'linear-gradient(45deg, #C0C0C0, #B0B0B0)' :
+                                 'linear-gradient(45deg, #CD7F32, #8B4513)') : 
+                                themeColors.gradient.button,
+                              color: 'white',
+                              borderRadius: '50%',
+                              width: 50,
+                              height: 50,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              boxShadow: '0 8px 25px rgba(0,0,0,0.3)',
+                              fontSize: '1.2rem',
+                              fontWeight: 'bold'
+                            }}>
+                              {index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
+                            </Box>
+
+                            {/* Engagement Indicator */}
+                            <Box sx={{
+                              position: 'absolute',
+                              top: 16,
+                              left: 16,
+                              zIndex: 2,
+                              background: 'rgba(255,255,255,0.9)',
+                              backdropFilter: 'blur(10px)',
+                              borderRadius: 3,
+                              px: 2,
+                              py: 1,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 1,
+                              fontSize: '0.8rem',
+                              fontWeight: 'bold',
+                              color: themeColors.orange.dark
+                            }}>
+                              <LocalFireDepartment sx={{ fontSize: 16 }} />
+                              {Math.round(blog.trendingScore / 100)}K
+                            </Box>
+
+                            <BlogCard blog={blog} />
+                          </Box>
+                        </Fade>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              ) : (
+                <Zoom in timeout={800}>
+                  <Card sx={{
+                    p: 8,
+                    textAlign: 'center',
+                    borderRadius: 4,
+                    background: themeColors.gradient.card,
+                    border: `2px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+                  }}>
+                    <Whatshot sx={{ fontSize: 80, color: themeColors.orange.main, mb: 3, opacity: 0.6 }} />
+                    <Typography variant="h3" fontWeight="bold" gutterBottom sx={{
+                      background: themeColors.gradient.button,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent'
+                    }}>
+                      No Trending Content Yet
+                    </Typography>
+                    <Typography variant="h6" color="text.secondary" sx={{ mb: 4, maxWidth: 500, mx: 'auto' }}>
+                      Check back later for the latest trending posts and viral stories!
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      href="/create"
+                      size="large"
+                      startIcon={<RocketLaunch />}
+                      sx={{
+                        background: themeColors.gradient.button,
+                        borderRadius: 4,
+                        px: 6,
+                        py: 1.5,
+                        fontWeight: 600,
+                        fontSize: '1.1rem',
+                        '&:hover': {
+                          transform: 'translateY(-3px)',
+                          boxShadow: '0 10px 30px rgba(255, 152, 0, 0.4)'
+                        }
+                      }}
+                    >
+                      Create Viral Content
+                    </Button>
+                  </Card>
+                </Zoom>
+              )}
+            </Box>
+
+            {/* Trending Insights */}
+            {trendingBlogs.length > 0 && (
+              <Slide direction="up" in timeout={1000}>
+                <Card sx={{
+                  p: 5,
+                  borderRadius: 4,
+                  background: themeColors.gradient.card,
+                  border: `2px solid ${alpha(themeColors.purple.main, 0.2)}`,
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+                }}>
+                  <Typography variant="h3" fontWeight="800" sx={{
+                    textAlign: 'center',
+                    mb: 4,
+                    background: themeColors.gradient.hero,
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    📈 Trending Insights
+                  </Typography>
+                  
+                  <Grid container spacing={4} textAlign="center">
+                    <Grid item xs={12} md={4}>
+                      <Box sx={{ p: 3 }}>
+                        <BarChart sx={{ fontSize: 48, color: themeColors.orange.main, mb: 2 }} />
+                        <Typography variant="h4" fontWeight="bold" color={themeColors.orange.main}>
+                          {Math.round(trendingBlogs[0]?.trendingScore / 1000)}K
+                        </Typography>
+                        <Typography variant="h6" color="text.secondary">
+                          Top Story Score
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Box sx={{ p: 3 }}>
+                        <TrendingUp sx={{ fontSize: 48, color: themeColors.purple.main, mb: 2 }} />
+                        <Typography variant="h4" fontWeight="bold" color={themeColors.purple.main}>
+                          {trendingBlogs.filter(b => b.trendingScore > 500).length}
+                        </Typography>
+                        <Typography variant="h6" color="text.secondary">
+                          High-Engagement Posts
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Box sx={{ p: 3 }}>
+                        <EmojiEvents sx={{ fontSize: 48, color: themeColors.orange.dark, mb: 2 }} />
+                        <Typography variant="h4" fontWeight="bold" color={themeColors.orange.dark}>
+                          {trendingMetrics.trendingWriters}
+                        </Typography>
+                        <Typography variant="h6" color="text.secondary">
+                          Trending Writers
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </Slide>
+            )}
+          </Container>
         </Fade>
       </Box>
     </>
