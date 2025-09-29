@@ -101,7 +101,7 @@ const Header = ({ isHomePage }) => {
                 letterSpacing: '-1px'
               }}
             >
-              Writely.log
+              Writely Log
             </Typography>
           </Link>
         </Box>
