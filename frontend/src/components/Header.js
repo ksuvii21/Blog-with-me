@@ -295,18 +295,18 @@ const Header = ({ isHomePage }) => {
                 variant="contained"
                 sx={{
                   background: PRIMARY_GRADIENT,
-                  borderRadius: 999, // Pill shape
+                  borderRadius: 8,
                   px: 3,
-                  py: 1.2,
-                  fontWeight: 700,
+                  py: 1,
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
                   color: 'white',
-                  boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
+                  boxShadow: '0 2px 8px rgba(255, 152, 0, 0.3)',
                   '&:hover': {
                     background: HOVER_GRADIENT,
-                    transform: 'translateY(-3px)',
-                    boxShadow: '0 10px 30px rgba(255, 152, 0, 0.6)',
+                    boxShadow: '0 4px 12px rgba(255, 152, 0, 0.4)',
                   },
-                  transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
+                  transition: 'all 0.2s ease',
                 }}
               >
                 Join Free
