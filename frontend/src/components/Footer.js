@@ -202,19 +202,18 @@ const Footer = () => {
                             </Typography>
                             <Stack spacing={1}>
                                 {['Help Center', 'API Documentation', 'System Status', 'Feedback', 'Report Abuse'].map((item) => (
-                                    <Link 
+                                    <Link
                                         key={item}
-                                        href="#" 
-                                        variant="body2" 
+                                        href="#"
+                                        variant="body2"
                                         color={TEXT_LIGHT}
-                                        sx={{ 
+                                        sx={{
                                             textDecoration: 'none',
                                             opacity: 0.8,
-                                            '&:hover': { 
+                                            '&:hover': {
                                                 color: PURPLE_ACCENT,
-                                                transform: 'translateX(6px)',
                                                 opacity: 1,
-                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                transition: 'all 0.2s ease'
                                             }
                                         }}
                                     >
@@ -233,19 +232,18 @@ const Footer = () => {
                             </Typography>
                             <Stack spacing={1}>
                                 {['About Us', 'Our Vision', 'Careers (Hiring!)', 'Press & Media', 'Contact Sales'].map((item) => (
-                                    <Link 
+                                    <Link
                                         key={item}
-                                        href="#" 
-                                        variant="body2" 
+                                        href="#"
+                                        variant="body2"
                                         color={TEXT_LIGHT}
-                                        sx={{ 
+                                        sx={{
                                             textDecoration: 'none',
                                             opacity: 0.8,
-                                            '&:hover': { 
+                                            '&:hover': {
                                                 color: PURPLE_ACCENT,
-                                                transform: 'translateX(6px)',
                                                 opacity: 1,
-                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                transition: 'all 0.2s ease'
                                             }
                                         }}
                                     >
@@ -264,19 +262,18 @@ const Footer = () => {
                             </Typography>
                             <Stack spacing={1}>
                                 {['Privacy Policy', 'Terms of Service', 'Cookie Settings', 'Security', 'GDPR Compliance'].map((item) => (
-                                    <Link 
+                                    <Link
                                         key={item}
-                                        href="#" 
-                                        variant="body2" 
+                                        href="#"
+                                        variant="body2"
                                         color={TEXT_LIGHT}
-                                        sx={{ 
+                                        sx={{
                                             textDecoration: 'none',
                                             opacity: 0.8,
-                                            '&:hover': { 
+                                            '&:hover': {
                                                 color: PURPLE_ACCENT,
-                                                transform: 'translateX(6px)',
                                                 opacity: 1,
-                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                transition: 'all 0.2s ease'
                                             }
                                         }}
                                     >
