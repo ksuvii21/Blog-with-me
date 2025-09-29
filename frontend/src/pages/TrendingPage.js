@@ -35,6 +35,30 @@ const themeColors = {
   }
 };
 
+// Floating Fire Keyframes
+const floatFire = keyframes`
+  0% {
+    transform: translateY(-50px) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg) scale(0.5);
+    opacity: 0;
+  }
+`;
+
 // Floating Fire Animation
 const FloatingFireAnimation = () => {
   const fireElements = Array.from({ length: 15 }, (_, i) => ({
