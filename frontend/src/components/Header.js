@@ -23,21 +23,44 @@ import {
   Person,
   Dashboard,
   AdminPanelSettings,
-  ExitToApp
+  ExitToApp,
+  Menu as MenuIcon
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
-// New Light Theme Colors (matching footer)
-const PRIMARY_GRADIENT = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-const SECONDARY_GRADIENT = 'linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%)';
-const BACKGROUND_LIGHT = '#ffffff';
-const TEXT_PRIMARY = '#2d3748';
-const TEXT_SECONDARY = '#718096';
-const ACCENT_PURPLE = '#805ad5';
-const ACCENT_BLUE = '#4299e1';
-const BORDER_LIGHT = '#e2e8f0';
+// Orange and Purple Theme Colors (matching home page)
+const themeColors = {
+  orange: {
+    light: '#FFB74D',
+    main: '#FF9800',
+    dark: '#F57C00',
+    gradient: 'linear-gradient(135deg, #FF9800 0%, #FF5722 100%)'
+  },
+  purple: {
+    light: '#BA68C8',
+    main: '#9C27B0',
+    dark: '#7B1FA2',
+    gradient: 'linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)'
+  },
+  gradient: {
+    hero: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+    button: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)',
+    text: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 100%)'
+  },
+  background: {
+    light: '#f8fafc',
+    white: '#ffffff'
+  },
+  text: {
+    primary: '#2d3748',
+    secondary: '#718096'
+  },
+  border: {
+    light: '#e2e8f0'
+  }
+};
 
 const Header = ({ isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
@@ -81,14 +104,18 @@ const Header = ({ isHomePage }) => {
     <AppBar
       position="fixed"
       sx={{
-        bgcolor: BACKGROUND_LIGHT,
-        color: TEXT_PRIMARY,
+        bgcolor: themeColors.background.white,
+        color: themeColors.text.primary,
         boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
         zIndex: 1300,
         width: '100%',
-        borderBottom: `1px solid ${BORDER_LIGHT}`,
+        borderBottom: `1px solid ${themeColors.border.light}`,
         backdropFilter: 'blur(10px)',
-        background: 'rgba(255, 255, 255, 0.95)'
+        background: isHomePage 
+          ? 'rgba(255, 255, 255, 0.1)' 
+          : 'rgba(255, 255, 255, 0.95)',
+        border: isHomePage ? '1px solid rgba(255,255,255,0.2)' : `1px solid ${themeColors.border.light}`,
+        backdropFilter: isHomePage ? 'blur(20px)' : 'blur(10px)'
       }}
     >
       <Toolbar sx={{ 
@@ -101,15 +128,17 @@ const Header = ({ isHomePage }) => {
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h4"
-              fontWeight="800"
+              fontWeight="900"
               sx={{
-                background: PRIMARY_GRADIENT,
+                background: isHomePage 
+                  ? 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+                  : themeColors.gradient.text,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontSize: { xs: '1.8rem', sm: '2.3rem' },
                 letterSpacing: '-1.5px',
-                textShadow: '0 2px 4px rgba(102, 126, 234, 0.1)'
+                textShadow: isHomePage ? '0 2px 4px rgba(255,255,255,0.3)' : '0 2px 4px rgba(255,152,0,0.1)'
               }}
             >
               Writely.log
@@ -138,7 +167,7 @@ const Header = ({ isHomePage }) => {
               left: 16, 
               top: '50%', 
               transform: 'translateY(-50%)',
-              color: TEXT_SECONDARY, 
+              color: themeColors.text.secondary, 
               fontSize: 22
             }} />
             <TextField
@@ -151,20 +180,26 @@ const Header = ({ isHomePage }) => {
                 width: '100%',
                 '& .MuiOutlinedInput-root': {
                   borderRadius: 3,
-                  backgroundColor: '#f8fafc',
+                  backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f8fafc',
+                  color: isHomePage ? 'white' : 'inherit',
                   paddingLeft: '50px',
+                  border: isHomePage ? '1px solid rgba(255,255,255,0.3)' : '1px solid #e2e8f0',
                   '&:hover fieldset': {
-                    borderColor: ACCENT_BLUE,
+                    borderColor: themeColors.orange.main,
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: ACCENT_PURPLE,
-                    boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.1)'
+                    borderColor: themeColors.purple.main,
+                    boxShadow: '0 0 0 3px rgba(156, 39, 176, 0.1)'
                   },
+                  '& .MuiInputBase-input::placeholder': {
+                    color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary,
+                  }
                 },
                 '& .MuiInputBase-input': {
                   padding: '12px 14px',
                   fontSize: '15px',
-                  fontWeight: 500
+                  fontWeight: 500,
+                  color: isHomePage ? 'white' : 'inherit'
                 }
               }}
             />
@@ -178,10 +213,10 @@ const Header = ({ isHomePage }) => {
             onClick={handleSearchToggle} 
             sx={{ 
               display: { md: 'none' }, 
-              color: TEXT_SECONDARY,
+              color: isHomePage ? 'white' : themeColors.text.secondary,
               '&:hover': {
-                backgroundColor: '#f1f5f9',
-                color: ACCENT_PURPLE
+                backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f1f5f9',
+                color: isHomePage ? 'white' : themeColors.purple.main
               }
             }}
           >
@@ -198,17 +233,17 @@ const Header = ({ isHomePage }) => {
                 variant="contained"
                 sx={{
                   display: { xs: 'none', sm: 'flex' },
-                  background: SECONDARY_GRADIENT,
+                  background: themeColors.gradient.button,
                   borderRadius: 3,
                   px: 3,
                   py: 1.2,
                   fontWeight: 600,
                   fontSize: '0.9rem',
                   color: 'white',
-                  boxShadow: '0 4px 15px rgba(255, 154, 158, 0.3)',
+                  boxShadow: '0 4px 15px rgba(255, 152, 0, 0.3)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FF7B7F 0%, #FDB5E3 99%)',
-                    boxShadow: '0 6px 20px rgba(255, 154, 158, 0.4)',
+                    background: 'linear-gradient(45deg, #FF7B3F 30%, #8E24AA 90%)',
+                    boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
                     transform: 'translateY(-1px)'
                   },
                   transition: 'all 0.3s ease',
@@ -221,10 +256,10 @@ const Header = ({ isHomePage }) => {
               <IconButton
                 color="inherit"
                 sx={{
-                  color: TEXT_SECONDARY,
+                  color: isHomePage ? 'white' : themeColors.text.secondary,
                   '&:hover': {
-                    color: ACCENT_PURPLE,
-                    backgroundColor: '#f1f5f9'
+                    color: isHomePage ? 'white' : themeColors.purple.main,
+                    backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f1f5f9'
                   },
                   transition: 'all 0.2s ease'
                 }}
@@ -251,12 +286,12 @@ const Header = ({ isHomePage }) => {
                   sx={{ 
                     width: 42, 
                     height: 42, 
-                    border: `2px solid ${BORDER_LIGHT}`,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    border: isHomePage ? '2px solid rgba(255,255,255,0.3)' : `2px solid ${themeColors.border.light}`,
+                    boxShadow: '0 2px 8px rgba(255, 152, 0, 0.3)',
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                      borderColor: ACCENT_PURPLE,
-                      boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
+                      borderColor: isHomePage ? 'white' : themeColors.purple.main,
+                      boxShadow: '0 4px 12px rgba(255, 152, 0, 0.5)'
                     }
                   }} 
                 />
@@ -272,7 +307,7 @@ const Header = ({ isHomePage }) => {
                     minWidth: 220, 
                     borderRadius: 3,
                     boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-                    border: `1px solid ${BORDER_LIGHT}`,
+                    border: `1px solid ${themeColors.border.light}`,
                     '& .MuiMenuItem-root': {
                       py: 1.5,
                       borderRadius: 2,
@@ -285,14 +320,14 @@ const Header = ({ isHomePage }) => {
               >
                 <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
-                    <Person sx={{ color: ACCENT_PURPLE, fontSize: 20 }} />
+                    <Person sx={{ color: themeColors.purple.main, fontSize: 20 }} />
                     <Typography fontWeight="500">My Profile</Typography>
                   </Box> 
                 </MenuItem>
                 
                 <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard">
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
-                    <Dashboard sx={{ color: ACCENT_BLUE, fontSize: 20 }} />
+                    <Dashboard sx={{ color: themeColors.orange.main, fontSize: 20 }} />
                     <Typography fontWeight="500">Dashboard</Typography>
                   </Box>
                 </MenuItem>
@@ -322,13 +357,13 @@ const Header = ({ isHomePage }) => {
                 to="/login"
                 variant="text"
                 sx={{
-                  color: TEXT_SECONDARY,
+                  color: isHomePage ? 'white' : themeColors.text.secondary,
                   fontWeight: 600,
                   px: 2.5,
                   borderRadius: 2,
                   '&:hover': {
-                    color: ACCENT_PURPLE,
-                    backgroundColor: '#f8fafc'
+                    color: isHomePage ? 'white' : themeColors.purple.main,
+                    backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f8fafc'
                   },
                   transition: 'all 0.2s ease'
                 }}
@@ -342,17 +377,17 @@ const Header = ({ isHomePage }) => {
                 to="/register"
                 variant="contained"
                 sx={{
-                  background: PRIMARY_GRADIENT,
+                  background: themeColors.gradient.button,
                   borderRadius: 3,
                   px: 3,
                   py: 1.2,
                   fontWeight: 600,
                   fontSize: '0.9rem',
                   color: 'white',
-                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
+                  boxShadow: '0 4px 15px rgba(255, 152, 0, 0.3)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
-                    boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+                    background: 'linear-gradient(45deg, #FF7B3F 30%, #8E24AA 90%)',
+                    boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
                     transform: 'translateY(-1px)'
                   },
                   transition: 'all 0.3s ease',
@@ -378,8 +413,8 @@ const Header = ({ isHomePage }) => {
               p: 3,
               borderRadius: 0,
               zIndex: 1301,
-              borderTop: `1px solid ${BORDER_LIGHT}`,
-              background: 'rgba(255, 255, 255, 0.98)',
+              borderTop: `1px solid ${themeColors.border.light}`,
+              background: isHomePage ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.98)',
               backdropFilter: 'blur(20px)'
             }}
           >
@@ -399,27 +434,32 @@ const Header = ({ isHomePage }) => {
                   flex: 1,
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 3,
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f8fafc',
+                    color: isHomePage ? 'white' : 'inherit',
                     '&:hover fieldset': {
-                      borderColor: ACCENT_BLUE,
+                      borderColor: themeColors.orange.main,
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: ACCENT_PURPLE,
+                      borderColor: themeColors.purple.main,
                     },
+                    '& .MuiInputBase-input::placeholder': {
+                      color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary,
+                    }
                   },
                   '& .MuiInputBase-input': {
                     padding: '14px 16px',
-                    fontSize: '16px'
+                    fontSize: '16px',
+                    color: isHomePage ? 'white' : 'inherit'
                   }
                 }}
               />
               <IconButton 
                 onClick={() => setSearchOpen(false)} 
                 sx={{ 
-                  color: TEXT_SECONDARY,
+                  color: isHomePage ? 'white' : themeColors.text.secondary,
                   '&:hover': { 
-                    color: ACCENT_PURPLE,
-                    backgroundColor: '#f1f5f9'
+                    color: isHomePage ? 'white' : themeColors.purple.main,
+                    backgroundColor: isHomePage ? 'rgba(255,255,255,0.1)' : '#f1f5f9'
                   } 
                 }}
               >
