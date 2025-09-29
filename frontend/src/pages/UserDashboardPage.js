@@ -43,8 +43,11 @@ function TabPanel({ children, value, index, ...other }) {
 const MotionCard = Card;
 
 // Stats Card Component
-const StatsCard = ({ icon, title, value, subtitle, color }) => (
+const StatsCard = ({ icon, title, value, subtitle, color, delay = 0 }) => (
   <MotionCard
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay }}
     elevation={2}
     sx={{
       borderRadius: 3,
