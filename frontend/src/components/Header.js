@@ -24,7 +24,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
-// Theme Constants
+// Clean Theme Constants (keeping homepage colors)
 const PRIMARY_GRADIENT = 'linear-gradient(90deg, #FF9800 10%, #E91E63 90%)'; // Orange to Pink/Purple
 const HOVER_GRADIENT = 'linear-gradient(90deg, #F57C00 10%, #C2185B 90%)';
 const PURPLE_ACCENT = '#9C27B0';
