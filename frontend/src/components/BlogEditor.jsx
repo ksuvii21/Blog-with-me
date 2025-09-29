@@ -1,30 +1,15 @@
 import React, { useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { 
-  Box, 
-  Typography, 
-  LinearProgress, 
-  Zoom, 
+import {
+  Box,
+  Typography,
+  LinearProgress,
+  Zoom,
   Fade,
-  alpha 
+  alpha
 } from '@mui/material';
-import { 
-  CloudUpload, 
-  Image, 
-  Code, 
-  FormatBold, 
-  FormatItalic,
-  Link,
-  FormatListBulleted,
-  FormatListNumbered,
-  FormatQuote,
-  FormatAlignLeft,
-  FormatAlignCenter,
-  FormatAlignRight,
-  Undo,
-  Redo
-} from '@mui/icons-material';
+import { CloudUpload } from '@mui/icons-material';
 import { uploadImage } from '../utils/cloudinary';
 
 // Orange and Purple Theme Colors
