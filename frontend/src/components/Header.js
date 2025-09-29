@@ -200,15 +200,14 @@ const Header = ({ isHomePage }) => {
               </Button>
               
               {/* Notifications with Scale Effect */}
-              <IconButton 
-                color="inherit" 
-                sx={{ 
+              <IconButton
+                color="inherit"
+                sx={{
                     color: 'text.secondary',
-                    '&:hover': { 
-                        color: PURPLE_ACCENT, 
-                        transform: 'scale(1.15) rotate(5deg)',
+                    '&:hover': {
+                        color: PURPLE_ACCENT,
                     },
-                    transition: 'transform 0.3s ease'
+                    transition: 'color 0.2s ease'
                 }}
               >
                 <Badge badgeContent={3} color="error" overlap="circular" variant="dot">
