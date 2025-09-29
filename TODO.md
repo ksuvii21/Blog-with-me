@@ -2,7 +2,7 @@
 
 ## Steps from Approved Plan
 
-1. [ ] Edit `frontend/src/pages/HomePage.js`:
+1. [x] Edit `frontend/src/pages/HomePage.js`:
    - Update the zIndex of the floating menu IconButton from 1000 to 1400 to ensure it appears above the Header's zIndex of 1300.
 
 2. [ ] Verify the file edit was successful.
