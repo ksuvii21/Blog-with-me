@@ -5,10 +5,35 @@ import { setCurrentBlog, likeBlog } from '../redux/slices/blogSlice'
 import Layout from '../components/Layout';
 import CommentSection from '../components/CommentSection';
 import axios from 'axios';
-import { Box, Paper, Typography, Avatar, Chip, Stack, Button, Fade, IconButton, Tooltip, Divider, Snackbar } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import EditIcon from '@mui/icons-material/Edit';
+import { 
+  Box, Container, Card, Typography, Avatar, Chip, Stack, Button, 
+  Fade, IconButton, Tooltip, Divider, Snackbar, Paper, Grid 
+} from '@mui/material';
+import { 
+  Favorite, Share, Edit, Bookmark, ArrowBack, 
+  Visibility, Schedule, LocalFireDepartment 
+} from '@mui/icons-material';
+
+// Orange and Purple Theme Colors
+const themeColors = {
+  orange: {
+    light: '#FFB74D',
+    main: '#FF9800',
+    dark: '#F57C00',
+    gradient: 'linear-gradient(135deg, #FF9800 0%, #FF5722 100%)'
+  },
+  purple: {
+    light: '#BA68C8',
+    main: '#9C27B0',
+    dark: '#7B1FA2',
+    gradient: 'linear-gradient(135deg, #9C27B0 0%, #673AB7 100%)'
+  },
+  gradient: {
+    hero: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+    card: 'linear-gradient(145deg, rgba(255,152,0,0.1) 0%, rgba(156,39,176,0.1) 100%)',
+    button: 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)'
+  }
+};
 
 const BlogDetailPage = () => {
   const { id } = useParams();
@@ -26,7 +51,6 @@ const BlogDetailPage = () => {
 
   useEffect(() => {
     fetchBlog();
-    // eslint-disable-next-line
   }, [id]);
 
   function fetchBlog() {
@@ -46,7 +70,6 @@ const BlogDetailPage = () => {
     }
   }, [currentBlog, user]);
 
-  // Animated claps handler
   const handleClap = async () => {
     if (!user) {
       alert('Please login to clap for this blog.');
@@ -60,227 +83,321 @@ const BlogDetailPage = () => {
       setIsClapped(result.likes.some(like => like._id === user.id));
     } catch (error) {
       console.error('Like failed:', error);
-      // Revert animation if failed
       setClapAnimating(false);
     }
   };
 
-  // Highlight-to-share handler
-  useEffect(() => {
-    const handleMouseUp = (e) => {
-      const selection = window.getSelection();
-      if (selection && selection.toString().length > 10) {
-        setHighlightedText(selection.toString());
-        setSnackbarOpen(true);
-      }
-    };
-    const contentBox = document.getElementById('blog-content');
-    if (contentBox) {
-      contentBox.addEventListener('mouseup', handleMouseUp);
-    }
-    return () => {
-      if (contentBox) contentBox.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, []);
-
-  const handleShare = () => {
-    if (highlightedText) {
-      navigator.clipboard.writeText(highlightedText);
-      setSnackbarOpen(false);
-    }
-  };
-
-  // Related stories: show 3 other blogs by same author or in same category
-  const relatedStories = currentBlog ? blogs
-    .filter(b => b._id !== currentBlog._id && (b.author._id === currentBlog.author._id || b.categories.some(cat => currentBlog.categories.includes(cat))))
-    .slice(0, 3) : [];
-
   if (isLoading || !currentBlog) {
     return (
       <Layout>
-        <Box textAlign="center" py={12}>
-          <span className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 inline-block"></span>
-          <Typography color="text.secondary" mt={4}>Loading blog...</Typography>
-        </Box>
+        <Container maxWidth="lg">
+          <Box textAlign="center" py={12}>
+            <span className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 inline-block"></span>
+            <Typography color="text.secondary" mt={4}>Loading blog...</Typography>
+          </Box>
+        </Container>
       </Layout>
     );
   }
 
+  const relatedStories = currentBlog ? blogs
+    .filter(b => b._id !== currentBlog._id && (b.author._id === currentBlog.author._id || b.categories.some(cat => currentBlog.categories.includes(cat))))
+    .slice(0, 3) : [];
+
   return (
     <Layout>
       <Fade in timeout={700}>
-        <Box maxWidth="md" mx="auto" py={4}>
-          <Paper elevation={4} sx={{ p: { xs: 2, md: 5 }, borderRadius: 4, mb: 4 }}>
-            {/* Blog Header */}
-            {currentBlog.featuredImage && (
-              <Box mb={3}>
-                <img
-                  src={currentBlog.featuredImage}
-                  alt={currentBlog.title}
-                  style={{ width: '100%', maxHeight: 400, objectFit: 'cover', borderRadius: 16 }}
-                />
-              </Box>
-            )}
-            <Typography variant="h3" fontWeight={800} mb={2} color="primary.main">
-              {currentBlog.title}
-            </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2} mb={2}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <Avatar src={currentBlog.author.profilePicture || '/default-avatar.png'} alt={currentBlog.author.username} sx={{ width: 48, height: 48 }} />
-                <Box>
-                  <Typography fontWeight={700}>{currentBlog.author.username}</Typography>
-                  <Typography color="text.secondary" fontSize={14}>
-                    {new Date(currentBlog.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </Typography>
+        <Box sx={{ background: 'linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%)', minHeight: '100vh', py: 4 }}>
+          <Container maxWidth="lg">
+            {/* Back Button */}
+            <Button
+              startIcon={<ArrowBack />}
+              onClick={() => window.history.back()}
+              sx={{
+                mb: 3,
+                color: themeColors.purple.main,
+                fontWeight: 600,
+                '&:hover': {
+                  background: alpha(themeColors.purple.main, 0.1)
+                }
+              }}
+            >
+              Back to Stories
+            </Button>
+
+            {/* Main Blog Card */}
+            <Card sx={{
+              p: { xs: 3, md: 6 },
+              borderRadius: 4,
+              mb: 6,
+              background: 'white',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
+              border: `1px solid ${themeColors.orange.light}20`
+            }}>
+              {/* Featured Image */}
+              {currentBlog.featuredImage && (
+                <Box sx={{ mb: 4, borderRadius: 3, overflow: 'hidden' }}>
+                  <img
+                    src={currentBlog.featuredImage}
+                    alt={currentBlog.title}
+                    style={{ width: '100%', maxHeight: 500, objectFit: 'cover' }}
+                  />
                 </Box>
-              </Stack>
-              <Stack direction="row" spacing={3} alignItems="center">
-                <Typography color="text.secondary" fontSize={14}>
-                  {currentBlog.views} views
-                </Typography>
-                <Tooltip title={isClapped ? 'Unlike' : 'Clap'}>
-                  <span style={{ position: 'relative', display: 'inline-block' }}>
-                    <IconButton
-                      color={isClapped ? 'error' : 'default'}
-                      onClick={handleClap}
-                      sx={{ transition: 'transform 0.2s', transform: clapAnimating ? 'scale(1.3)' : 'scale(1)' }}
-                    >
-                      <FavoriteIcon sx={{ transition: 'color 0.2s', color: isClapped ? '#ef4444' : undefined }} />
-                      <Typography ml={0.5}>{clapCount}</Typography>
-                    </IconButton>
-                    {clapAnimating && (
-                      <span style={{
-                        position: 'absolute',
-                        top: -16,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        color: '#ef4444',
-                        fontWeight: 700,
-                        fontSize: 18,
-                        pointerEvents: 'none',
-                        opacity: 0.8,
-                        animation: 'clap-pop 0.5s',
-                      }}>+1</span>
-                    )}
-                    <style>{`@keyframes clap-pop { 0% { opacity: 0; transform: translateY(0) scale(0.8); } 50% { opacity: 1; transform: translateY(-10px) scale(1.2); } 100% { opacity: 0; transform: translateY(-20px) scale(1); } }`}</style>
-                  </span>
-                </Tooltip>
-              </Stack>
-            </Stack>
-            <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
-              {currentBlog.categories.map((category, index) => (
+              )}
+
+              {/* Blog Header */}
+              <Box sx={{ mb: 4 }}>
                 <Chip
-                  key={index}
-                  label={category}
-                  color="primary"
-                  size="small"
-                  sx={{ bgcolor: 'primary.light', color: 'primary.dark' }}
+                  icon={<LocalFireDepartment />}
+                  label="Featured Story"
+                  sx={{
+                    background: themeColors.gradient.button,
+                    color: 'white',
+                    fontWeight: 600,
+                    mb: 3
+                  }}
                 />
-              ))}
-            </Box>
-            {currentBlog.summary && (
-              <Typography color="text.secondary" fontStyle="italic" mb={3}>
-                {currentBlog.summary}
-              </Typography>
-            )}
-            <Divider sx={{ my: 3 }} />
-            {/* Blog Content */}
-            <Box
-              id="blog-content"
-              className="prose prose-lg dark:prose-invert max-w-none"
-              mb={4}
-              dangerouslySetInnerHTML={{ __html: currentBlog.content }}
-            />
-            {/* Highlight-to-share Snackbar */}
-            <Snackbar
-              open={snackbarOpen}
-              autoHideDuration={4000}
-              onClose={() => setSnackbarOpen(false)}
-              message={
-                <span>
-                  <ShareIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                  Share highlighted text
-                </span>
-              }
-              action={
-                <Button color="secondary" size="small" onClick={handleShare}>
-                  Copy
-                </Button>
-              }
-            />
-            {/* Tags */}
-            {currentBlog.tags.length > 0 && (
-              <Box mb={3}>
-                <Typography variant="subtitle1" fontWeight={700} mb={1}>Tags</Typography>
-                <Box display="flex" flexWrap="wrap" gap={1}>
-                  {currentBlog.tags.map((tag, index) => (
+                <Typography variant="h2" fontWeight="900" sx={{
+                  background: themeColors.gradient.hero,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  mb: 3,
+                  lineHeight: 1.2
+                }}>
+                  {currentBlog.title}
+                </Typography>
+
+                {/* Author & Stats */}
+                <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Avatar 
+                        src={currentBlog.author.profilePicture || '/default-avatar.png'} 
+                        sx={{ 
+                          width: 60, 
+                          height: 60,
+                          border: `3px solid ${themeColors.orange.light}`
+                        }} 
+                      />
+                      <Box>
+                        <Typography variant="h6" fontWeight="700">
+                          {currentBlog.author.username}
+                        </Typography>
+                        <Typography color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Schedule sx={{ fontSize: 16 }} />
+                          {new Date(currentBlog.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
+                      <Box sx={{ textAlign: 'center' }}>
+                        <Typography variant="h6" fontWeight="800" color={themeColors.orange.main}>
+                          {currentBlog.views || 0}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Views
+                        </Typography>
+                      </Box>
+                      <Box sx={{ textAlign: 'center' }}>
+                        <Typography variant="h6" fontWeight="800" color={themeColors.purple.main}>
+                          {clapCount}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Claps
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                {/* Categories */}
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+                  {currentBlog.categories.map((category, index) => (
                     <Chip
                       key={index}
-                      label={`#${tag}`}
-                      color="secondary"
-                      size="small"
-                      sx={{ bgcolor: 'secondary.light', color: 'secondary.dark' }}
+                      label={category}
+                      sx={{
+                        background: themeColors.gradient.card,
+                        color: themeColors.purple.dark,
+                        fontWeight: 600,
+                        border: `1px solid ${themeColors.purple.light}`
+                      }}
                     />
                   ))}
                 </Box>
+
+                {/* Summary */}
+                {currentBlog.summary && (
+                  <Typography variant="h6" color="text.secondary" sx={{
+                    fontStyle: 'italic',
+                    p: 3,
+                    background: themeColors.gradient.card,
+                    borderRadius: 3,
+                    borderLeft: `4px solid ${themeColors.orange.main}`
+                  }}>
+                    {currentBlog.summary}
+                  </Typography>
+                )}
               </Box>
-            )}
-            {/* Edit Button for Author */}
-            {user && (user.id === currentBlog.author._id || user.role === 'admin') && (
-              <Box mb={3}>
+
+              <Divider sx={{ my: 4 }} />
+
+              {/* Blog Content */}
+              <Box
+                className="prose prose-lg max-w-none"
+                sx={{
+                  '& h2': { color: themeColors.orange.dark },
+                  '& h3': { color: themeColors.purple.main },
+                  '& a': { color: themeColors.orange.main },
+                  mb: 6
+                }}
+                dangerouslySetInnerHTML={{ __html: currentBlog.content }}
+              />
+
+              {/* Action Buttons */}
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4 }}>
+                <Tooltip title={isClapped ? 'Unlike' : 'Clap'}>
+                  <Button
+                    startIcon={<Favorite sx={{ 
+                      color: isClapped ? '#ff4444' : 'inherit',
+                      animation: clapAnimating ? 'pulse 0.5s' : 'none'
+                    }} />}
+                    onClick={handleClap}
+                    variant="outlined"
+                    sx={{
+                      borderRadius: 3,
+                      borderColor: isClapped ? '#ff4444' : themeColors.orange.main,
+                      color: isClapped ? '#ff4444' : themeColors.orange.main,
+                      fontWeight: 600
+                    }}
+                  >
+                    {clapCount} Claps
+                  </Button>
+                </Tooltip>
+
                 <Button
-                  component={Link}
-                  to={`/edit/${currentBlog._id}`}
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                  sx={{ borderRadius: 3, fontWeight: 700 }}
+                  startIcon={<Bookmark />}
+                  variant="outlined"
+                  sx={{
+                    borderRadius: 3,
+                    borderColor: themeColors.purple.main,
+                    color: themeColors.purple.main,
+                    fontWeight: 600
+                  }}
                 >
-                  Edit Blog
+                  Save
                 </Button>
+
+                {user && (user.id === currentBlog.author._id || user.role === 'admin') && (
+                  <Button
+                    component={Link}
+                    to={`/edit/${currentBlog._id}`}
+                    startIcon={<Edit />}
+                    variant="contained"
+                    sx={{
+                      background: themeColors.gradient.button,
+                      borderRadius: 3,
+                      fontWeight: 600,
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(255, 152, 0, 0.4)'
+                      }
+                    }}
+                  >
+                    Edit Blog
+                  </Button>
+                )}
               </Box>
-            )}
-            {/* Author Bio */}
-            <Divider sx={{ my: 4 }} />
-            <Box display="flex" alignItems="center" gap={2} mb={2}>
-              <Avatar src={currentBlog.author.profilePicture || '/default-avatar.png'} sx={{ width: 56, height: 56 }} />
-              <Box>
-                <Typography fontWeight={700}>{currentBlog.author.username}</Typography>
-                <Typography color="text.secondary" fontSize={14}>{currentBlog.author.bio || 'No bio provided.'}</Typography>
-              </Box>
-            </Box>
+
+              {/* Author Bio */}
+              <Card sx={{
+                p: 4,
+                background: themeColors.gradient.card,
+                borderRadius: 3,
+                border: `2px solid ${themeColors.orange.light}20`
+              }}>
+                <Typography variant="h5" fontWeight="800" sx={{ mb: 3, color: themeColors.purple.dark }}>
+                  About the Author
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                  <Avatar 
+                    src={currentBlog.author.profilePicture || '/default-avatar.png'} 
+                    sx={{ width: 80, height: 80 }}
+                  />
+                  <Box>
+                    <Typography variant="h6" fontWeight="700" gutterBottom>
+                      {currentBlog.author.username}
+                    </Typography>
+                    <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                      {currentBlog.author.bio || 'Passionate writer sharing stories and experiences with the world.'}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Card>
+            </Card>
+
             {/* Related Stories */}
             {relatedStories.length > 0 && (
-              <Box mt={4}>
-                <Typography variant="h6" fontWeight={700} mb={2}>Related Stories</Typography>
-                <Stack spacing={2}>
+              <Box sx={{ mb: 8 }}>
+                <Typography variant="h3" fontWeight="800" sx={{ 
+                  mb: 4,
+                  background: themeColors.gradient.hero,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textAlign: 'center'
+                }}>
+                  More Stories You'll Love
+                </Typography>
+                <Grid container spacing={3}>
                   {relatedStories.map(story => (
-                    <Paper key={story._id} elevation={1} sx={{ p: 2, borderRadius: 2 }}>
-                      <Box display="flex" alignItems="center" gap={2}>
+                    <Grid item xs={12} md={4} key={story._id}>
+                      <Card sx={{
+                        p: 3,
+                        borderRadius: 3,
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: '0 20px 40px rgba(0,0,0,0.15)'
+                        }
+                      }}>
                         {story.featuredImage && (
-                          <img src={story.featuredImage} alt={story.title} style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} />
+                          <img 
+                            src={story.featuredImage} 
+                            alt={story.title}
+                            style={{ 
+                              width: '100%', 
+                              height: 200, 
+                              objectFit: 'cover', 
+                              borderRadius: 12,
+                              marginBottom: 16
+                            }} 
+                          />
                         )}
-                        <Box flex={1}>
-                          <Typography fontWeight={700} noWrap>
-                            <Link to={`/blogs/${story._id}`} style={{ color: '#222', textDecoration: 'none' }}>{story.title}</Link>
-                          </Typography>
-                          <Typography color="text.secondary" fontSize={13} noWrap>
-                            {story.summary || story.content.replace(/<[^>]+>/g, '').slice(0, 80) + '...'}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Paper>
+                        <Typography variant="h6" fontWeight="700" gutterBottom>
+                          {story.title}
+                        </Typography>
+                        <Typography color="text.secondary" noWrap>
+                          {story.summary || story.content.replace(/<[^>]+>/g, '').slice(0, 100) + '...'}
+                        </Typography>
+                      </Card>
+                    </Grid>
                   ))}
-                </Stack>
+                </Grid>
               </Box>
             )}
-          </Paper>
-          {/* Comments Section */}
-          <CommentSection blogId={currentBlog._id} />
+
+            {/* Comments Section */}
+            <CommentSection blogId={currentBlog._id} />
+          </Container>
         </Box>
       </Fade>
     </Layout>
