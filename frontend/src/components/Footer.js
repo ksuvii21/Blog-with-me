@@ -1,307 +1,360 @@
 import React from 'react';
-import { Box, Typography, Link, Stack, IconButton, Grid } from '@mui/material';
-import { Facebook, Twitter, Instagram, LinkedIn, Send, WavingHand, RocketLaunch } from '@mui/icons-material';
+import { Box, Typography, Link, Stack, IconButton, Grid, TextField, Button } from '@mui/material';
+import { Facebook, Twitter, Instagram, LinkedIn, Send, WavingHand, RocketLaunch, Email } from '@mui/icons-material';
 
-// Theme Constants
-const PRIMARY_GRADIENT = 'linear-gradient(45deg, #FF9800 30%, #E91E63 90%)'; // Orange to Pink/Purple
-const DARK_BG = '#121212';
-const DARK_SECONDARY_BG = '#1e1e1e';
-const TEXT_LIGHT = '#e0e0e0';
-const PURPLE_ACCENT = '#9C27B0';
-const ORANGE_ACCENT = '#FF9800';
-
+// New Light Theme Colors
+const PRIMARY_GRADIENT = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; // Beautiful purple gradient
+const SECONDARY_GRADIENT = 'linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%)'; // Pink gradient
+const BACKGROUND_LIGHT = '#f8fafc';
+const CARD_BACKGROUND = '#ffffff';
+const TEXT_PRIMARY = '#2d3748';
+const TEXT_SECONDARY = '#718096';
+const ACCENT_PURPLE = '#805ad5';
+const ACCENT_BLUE = '#4299e1';
+const BORDER_LIGHT = '#e2e8f0';
 
 const Footer = () => {
   return (
     <Box 
       component="footer"
       sx={{
-        background: DARK_BG, // Dark theme background
-        color: TEXT_LIGHT,
-        boxShadow: '0 -10px 30px rgba(0,0,0,0.5)',
-        py: { xs: 8, md: 10 }, 
+        background: BACKGROUND_LIGHT,
+        color: TEXT_PRIMARY,
+        py: { xs: 6, md: 8 },
         mt: 'auto',
-        width: '100%'
+        width: '100%',
+        borderTop: `1px solid ${BORDER_LIGHT}`
       }}
     >
       <Box sx={{ maxWidth: 'xl', mx: 'auto', px: { xs: 3, md: 6 } }}>
         
-        {/* Newsletter Subscription - Highly Contrasting Feature */}
+        {/* Enhanced Newsletter Section */}
         <Box sx={{ 
-          background: DARK_SECONDARY_BG, // Slightly lighter dark box
-          p: { xs: 4, sm: 6 }, 
+          background: PRIMARY_GRADIENT,
+          p: { xs: 4, sm: 5 }, 
           borderRadius: 4,
-          mb: 8, 
+          mb: 6, 
           textAlign: 'center',
-          border: `1px solid ${PURPLE_ACCENT}50`,
+          color: 'white',
+          boxShadow: '0 20px 40px rgba(102, 126, 234, 0.15)',
           position: 'relative',
-          overflow: 'hidden',
-          boxShadow: '0 0 40px rgba(255, 152, 0, 0.1)'
+          overflow: 'hidden'
         }}>
-            <RocketLaunch sx={{ position: 'absolute', top: 10, left: 10, opacity: 0.1, fontSize: 80, color: ORANGE_ACCENT }} />
-            <Typography variant="h4" fontWeight="bold" sx={{ mb: 1, color: 'white', zIndex: 1, letterSpacing: '1px' }}>
-                Join the Writer's Circle
-            </Typography>
-            <Typography variant="body1" sx={{ mb: 4, color: TEXT_LIGHT, maxWidth: 650, mx: 'auto', zIndex: 1 }}>
-                Subscribe to our premium digest for exclusive insights, top-rated content, and platform news.
-            </Typography>
-            
-            <Box sx={{
-              display: 'flex', 
-              gap: 2, 
-              maxWidth: 500, 
-              mx: 'auto',
-              flexDirection: { xs: 'column', sm: 'row' },
-              zIndex: 1
-            }}>
-                <Box sx={{ position: 'relative', flex: 1, width: '100%' }}>
-                    <input 
-                      type="email" 
-                      placeholder="Your professional email address"
-                      style={{
-                          width: '100%',
-                          padding: '15px 18px',
-                          border: 'none', 
-                          borderRadius: 8,
-                          fontSize: '15px',
-                          outline: 'none',
-                          backgroundColor: '#2b2b2b', // Dark input field
-                          color: TEXT_LIGHT,
-                          boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.5)',
-                          transition: 'all 0.3s ease'
-                      }}
-                      onFocus={(e) => {
-                          e.target.style.boxShadow = `0 0 0 3px ${ORANGE_ACCENT}40, inset 0 1px 3px rgba(0,0,0,0.5)`;
-                      }}
-                      onBlur={(e) => {
-                          e.target.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.5)';
-                      }}
-                    />
-                </Box>
-                <button
-                    style={{
-                        padding: '15px 28px',
-                        background: PRIMARY_GRADIENT,
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: 8,
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        fontSize: '1rem',
-                        boxShadow: '0 2px 8px rgba(233, 30, 99, 0.3)',
-                        transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.boxShadow = '0 4px 12px rgba(233, 30, 99, 0.4)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.boxShadow = '0 2px 8px rgba(233, 30, 99, 0.3)';
-                    }}
-                >
-                    <Send sx={{ fontSize: 18, mr: 1 }} /> Subscribe
-                </button>
-            </Box>
+          {/* Background decorative elements */}
+          <Box sx={{
+            position: 'absolute',
+            top: -50,
+            right: -50,
+            width: 150,
+            height: 150,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)'
+          }} />
+          <Box sx={{
+            position: 'absolute',
+            bottom: -30,
+            left: -30,
+            width: 100,
+            height: 100,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)'
+          }} />
+          
+          <RocketLaunch sx={{ 
+            fontSize: 48, 
+            mb: 2, 
+            opacity: 0.9,
+            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
+          }} />
+          
+          <Typography variant="h4" fontWeight="800" sx={{ mb: 2, letterSpacing: '-0.5px' }}>
+            Join Our Writing Community
+          </Typography>
+          
+          <Typography variant="body1" sx={{ 
+            mb: 4, 
+            maxWidth: 600, 
+            mx: 'auto', 
+            opacity: 0.9,
+            fontSize: '1.1rem'
+          }}>
+            Get weekly writing tips, featured stories, and exclusive content delivered to your inbox.
+          </Typography>
+          
+          <Box sx={{
+            display: 'flex', 
+            gap: 2, 
+            maxWidth: 500, 
+            mx: 'auto',
+            flexDirection: { xs: 'column', sm: 'row' }
+          }}>
+            <TextField
+              placeholder="Enter your email address"
+              variant="outlined"
+              size="small"
+              sx={{
+                flex: 1,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white',
+                  borderRadius: 2,
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(255,255,255,0.5)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'white',
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  py: 1.5,
+                }
+              }}
+            />
+            <Button
+              variant="contained"
+              endIcon={<Send />}
+              sx={{
+                py: 1.5,
+                px: 4,
+                background: SECONDARY_GRADIENT,
+                color: 'white',
+                borderRadius: 2,
+                fontWeight: 600,
+                fontSize: '1rem',
+                boxShadow: '0 4px 15px rgba(255, 154, 158, 0.3)',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #FF7B7F 0%, #FDB5E3 99%)',
+                  boxShadow: '0 6px 20px rgba(255, 154, 158, 0.4)',
+                }
+              }}
+            >
+              Subscribe
+            </Button>
+          </Box>
         </Box>
 
         {/* Main Footer Content */}
-        <Grid container spacing={5} justifyContent="space-between">
-            {/* Brand Section */}
-            <Grid item xs={12} md={4} lg={3}>
-                <Box sx={{ 
-                    textAlign: { xs: 'center', md: 'left' },
-                    maxWidth: 350
-                }}>
-                    <Typography 
-                      variant="h5" 
-                      fontWeight="900"
-                      sx={{ 
-                        background: PRIMARY_GRADIENT,
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        mb: 2,
-                        fontSize: '2.4rem',
-                        letterSpacing: '-1px'
-                      }}
-                    >
-                      Writely.log
-                    </Typography>
-                    <Typography variant="body1" color={TEXT_LIGHT} sx={{ mb: 4, opacity: 0.8 }}>
-                      Crafting the future of storytelling. A platform built with passion for the global writing community.
-                    </Typography>
-                    
-                    {/* Social Links */}
-                    <Stack direction="row" spacing={1.5} justifyContent={{ xs: 'center', md: 'flex-start' }}>
-                      {[
-                        { icon: Facebook, color: '#1877F2' },
-                        { icon: Twitter, color: '#1DA1F2' },
-                        { icon: Instagram, color: '#E4405F' },
-                        { icon: LinkedIn, color: '#0077B5' }
-                      ].map((social, index) => (
-                        <IconButton
-                          key={index}
-                          size="medium"
-                          sx={{
-                            bgcolor: DARK_SECONDARY_BG,
-                            color: TEXT_LIGHT,
-                            border: '1px solid #333',
-                            '&:hover': { 
-                                bgcolor: social.color, 
-                                color: 'white',
-                                boxShadow: `0 2px 8px ${social.color}40`
-                            },
+        <Grid container spacing={4} justifyContent="space-between">
+          {/* Brand Section */}
+          <Grid item xs={12} md={4} lg={3}>
+            <Box sx={{ 
+              textAlign: { xs: 'center', md: 'left' },
+              maxWidth: 350
+            }}>
+              <Typography 
+                variant="h4" 
+                fontWeight="900"
+                sx={{ 
+                  background: PRIMARY_GRADIENT,
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  mb: 2,
+                  letterSpacing: '-1px'
+                }}
+              >
+                Writely.log
+              </Typography>
+              
+              <Typography variant="body1" color={TEXT_SECONDARY} sx={{ mb: 3, lineHeight: 1.6 }}>
+                Empowering writers worldwide with intuitive tools and a supportive community. Share your stories, grow your audience.
+              </Typography>
+              
+              {/* Social Links */}
+              <Stack direction="row" spacing={1} justifyContent={{ xs: 'center', md: 'flex-start' }}>
+                {[
+                  { icon: Facebook, color: '#1877F2', hover: '#1664D9' },
+                  { icon: Twitter, color: '#1DA1F2', hover: '#1A91DA' },
+                  { icon: Instagram, color: '#E4405F', hover: '#D32C52' },
+                  { icon: LinkedIn, color: '#0077B5', hover: '#00669C' }
+                ].map((social, index) => (
+                  <IconButton
+                    key={index}
+                    size="medium"
+                    sx={{
+                      bgcolor: 'white',
+                      color: social.color,
+                      border: `1px solid ${BORDER_LIGHT}`,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                      '&:hover': { 
+                        bgcolor: social.color, 
+                        color: 'white',
+                        boxShadow: `0 4px 12px ${social.color}40`,
+                        transform: 'translateY(-2px)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    <social.icon />
+                  </IconButton>
+                ))}
+              </Stack>
+            </Box>
+          </Grid>
+
+          {/* Links Grid */}
+          <Grid item xs={12} md={8} lg={9}>
+            <Grid container spacing={4} justifyContent={{ xs: 'center', md: 'flex-start' }}>
+              
+              {/* Platform Links */}
+              <Grid item xs={6} sm={3}>
+                <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+                  <Typography variant="h6" fontWeight="700" sx={{ color: ACCENT_PURPLE, mb: 1 }}>
+                    Platform
+                  </Typography>
+                  <Stack spacing={1.5}>
+                    {['Explore Stories', 'Start Writing', 'Writer Dashboard', 'Community Forum', 'Writing Challenges'].map((item) => (
+                      <Link 
+                        key={item}
+                        href="#" 
+                        variant="body2" 
+                        color={TEXT_SECONDARY}
+                        sx={{ 
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          '&:hover': { 
+                            color: ACCENT_PURPLE,
+                            transform: 'translateX(2px)',
                             transition: 'all 0.2s ease'
-                          }}
-                        >
-                          <social.icon />
-                        </IconButton>
-                      ))}
-                    </Stack>
-                </Box>
+                          }
+                        }}
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Grid>
+
+              {/* Resources */}
+              <Grid item xs={6} sm={3}>
+                <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+                  <Typography variant="h6" fontWeight="700" sx={{ color: ACCENT_BLUE, mb: 1 }}>
+                    Resources
+                  </Typography>
+                  <Stack spacing={1.5}>
+                    {['Writing Tips', 'Style Guide', 'Blog', 'Tutorials', 'Webinars'].map((item) => (
+                      <Link
+                        key={item}
+                        href="#"
+                        variant="body2"
+                        color={TEXT_SECONDARY}
+                        sx={{
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          '&:hover': {
+                            color: ACCENT_BLUE,
+                            transform: 'translateX(2px)',
+                            transition: 'all 0.2s ease'
+                          }
+                        }}
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Grid>
+
+              {/* Company */}
+              <Grid item xs={6} sm={3}>
+                <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+                  <Typography variant="h6" fontWeight="700" sx={{ color: ACCENT_PURPLE, mb: 1 }}>
+                    Company
+                  </Typography>
+                  <Stack spacing={1.5}>
+                    {['About Us', 'Our Team', 'Careers', 'Press Kit', 'Contact'].map((item) => (
+                      <Link
+                        key={item}
+                        href="#"
+                        variant="body2"
+                        color={TEXT_SECONDARY}
+                        sx={{
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          '&:hover': {
+                            color: ACCENT_PURPLE,
+                            transform: 'translateX(2px)',
+                            transition: 'all 0.2s ease'
+                          }
+                        }}
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Grid>
+
+              {/* Support */}
+              <Grid item xs={6} sm={3}>
+                <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+                  <Typography variant="h6" fontWeight="700" sx={{ color: ACCENT_BLUE, mb: 1 }}>
+                    Support
+                  </Typography>
+                  <Stack spacing={1.5}>
+                    {['Help Center', 'Privacy Policy', 'Terms of Service', 'Status', 'Contact Support'].map((item) => (
+                      <Link
+                        key={item}
+                        href="#"
+                        variant="body2"
+                        color={TEXT_SECONDARY}
+                        sx={{
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          '&:hover': {
+                            color: ACCENT_BLUE,
+                            transform: 'translateX(2px)',
+                            transition: 'all 0.2s ease'
+                          }
+                        }}
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </Stack>
+                </Stack>
+              </Grid>
+
             </Grid>
-
-            {/* Links Grid */}
-            <Grid item xs={12} md={8} lg={9}>
-                <Grid container spacing={4} justifyContent={{ xs: 'center', md: 'flex-start' }}>
-                    
-                    {/* Platform Links */}
-                    <Grid item xs={6} sm={3}>
-                        <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                            <Typography variant="h6" fontWeight="bold" sx={{ color: ORANGE_ACCENT, mb: 1 }}>
-                                Platform
-                            </Typography>
-                            <Stack spacing={1}>
-                                {['Trending Topics', 'Start Writing', 'Author Payouts', 'Community Forum'].map((item) => (
-                                    <Link 
-                                        key={item}
-                                        href="#" 
-                                        variant="body2" 
-                                        color={TEXT_LIGHT}
-                                        sx={{ 
-                                            textDecoration: 'none',
-                                            opacity: 0.8,
-                                            '&:hover': { 
-                                                color: PURPLE_ACCENT,
-                                                opacity: 1,
-                                                transition: 'all 0.2s ease'
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </Link>
-                                ))}
-                            </Stack>
-                        </Stack>
-                    </Grid>
-
-                    {/* Resources & Support */}
-                    <Grid item xs={6} sm={3}>
-                        <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                            <Typography variant="h6" fontWeight="bold" sx={{ color: ORANGE_ACCENT, mb: 1 }}>
-                                Support
-                            </Typography>
-                            <Stack spacing={1}>
-                                {['Help Center', 'API Documentation', 'System Status', 'Feedback', 'Report Abuse'].map((item) => (
-                                    <Link
-                                        key={item}
-                                        href="#"
-                                        variant="body2"
-                                        color={TEXT_LIGHT}
-                                        sx={{
-                                            textDecoration: 'none',
-                                            opacity: 0.8,
-                                            '&:hover': {
-                                                color: PURPLE_ACCENT,
-                                                opacity: 1,
-                                                transition: 'all 0.2s ease'
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </Link>
-                                ))}
-                            </Stack>
-                        </Stack>
-                    </Grid>
-
-                    {/* Company */}
-                    <Grid item xs={6} sm={3}>
-                        <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                            <Typography variant="h6" fontWeight="bold" sx={{ color: ORANGE_ACCENT, mb: 1 }}>
-                                Company
-                            </Typography>
-                            <Stack spacing={1}>
-                                {['About Us', 'Our Vision', 'Careers (Hiring!)', 'Press & Media', 'Contact Sales'].map((item) => (
-                                    <Link
-                                        key={item}
-                                        href="#"
-                                        variant="body2"
-                                        color={TEXT_LIGHT}
-                                        sx={{
-                                            textDecoration: 'none',
-                                            opacity: 0.8,
-                                            '&:hover': {
-                                                color: PURPLE_ACCENT,
-                                                opacity: 1,
-                                                transition: 'all 0.2s ease'
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </Link>
-                                ))}
-                            </Stack>
-                        </Stack>
-                    </Grid>
-
-                    {/* Legal */}
-                    <Grid item xs={6} sm={3}>
-                        <Stack spacing={2} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                            <Typography variant="h6" fontWeight="bold" sx={{ color: ORANGE_ACCENT, mb: 1 }}>
-                                Legal
-                            </Typography>
-                            <Stack spacing={1}>
-                                {['Privacy Policy', 'Terms of Service', 'Cookie Settings', 'Security', 'GDPR Compliance'].map((item) => (
-                                    <Link
-                                        key={item}
-                                        href="#"
-                                        variant="body2"
-                                        color={TEXT_LIGHT}
-                                        sx={{
-                                            textDecoration: 'none',
-                                            opacity: 0.8,
-                                            '&:hover': {
-                                                color: PURPLE_ACCENT,
-                                                opacity: 1,
-                                                transition: 'all 0.2s ease'
-                                            }
-                                        }}
-                                    >
-                                        {item}
-                                    </Link>
-                                ))}
-                            </Stack>
-                        </Stack>
-                    </Grid>
-
-                </Grid>
-            </Grid>
+          </Grid>
         </Grid>
 
-        {/* Copyright */}
+        {/* Bottom Bar */}
         <Box sx={{ 
-          borderTop: '1px solid', 
-          borderColor: '#2b2b2b', 
-          mt: 8,
+          borderTop: `1px solid ${BORDER_LIGHT}`, 
+          mt: 5,
           pt: 4,
-          textAlign: 'center'
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2
         }}>
-          <Typography variant="body2" color={TEXT_LIGHT} opacity={0.6}>
-            © {new Date().getFullYear()} Writely.log Inc. All rights reserved. 
-            <span style={{ marginLeft: '16px', display: 'inline-flex', alignItems: 'center' }}>
-                Made with <WavingHand sx={{ color: '#E91E63', fontSize: 16, mx: 0.5 }} /> for writers worldwide.
-            </span>
+          <Typography variant="body2" color={TEXT_SECONDARY}>
+            © {new Date().getFullYear()} Writely.log. All rights reserved.
           </Typography>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body2" color={TEXT_SECONDARY}>
+              Made with
+            </Typography>
+            <WavingHand sx={{ color: '#FF9A9E', fontSize: 18 }} />
+            <Typography variant="body2" color={TEXT_SECONDARY}>
+              for writers everywhere
+            </Typography>
+          </Box>
+          
+          <Stack direction="row" spacing={3}>
+            <Link href="#" variant="body2" color={TEXT_SECONDARY} sx={{ textDecoration: 'none', '&:hover': { color: ACCENT_PURPLE } }}>
+              Privacy
+            </Link>
+            <Link href="#" variant="body2" color={TEXT_SECONDARY} sx={{ textDecoration: 'none', '&:hover': { color: ACCENT_PURPLE } }}>
+              Terms
+            </Link>
+            <Link href="#" variant="body2" color={TEXT_SECONDARY} sx={{ textDecoration: 'none', '&:hover': { color: ACCENT_PURPLE } }}>
+              Cookies
+            </Link>
+          </Stack>
         </Box>
       </Box>
     </Box>
