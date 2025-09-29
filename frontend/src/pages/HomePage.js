@@ -298,7 +298,7 @@ const HomePage = () => {
             onClick={() => setSidebarOpen(true)}
             sx={{
               position: 'fixed',
-              top: 24,
+              top: 80,
               left: 24,
               zIndex: 1400,
               color: 'white',
