@@ -46,7 +46,9 @@ const BlogCard = ({ blog, compact = false, theme = themeColors, index = 0 }) => 
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [likeCount, setLikeCount] = useState(blog.likes || 0);
+  const initialLikeCount = Array.isArray(blog.likes) ? blog.likes.length : (blog.likes || 0);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  
   const [showActions, setShowActions] = useState(false);
 
   const handleLike = (e) => {
@@ -306,59 +308,59 @@ const BlogCard = ({ blog, compact = false, theme = themeColors, index = 0 }) => 
 
               {/* Engagement Stats */}
               <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                pt: 1.5,
-                borderTop: `1px solid ${alpha(theme.orange.main, 0.1)}`
-              }}>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                  <Box 
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: 0.5,
-                      cursor: 'pointer',
-                      '&:hover': {
-                        '& .like-icon': {
-                          transform: 'scale(1.2)',
-                          color: theme.orange.main
-                        }
-                      }
-                    }}
-                    onClick={handleLike}
-                  >
-                    <Favorite 
-                      className="like-icon"
-                      fontSize="small" 
-                      sx={{ 
-                        color: isLiked ? '#ff4444' : 'text.secondary',
-                        transition: 'all 0.2s ease'
-                      }} 
-                    />
-                    <Typography 
-                      variant="caption" 
-                      fontWeight={600}
-                      sx={{ color: isLiked ? '#ff4444' : 'text.secondary' }}
-                    >
-                      {likeCount}
-                    </Typography>
-                  </Box>
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    pt: 1.5,
+    borderTop: `1px solid ${alpha(theme.orange.main, 0.1)}`
+  }}>
+    <Box sx={{ display: 'flex', gap: 2 }}>
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 0.5,
+          cursor: 'pointer',
+          '&:hover': {
+            '& .like-icon': {
+              transform: 'scale(1.2)',
+              color: theme.orange.main
+            }
+          }
+        }}
+        onClick={handleLike}
+      >
+        <Favorite 
+          className="like-icon"
+          fontSize="small" 
+          sx={{ 
+            color: isLiked ? '#ff4444' : 'text.secondary',
+            transition: 'all 0.2s ease'
+          }} 
+        />
+        <Typography 
+          variant="caption" 
+          fontWeight={600}
+          sx={{ color: isLiked ? '#ff4444' : 'text.secondary' }}
+        >
+          {likeCount > 1000 ? `${(likeCount / 1000).toFixed(1)}k` : likeCount} {/* Format large numbers */}
+        </Typography>
+      </Box>
                   
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Visibility fontSize="small" sx={{ color: 'text.secondary' }} />
-                    <Typography variant="caption" fontWeight={600} color="text.secondary">
-                      {blog.views || 0}
-                    </Typography>
-                  </Box>
-                  
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Comment fontSize="small" sx={{ color: 'text.secondary' }} />
-                    <Typography variant="caption" fontWeight={600} color="text.secondary">
-                      {blog.comments?.length || 0}
-                    </Typography>
-                  </Box>
-                </Box>
+        <Visibility fontSize="small" sx={{ color: 'text.secondary' }} />
+        <Typography variant="caption" fontWeight={600} color="text.secondary">
+          {blog.views > 1000 ? `${(blog.views / 1000).toFixed(1)}k` : (blog.views || 0)}
+        </Typography>
+      </Box>
+      
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        <Comment fontSize="small" sx={{ color: 'text.secondary' }} />
+        <Typography variant="caption" fontWeight={600} color="text.secondary">
+          {Array.isArray(blog.comments) ? blog.comments.length : (blog.comments || 0)}
+        </Typography>
+      </Box>
+    </Box>
 
                 {/* Read More Indicator */}
                 <Box
