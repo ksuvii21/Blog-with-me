@@ -66,11 +66,11 @@ const AnimatedFlowers = () => {
       <Box
   sx={{
     position: 'absolute',
-    left: '15%',
-    top: '50%',
+    left: '5%',   // Move flower to the left side
+    top: '35%',   // Adjust vertically to align with circled area
     transform: 'translateY(-50%)',
-    width: '650px',
-    height: '650px',
+    width: '700px',
+    height: '700px',
     animation: `float 6s ease-in-out infinite`,
     animationDelay: '0s',
     opacity: 0.8,
