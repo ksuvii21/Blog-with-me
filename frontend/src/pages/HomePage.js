@@ -62,6 +62,40 @@ const AnimatedFlowers = () => {
       pointerEvents: 'none',
       zIndex: 0
     }}>
+      {/* Special Hibiscus Flower - Left Center */}
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '15%',
+          top: '45%',
+          fontSize: '80px',
+          animation: `float 6s ease-in-out infinite`,
+          animationDelay: '0s',
+          opacity: 0.8,
+          filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
+          zIndex: 2,
+        }}
+      >
+        🌺
+      </Box>
+
+      {/* Smaller Flower - Right Top */}
+      <Box
+        sx={{
+          position: 'absolute',
+          right: '10%',
+          top: '15%',
+          fontSize: '40px',
+          animation: `float 8s ease-in-out infinite`,
+          animationDelay: '2s',
+          opacity: 0.7,
+          filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.2))',
+          zIndex: 1,
+        }}
+      >
+        🌸
+      </Box>
+
       {flowers.map((flower) => (
         <Box
           key={flower.id}
@@ -94,6 +128,17 @@ const AnimatedFlowers = () => {
           100% {
             transform: translateY(100vh) rotate(360deg);
             opacity: 0;
+          }
+        }
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          33% {
+            transform: translateY(-15px) rotate(2deg);
+          }
+          66% {
+            transform: translateY(-8px) rotate(-1deg);
           }
         }
       `}</style>
@@ -440,7 +485,12 @@ const HomePage = () => {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', gap: 2 }}>
-                {['AI Revolution', 'Sustainable Living', 'Remote Work', 'Mental Health', 'Crypto', 'Web3', 'Space Exploration', 'Climate Action'].map((topic, index) => (
+                {[
+                  'AI Revolution', 'Sustainable Living', 'Remote Work', 'Mental Health', 
+                  'Crypto', 'Web3', 'Space Exploration', 'Climate Action', 'Digital Nomad',
+                  'Minimalism', 'Personal Growth', 'Blockchain', 'AR/VR', 'Future Tech',
+                  'Creative Writing', 'Self Improvement'
+                ].map((topic, index) => (
                   <Zoom in timeout={600} style={{ transitionDelay: `${index * 50}ms` }} key={topic}>
                     <Chip
                       label={topic}
@@ -940,13 +990,19 @@ const HomePage = () => {
             <>
               <Grid container spacing={4}>
                 {visibleBlogs.map((blog, index) => (
-                  <Grid item xs={12} sm={6} lg={4} key={blog._id}>
+                  <Grid 
+                    item 
+                    xs={12} 
+                    sm={index === 0 ? 12 : 6} 
+                    lg={index === 0 ? 8 : 4} 
+                    key={blog._id}
+                  >
                     <Fade in timeout={600} style={{ transitionDelay: `${index * 50}ms` }}>
                       <Box 
                         sx={{
                           position: 'relative',
                           '&:hover': {
-                            transform: 'translateY(-12px)',
+                            transform: index === 0 ? 'translateY(-8px)' : 'translateY(-12px)',
                             '& .blog-overlay': {
                               opacity: 1
                             }
@@ -956,7 +1012,14 @@ const HomePage = () => {
                         onMouseEnter={() => setHoveredBlog(blog._id)}
                         onMouseLeave={() => setHoveredBlog(null)}
                       >
-                        <Box sx={{ position: 'relative' }}>
+                        <Box sx={{ 
+                          position: 'relative',
+                          transform: index === 0 ? 'scale(1.02)' : 'scale(1)',
+                          '&:hover': {
+                            transform: index === 0 ? 'scale(1.05)' : 'scale(1.02)'
+                          },
+                          transition: 'transform 0.3s ease'
+                        }}>
                           <BlogCard blog={blog} />
                           {/* Interactive Overlay */}
                           <Box 
@@ -1104,13 +1167,13 @@ const HomePage = () => {
             </Card>
           )}
 
-          {/* Community Stats Section */}
+          {/* Community Stats Section - Centered */}
           <Fade in timeout={1000}>
-            <Box sx={{ mt: 12, mb: 8 }}>
+            <Box sx={{ mt: 12, mb: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant="h3" fontWeight="bold" textAlign="center" sx={{ mb: 6 }}>
                 Join Our Thriving Community
               </Typography>
-              <Grid container spacing={4}>
+              <Grid container spacing={4} justifyContent="center" sx={{ maxWidth: '1200px' }}>
                 {[
                   { 
                     icon: AutoStories, 
@@ -1141,7 +1204,7 @@ const HomePage = () => {
                     description: 'Community appreciation'
                   }
                 ].map((stat, index) => (
-                  <Grid item xs={12} sm={6} md={3} key={stat.label}>
+                  <Grid item xs={12} sm={6} md={3} key={stat.label} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Zoom in timeout={800} style={{ transitionDelay: `${index * 100}ms` }}>
                       <Card sx={{
                         p: 4,
@@ -1150,6 +1213,8 @@ const HomePage = () => {
                         background: `linear-gradient(135deg, ${stat.color}15, ${stat.color}05)`,
                         border: `2px solid ${stat.color}30`,
                         cursor: 'pointer',
+                        width: '100%',
+                        maxWidth: '280px',
                         '&:hover': {
                           transform: 'translateY(-15px) scale(1.05)',
                           boxShadow: `0 20px 40px ${stat.color}40`,
@@ -1188,10 +1253,10 @@ const HomePage = () => {
             transform: translateY(0px) rotate(0deg);
           }
           33% {
-            transform: translateY(-10px) rotate(1deg);
+            transform: translateY(-15px) rotate(2deg);
           }
           66% {
-            transform: translateY(-5px) rotate(-1deg);
+            transform: translateY(-8px) rotate(-1deg);
           }
         }
         
