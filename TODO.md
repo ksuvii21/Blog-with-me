@@ -5,7 +5,7 @@
 1. [x] Edit `frontend/src/pages/HomePage.js`:
    - Update the zIndex of the floating menu IconButton from 1000 to 1400 to ensure it appears above the Header's zIndex of 1300.
 
-2. [ ] Verify the file edit was successful.
+2. [x] Verify the file edit was successful.
 
 3. [ ] Start the frontend development server if not already running:
    - Run `cd frontend && npm start` to serve the app at http://localhost:3000.
