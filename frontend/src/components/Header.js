@@ -171,38 +171,38 @@ const Header = ({ isHomePage }) => {
           fontSize: 22
         }} />
         <TextField
-          variant="outlined"
-          placeholder="Search stories, authors, or topics..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          size="small"
-          sx={{
-            width: '100%',
-            '& .MuiOutlinedInput-root': {
-              borderRadius: 3,
-              backgroundColor: isHomePage ? 'rgba(255,255,255,0.15)' : '#f8fafc',
-              color: isHomePage ? 'white' : 'inherit',
-              paddingLeft: '50px',
-              border: isHomePage ? '1px solid rgba(255,255,255,0.3)' : '1px solid #e2e8f0',
-              '&:hover fieldset': {
-                borderColor: isHomePage ? 'rgba(255,255,255,0.5)' : themeColors.orange.main,
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: isHomePage ? 'white' : themeColors.purple.main,
-                boxShadow: isHomePage ? '0 0 0 2px rgba(255,255,255,0.2)' : '0 0 0 3px rgba(156, 39, 176, 0.1)'
-              },
-              '& .MuiInputBase-input::placeholder': {
-                color: isHomePage ? 'rgba(255,255,255,0.7)' : themeColors.text.secondary,
-              }
-            },
-            '& .MuiInputBase-input': {
-              padding: '12px 14px',
-              fontSize: '15px',
-              fontWeight: 500,
-              color: isHomePage ? 'white' : 'inherit'
-            }
-          }}
-        />
+  variant="outlined"
+  placeholder="Search stories, authors, or topics..."
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  size="small"
+  sx={{
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 3,
+      background: 'linear-gradient(135deg, #FF9800 0%, #9C27B0 50%, #673AB7 100%)',
+      color: 'white',
+      paddingLeft: '50px',
+      border: '1px solid rgba(255,255,255,0.3)',
+      '&:hover fieldset': {
+        borderColor: 'rgba(255,255,255,0.5)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'white',
+        boxShadow: '0 0 0 2px rgba(255,255,255,0.2)'
+      },
+      '& .MuiInputBase-input::placeholder': {
+        color: 'rgba(255,255,255,0.7)',
+      }
+    },
+    '& .MuiInputBase-input': {
+      padding: '12px 14px',
+      fontSize: '15px',
+      fontWeight: 500,
+      color: 'white'
+    }
+  }}
+/>
       </Box>
     </Box>
 
