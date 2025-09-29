@@ -7,11 +7,12 @@ import {
   Box, Button, Typography, Paper, Fade, Container, Chip, Stack, IconButton,
   Drawer, Avatar, Badge, Grid, Zoom, Slide, alpha, Card, CardContent
 } from '@mui/material';
-import { 
-  TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime, 
+import {
+  TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime,
   LocalFireDepartment, EmojiEvents, RocketLaunch, FlashOn,
   BarChart, TrendingFlat, NewReleases
 } from '@mui/icons-material';
+import { keyframes } from '@emotion/react';
 
 // Orange and Purple Theme Colors
 const themeColors = {
