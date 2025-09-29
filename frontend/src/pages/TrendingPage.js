@@ -11,7 +11,7 @@ import {
 import {
   TrendingUp, Menu, Whatshot, Favorite, Visibility, AccessTime,
   LocalFireDepartment, EmojiEvents, RocketLaunch, FlashOn,
-  BarChart, TrendingFlat, NewReleases
+  BarChart, TrendingFlat, NewReleases, Search, FilterList, People
 } from '@mui/icons-material';
 import { keyframes } from '@emotion/react';
 
