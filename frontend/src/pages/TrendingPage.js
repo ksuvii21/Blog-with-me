@@ -306,22 +306,22 @@ const TrendingPage = () => {
         <FloatingFireAnimation />
 
 {/* Mobile Menu Button - Fixed positioning */}
-<Box sx={{ 
+<Box sx={{
   position: 'fixed', // Changed from absolute to fixed
-  top: 20, 
-  left: 20, 
+  top: 20,
+  left: 20,
   zIndex: 9999, // Increased z-index to ensure it's on top
-  display: { xs: 'block', md: 'none' } 
+  display: 'block' // Show on all screens
 }}>
   <IconButton
     onClick={() => setSidebarOpen(true)}
     sx={{
-      background: 'rgba(255,255,255,0.2)',
+      background: 'rgba(0,0,0,0.8)',
       backdropFilter: 'blur(10px)',
-      border: '2px solid rgba(255,255,255,0.3)',
+      border: '2px solid rgba(255,255,255,0.5)',
       color: 'white',
       '&:hover': {
-        background: 'rgba(255,255,255,0.3)',
+        background: 'rgba(0,0,0,0.9)',
         transform: 'scale(1.1)'
       },
       transition: 'all 0.3s ease',
