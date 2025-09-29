@@ -270,20 +270,19 @@ const Header = ({ isHomePage }) => {
           ) : (
             <Box sx={{ display: 'flex', gap: 1 }}>
               {/* Login Button - Subtle Hover */}
-              <Button 
-                component={Link} 
-                to="/login" 
-                variant="text" 
-                sx={{ 
-                  color: 'text.secondary', 
+              <Button
+                component={Link}
+                to="/login"
+                variant="text"
+                sx={{
+                  color: 'text.secondary',
                   fontWeight: 600,
                   px: 2,
                   '&:hover': {
                     color: PURPLE_ACCENT,
-                    bgcolor: 'transparent',
-                    transform: 'translateY(-1px)'
+                    bgcolor: 'transparent'
                   },
-                  transition: 'all 0.3s ease'
+                  transition: 'color 0.2s ease'
                 }}
               >
                 Sign In
