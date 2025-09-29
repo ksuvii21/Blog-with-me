@@ -3,6 +3,7 @@ import {
   Box, Paper, Typography, Grid, Stack, Button, Fade, Divider, 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
   IconButton, Chip, Tooltip, Card, CardContent, LinearProgress,
+  Avatar,
   useTheme, alpha, Slide, Zoom, Fab, Container
 } from '@mui/material';
 import {
