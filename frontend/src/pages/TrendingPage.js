@@ -302,6 +302,27 @@ const TrendingPage = () => {
         <FloatingFireAnimation />
 
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Mobile Menu Button */}
+          <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 2 }}>
+            <IconButton
+              onClick={() => setSidebarOpen(true)}
+              sx={{
+                display: { xs: 'flex', md: 'none' },
+                background: 'rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                color: 'white',
+                '&:hover': {
+                  background: 'rgba(255,255,255,0.2)',
+                  transform: 'scale(1.1)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <Menu sx={{ fontSize: 28 }} />
+            </IconButton>
+          </Box>
+
           <Fade in timeout={600}>
             <Box textAlign="center">
               {/* Timeframe Selector */}
