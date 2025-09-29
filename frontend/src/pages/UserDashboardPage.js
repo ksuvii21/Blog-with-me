@@ -91,11 +91,14 @@ const StatsCard = ({ icon, title, value, subtitle, color, delay = 0 }) => (
 );
 
 // Enhanced Blog Card Component
-const BlogCard = ({ blog, onDeleteClick }) => {
+const BlogCard = ({ blog, onDeleteClick, index = 0 }) => {
   const theme = useTheme();
 
   return (
     <MotionCard
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
       elevation={2}
       sx={{
         borderRadius: 3,
