@@ -59,14 +59,16 @@ const floatFire = keyframes`
   }
 `;
 
-// Floating Fire Animation
+// Floating Fire Animation - Enhanced like homepage
 const FloatingFireAnimation = () => {
-  const fireElements = Array.from({ length: 15 }, (_, i) => ({
+  const fireElements = Array.from({ length: 25 }, (_, i) => ({
     id: i,
     left: Math.random() * 100,
-    delay: Math.random() * 5,
-    duration: 8 + Math.random() * 7,
-    size: 20 + Math.random() * 40
+    delay: Math.random() * 10,
+    duration: 15 + Math.random() * 10,
+    size: 20 + Math.random() * 30,
+    type: ['🔥', '💥', '✨', '🌟', '⚡'][Math.floor(Math.random() * 5)],
+    rotation: Math.random() * 360
   }));
 
   return (
@@ -80,6 +82,48 @@ const FloatingFireAnimation = () => {
       pointerEvents: 'none',
       zIndex: 0
     }}>
+      {/* Special Fire Elements - Left and Right */}
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '5%',
+          top: '25%',
+          width: '400px',
+          height: '400px',
+          animation: `floatFire 6s ease-in-out infinite`,
+          animationDelay: '0s',
+          opacity: 0.8,
+          filter: 'drop-shadow(0 0 15px rgba(255, 107, 53, 0.6))',
+          zIndex: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '120px'
+        }}
+      >
+        🔥
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          right: '8%',
+          top: '20%',
+          width: '300px',
+          height: '300px',
+          animation: `floatFire 8s ease-in-out infinite`,
+          animationDelay: '2s',
+          opacity: 0.7,
+          filter: 'drop-shadow(0 0 12px rgba(255, 107, 53, 0.5))',
+          zIndex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '80px'
+        }}
+      >
+        ✨
+      </Box>
+
       {fireElements.map((item) => (
         <Box
           key={item.id}
@@ -88,16 +132,45 @@ const FloatingFireAnimation = () => {
             left: `${item.left}%`,
             top: '-50px',
             fontSize: `${item.size}px`,
-            animation: `${floatFire} ${item.duration}s linear infinite`,
+            animation: `fallFire ${item.duration}s linear infinite`,
             animationDelay: `${item.delay}s`,
-            opacity: 0.7,
-            color: '#FF6B35',
-            filter: 'drop-shadow(0 0 10px rgba(255, 107, 53, 0.5))'
+            opacity: 0.6,
+            transform: `rotate(${item.rotation}deg)`,
+            filter: 'drop-shadow(0 0 8px rgba(255, 107, 53, 0.4))'
           }}
         >
-          🔥
+          {item.type}
         </Box>
       ))}
+      <style jsx>{`
+        @keyframes fallFire {
+          0% {
+            transform: translateY(-50px) rotate(0deg);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.6;
+          }
+          90% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        @keyframes floatFire {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          33% {
+            transform: translateY(-15px) rotate(2deg);
+          }
+          66% {
+            transform: translateY(-8px) rotate(-1deg);
+          }
+        }
+      `}</style>
     </Box>
   );
 };
