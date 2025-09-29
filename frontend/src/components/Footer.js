@@ -86,18 +86,16 @@ const Footer = () => {
                         border: 'none',
                         borderRadius: 8,
                         cursor: 'pointer',
-                        fontWeight: 700,
+                        fontWeight: 600,
                         fontSize: '1rem',
-                        boxShadow: '0 4px 18px rgba(233, 30, 99, 0.4)',
-                        transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
+                        boxShadow: '0 2px 8px rgba(233, 30, 99, 0.3)',
+                        transition: 'all 0.2s ease',
                     }}
                     onMouseEnter={(e) => {
-                        e.target.style.transform = 'translateY(-3px)'; // Pronounced lift
-                        e.target.style.boxShadow = '0 8px 25px rgba(233, 30, 99, 0.7)';
+                        e.target.style.boxShadow = '0 4px 12px rgba(233, 30, 99, 0.4)';
                     }}
                     onMouseLeave={(e) => {
-                        e.target.style.transform = 'translateY(0)';
-                        e.target.style.boxShadow = '0 4px 18px rgba(233, 30, 99, 0.4)';
+                        e.target.style.boxShadow = '0 2px 8px rgba(233, 30, 99, 0.3)';
                     }}
                 >
                     <Send sx={{ fontSize: 18, mr: 1 }} /> Subscribe
