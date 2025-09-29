@@ -300,56 +300,20 @@ const HomePage = () => {
               position: 'fixed',
               top: 24,
               left: 24,
-              zIndex: 1000,
+              zIndex: 1400,
               color: 'white',
-              bgcolor: 'rgba(255,255,255,0.2)',
-              backdropFilter: 'blur(20px)',
-              border: '2px solid rgba(255,255,255,0.3)',
-              width: 56,
-              height: 56,
-              animation: 'pulse 2s ease-in-out infinite',
+              bgcolor: 'rgba(255,255,255,0.15)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.2)',
               '&:hover': {
-                bgcolor: 'rgba(255,255,255,0.3)',
-                transform: 'scale(1.15) rotate(90deg)',
-                boxShadow: '0 0 30px rgba(255,255,255,0.5)',
+                bgcolor: 'rgba(255,255,255,0.25)',
+                transform: 'scale(1.1) rotate(90deg)',
               },
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              '& .menu-icon': {
-                transition: 'transform 0.3s ease',
-              },
-              '&:hover .menu-icon': {
-                transform: 'scale(1.2)',
-              }
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            <Menu className="menu-icon" />
+            <Menu />
           </IconButton>
-
-    left: 24,
-    zIndex: 1000,
-    color: 'white',
-    bgcolor: 'rgba(255,255,255,0.2)',
-    backdropFilter: 'blur(20px)',
-    border: '2px solid rgba(255,255,255,0.3)',
-    width: 56,
-    height: 56,
-    animation: 'pulse 2s ease-in-out infinite',
-    '&:hover': {
-      bgcolor: 'rgba(255,255,255,0.3)',
-      transform: 'scale(1.15) rotate(90deg)',
-      boxShadow: '0 0 30px rgba(255,255,255,0.5)',
-    },
-    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    '& .menu-icon': {
-      transition: 'transform 0.3s ease',
-    },
-    '&:hover .menu-icon': {
-      transform: 'scale(1.2)',
-    }
-  }}
->
-  <Menu className="menu-icon" />
-</IconButton>
 
           {/* Centered Content */}
           <Box sx={{ 
