@@ -307,7 +307,7 @@ const TrendingPage = () => {
             <IconButton
               onClick={() => setSidebarOpen(true)}
               sx={{
-                display: { xs: 'flex', md: 'none' },
+                display: 'flex',
                 background: 'rgba(255,255,255,0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255,255,255,0.2)',
