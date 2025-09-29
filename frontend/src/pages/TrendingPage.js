@@ -305,8 +305,6 @@ const TrendingPage = () => {
       }}>
         <FloatingFireAnimation />
 
-// In TrendingPage component, replace the mobile menu button section:
-
 {/* Mobile Menu Button - Fixed positioning */}
 <Box sx={{ 
   position: 'fixed', // Changed from absolute to fixed
