@@ -7,7 +7,7 @@
 
 2. [x] Verify the file edit was successful.
 
-3. [ ] Start the frontend development server if not already running:
+3. [x] Start the frontend development server if not already running:
    - Run `cd frontend && npm start` to serve the app at http://localhost:3000.
 
 4. [ ] Test visibility:
