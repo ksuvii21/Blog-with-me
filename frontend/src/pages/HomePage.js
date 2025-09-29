@@ -64,29 +64,30 @@ const AnimatedFlowers = () => {
     }}>
       {/* Special Hibiscus Flower - Left Center */}
       <Box
-        sx={{
-          position: 'absolute',
-          left: '45%',
-          top: '75%',
-          width: '700px',
-          height: '700px',
-          animation: `float 6s ease-in-out infinite`,
-          animationDelay: '0s',
-          opacity: 0.8,
-          filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
-          zIndex: 2,
-        }}
-      >
-        <img 
-          src="/flower.png" 
-          alt="flower" 
-          style={{ 
-            width: '100%', 
-            height: '100%',
-            objectFit: 'contain'
-          }} 
-        />
-      </Box>
+  sx={{
+    position: 'absolute',
+    left: '5%',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: '700px',
+    height: '700px',
+    animation: `float 6s ease-in-out infinite`,
+    animationDelay: '0s',
+    opacity: 0.8,
+    filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.3))',
+    zIndex: 2,
+  }}
+>
+  <img 
+    src="/flower.png" 
+    alt="flower" 
+    style={{ 
+      width: '100%', 
+      height: '100%',
+      objectFit: 'contain'
+    }} 
+  />
+</Box>
 
       {/* Smaller Flower - Right Top */}
       <Box
