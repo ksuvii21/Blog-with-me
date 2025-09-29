@@ -39,7 +39,7 @@ function TabPanel({ children, value, index, ...other }) {
 }
 
 // Animated Card Component
-const MotionCard = motion(Card);
+const MotionCard = Card;
 
 // Stats Card Component
 const StatsCard = ({ icon, title, value, subtitle, color, delay = 0 }) => (
