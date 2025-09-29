@@ -389,7 +389,7 @@ const ProfilePage = () => {
       </Box>
 
       {/* Blogs Section */}
-      <Box sx={{ py: 8, background: themeColors.background.light }}>
+      <Box sx={{ py: 8, background: 'linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%)' }}>
         <Container maxWidth="xl">
           <Fade in timeout={800}>
             <Box sx={{ mb: 6 }}>
