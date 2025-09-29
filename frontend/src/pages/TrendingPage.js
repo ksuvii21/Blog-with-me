@@ -88,39 +88,16 @@ const FloatingFireAnimation = () => {
             left: `${item.left}%`,
             top: '-50px',
             fontSize: `${item.size}px`,
-            animation: `floatFire ${item.duration}s linear infinite`,
+            animation: `${floatFire} ${item.duration}s linear infinite`,
             animationDelay: `${item.delay}s`,
             opacity: 0.7,
-            color: '#FF6B35'
+            color: '#FF6B35',
+            filter: 'drop-shadow(0 0 10px rgba(255, 107, 53, 0.5))'
           }}
         >
           🔥
         </Box>
       ))}
-      <style jsx>{`
-        @keyframes floatFire {
-          0% {
-            transform: translateY(-50px) rotate(0deg) scale(0.8);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.7;
-            transform: scale(1.2);
-          }
-          40% {
-            transform: scale(1.5);
-            opacity: 1;
-          }
-          90% {
-            opacity: 0.7;
-            transform: scale(0.9);
-          }
-          100% {
-            transform: translateY(100vh) rotate(360deg) scale(0.5);
-            opacity: 0;
-          }
-        }
-      `}</style>
     </Box>
   );
 };
