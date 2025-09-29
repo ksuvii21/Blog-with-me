@@ -141,7 +141,7 @@ const Header = ({ isHomePage }) => {
                 textShadow: isHomePage ? '0 2px 4px rgba(255,255,255,0.3)' : '0 2px 4px rgba(255,152,0,0.1)'
               }}
             >
-              Writely.log
+              Writely Log
             </Typography>
           </Link>
         </Box>
