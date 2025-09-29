@@ -148,10 +148,9 @@ const Footer = () => {
                             '&:hover': { 
                                 bgcolor: social.color, 
                                 color: 'white',
-                                transform: 'scale(1.1) rotate(5deg)',
-                                boxShadow: `0 4px 10px ${social.color}60`
+                                boxShadow: `0 2px 8px ${social.color}40`
                             },
-                            transition: 'all 0.3s ease'
+                            transition: 'all 0.2s ease'
                           }}
                         >
                           <social.icon />
@@ -183,9 +182,8 @@ const Footer = () => {
                                             opacity: 0.8,
                                             '&:hover': { 
                                                 color: PURPLE_ACCENT,
-                                                transform: 'translateX(6px)', // Deeper shift
                                                 opacity: 1,
-                                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                                transition: 'all 0.2s ease'
                                             }
                                         }}
                                     >
