@@ -152,7 +152,7 @@ const Footer = () => {
                   letterSpacing: '-1px'
                 }}
               >
-                Writely.log
+                Writely Log
               </Typography>
               
               <Typography variant="body1" color={TEXT_SECONDARY} sx={{ mb: 3, lineHeight: 1.6 }}>
