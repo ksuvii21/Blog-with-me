@@ -66,8 +66,8 @@ const AnimatedFlowers = () => {
       <Box
         sx={{
           position: 'absolute',
-          left: '15%',
-          top: '45%',
+          left: '45%',
+          top: '75%',
           width: '800px',
           height: '800px',
           animation: `float 6s ease-in-out infinite`,
