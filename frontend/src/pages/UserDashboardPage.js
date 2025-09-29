@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs, deleteBlog } from '../redux/slices/blogSlice';
 import { motion } from 'framer-motion';
 import Layout from '../components/Layout';
-import BlogCard from '../components/BlogCard';
 import {
   Box, Typography, Avatar, Button, Grid, Chip, Fade, Stack, IconButton,
   Tooltip, Card, CardContent, Dialog, DialogTitle, DialogContent,
