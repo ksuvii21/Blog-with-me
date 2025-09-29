@@ -14,20 +14,21 @@ import {
   Paper
 } from '@mui/material';
 import {
-  Add,
+  Edit,
   Notifications,
   Search,
   Close,
-  Edit
+  ChevronRight,
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
-// Theme Constants based on HomePage.js
-const PRIMARY_GRADIENT = 'linear-gradient(45deg, #FF9800 30%, #9C27B0 90%)';
-const HOVER_GRADIENT = 'linear-gradient(45deg, #F57C00 30%, #7B1FA2 90%)';
-const PURPLE_MAIN = '#9C27B0';
+// Theme Constants
+const PRIMARY_GRADIENT = 'linear-gradient(90deg, #FF9800 10%, #E91E63 90%)'; // Orange to Pink/Purple
+const HOVER_GRADIENT = 'linear-gradient(90deg, #F57C00 10%, #C2185B 90%)';
+const PURPLE_ACCENT = '#9C27B0';
+const ORANGE_ACCENT = '#FF9800';
 
 
 const Header = ({ isHomePage }) => {
@@ -72,37 +73,40 @@ const Header = ({ isHomePage }) => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        bgcolor: 'white', // Ensure white background
+        bgcolor: 'rgba(255, 255, 255, 0.95)', // Subtle glassmorphism base
+        backdropFilter: 'blur(10px)', // Glassmorphism
         color: 'text.primary',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.05)', // Enhanced shadow
+        boxShadow: '0 8px 30px rgba(0,0,0,0.08)', // Deeper shadow
         zIndex: 1300,
-        width: '100%'
+        width: '100%',
+        borderBottom: '1px solid rgba(0,0,0,0.05)' // Subtle separator
       }}
     >
       <Toolbar sx={{ 
         justifyContent: 'space-between', 
-        px: { xs: 1, sm: 3, md: 5 },
-        minHeight: { xs: 60, sm: 70 } // Taller toolbar
+        px: { xs: 2, sm: 4, md: 6 },
+        minHeight: { xs: 60, sm: 72 } 
       }}>
         {/* Left Section - Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h4"
-              fontWeight="bold"
+              fontWeight="900" // Extra bold
               sx={{
                 background: PRIMARY_GRADIENT,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '1.6rem', sm: '2.1rem' },
-                transition: 'transform 0.2s ease',
+                fontSize: { xs: '1.6rem', sm: '2.2rem' },
+                letterSpacing: '-1px', // Tighter kerning
+                transition: 'transform 0.3s ease-in-out',
                 '&:hover': {
-                    transform: 'scale(1.05)'
+                    transform: 'translateY(-2px)' // Dynamic effect
                 }
               }}
             >
-              Writely-Log
+              Writely.log
             </Typography>
           </Link>
         </Box>
@@ -111,7 +115,7 @@ const Header = ({ isHomePage }) => {
         <Box sx={{ 
           display: { xs: 'none', md: 'flex' }, 
           flex: 1, 
-          maxWidth: 600, // Wider search bar
+          maxWidth: 650, 
           mx: 4
         }}>
           <Box 
@@ -125,95 +129,114 @@ const Header = ({ isHomePage }) => {
           >
             <Search sx={{ 
               position: 'absolute', 
-              left: 14, 
+              left: 18, 
               top: '50%', 
               transform: 'translateY(-50%)',
-              color: PURPLE_MAIN, // Primary color icon
-              fontSize: 24
+              color: PURPLE_ACCENT, 
+              fontSize: 24,
+              opacity: 0.7
             }} />
             <input 
               type="text" 
-              placeholder="Search stories, authors, or topics..." 
+              placeholder="Explore stories, authors, or tags..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 width: '100%',
-                padding: '12px 16px 12px 48px', // Increased padding for large icon
-                border: '2px solid #f0f0f0',
-                borderRadius: 12,
-                backgroundColor: '#f9f9f9', // Slightly off-white background
+                padding: '14px 20px 14px 52px',
+                border: '1px solid #e0e0e0', // Thinner, cleaner border
+                borderRadius: 999, // Pill shape
+                backgroundColor: '#f9f9f9',
                 outline: 'none',
                 fontSize: '15px',
-                transition: 'all 0.3s ease',
                 fontWeight: 500,
+                transition: 'all 0.3s ease',
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = PURPLE_MAIN;
-                e.target.style.boxShadow = `0 0 0 4px rgba(156, 39, 176, 0.2)`;
+                e.target.style.borderColor = PURPLE_ACCENT;
+                e.target.style.boxShadow = `0 0 0 4px ${PURPLE_ACCENT}30`; // Accent glow
+                e.target.style.backgroundColor = 'white';
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = '#f0f0f0';
+                e.target.style.borderColor = '#e0e0e0';
                 e.target.style.boxShadow = 'none';
+                e.target.style.backgroundColor = '#f9f9f9';
               }}
             />
           </Box>
         </Box>
 
         {/* Right Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {/* Mobile Search Toggle */}
-          <IconButton onClick={handleSearchToggle} sx={{ display: { md: 'none' } }} color="inherit" >
+          <IconButton 
+            onClick={handleSearchToggle} 
+            sx={{ display: { md: 'none' }, color: 'text.secondary' }}
+          >
             <Search />
           </IconButton>
           
           {user ? (
             <>
-              {/* Create Blog Button - Prominent CTA */}
+              {/* Create Post Button - Prominent CTA with Lift */}
               <Button
                 component={Link}
                 to="/create"
-                startIcon={<Edit />} // Changed icon to Edit for writing
+                startIcon={<Edit />}
                 variant="contained"
                 sx={{
                   display: { xs: 'none', sm: 'flex' },
                   background: PRIMARY_GRADIENT,
-                  borderRadius: 5, // More rounded, matching home page
+                  borderRadius: 999, // Pill shape
                   px: 3,
-                  py: 1,
+                  py: 1.2, // Taller button
                   fontWeight: 700,
-                  fontSize: '1rem',
+                  fontSize: '0.95rem',
                   color: 'white',
-                  boxShadow: '0 4px 15px rgba(156, 39, 176, 0.4)',
+                  boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
                   '&:hover': {
                     background: HOVER_GRADIENT,
-                    transform: 'translateY(-2px)', // Interactive lift
-                    boxShadow: '0 8px 25px rgba(156, 39, 176, 0.6)',
+                    transform: 'translateY(-3px)', // Pronounced lift
+                    boxShadow: '0 10px 30px rgba(233, 30, 99, 0.6)', // Pinker, deeper shadow
                   },
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
                 }}
               >
                 Create Post
               </Button>
               
-              {/* Notifications */}
-              <IconButton color="inherit" sx={{ '&:hover': { color: PURPLE_MAIN, transform: 'scale(1.1)' } }}>
-                <Badge badgeContent={3} color="error">
+              {/* Notifications with Scale Effect */}
+              <IconButton 
+                color="inherit" 
+                sx={{ 
+                    color: 'text.secondary',
+                    '&:hover': { 
+                        color: PURPLE_ACCENT, 
+                        transform: 'scale(1.15) rotate(5deg)',
+                    },
+                    transition: 'transform 0.3s ease'
+                }}
+              >
+                <Badge badgeContent={3} color="error" overlap="circular" variant="dot">
                   <Notifications />
                 </Badge>
               </IconButton>
               
-              {/* User Menu */}
-              <IconButton onClick={handleMenuOpen} sx={{ p: 0.5, '&:hover': { opacity: 0.8 } }}>
+              {/* User Menu - Hover Border Effect */}
+              <IconButton onClick={handleMenuOpen} sx={{ p: 0.5, '&:hover': { opacity: 0.9 } }}>
                 <Avatar 
                   src={user.profilePicture} 
                   alt={user.username} 
                   sx={{ 
-                    width: 40, // Larger Avatar
-                    height: 40, 
-                    border: '3px solid', 
-                    borderColor: PURPLE_MAIN,
-                    boxShadow: '0 0 0 2px white',
-                    transition: 'all 0.3s ease'
+                    width: 44, 
+                    height: 44, 
+                    border: '3px solid #eee', 
+                    boxShadow: '0 0 0 2px white, 0 0 0 3px transparent',
+                    transition: 'all 0.3s ease-out',
+                    '&:hover': {
+                        borderColor: ORANGE_ACCENT,
+                        boxShadow: '0 0 0 2px white, 0 0 0 5px rgba(255, 152, 0, 0.5)',
+                    }
                   }} 
                 />
               </IconButton>
@@ -224,78 +247,78 @@ const Header = ({ isHomePage }) => {
                 PaperProps={{ 
                   sx: { 
                     mt: 1.5, 
-                    minWidth: 200, 
-                    borderRadius: 3,
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                    minWidth: 220, 
+                    borderRadius: 4, // More rounded menu
+                    boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
+                    p: 1 // Internal padding
                   } 
                 }}
               >
-                <MenuItem onClick={handleMenuClose} component={Link} to="/profile"> 
-                  <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { color: PURPLE_MAIN } }}>
-                    👤 Profile
+                <MenuItem onClick={handleMenuClose} component={Link} to="/profile" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Avatar sx={{ width: 24, height: 24, bgcolor: PURPLE_ACCENT, fontSize: '0.8rem' }}>{user.username?.[0]}</Avatar>
+                    <Typography fontWeight="500">My Profile</Typography>
+                    <ChevronRight sx={{ ml: 'auto', color: 'text.disabled' }} />
                   </Box> 
                 </MenuItem>
-                <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard"> 
-                  <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { color: PURPLE_MAIN } }}>
-                    📊 Dashboard
-                  </Box> 
+                <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
+                  📊 Dashboard
                 </MenuItem>
                 {user.role === 'admin' && (
-                  <MenuItem onClick={handleMenuClose} component={Link} to="/admin"> 
-                    <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { color: PURPLE_MAIN } }}>
-                        🛠️ Admin
-                    </Box> 
+                  <MenuItem onClick={handleMenuClose} component={Link} to="/admin" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
+                    🛠️ Admin Panel
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout} sx={{ color: 'error.main', fontWeight: 'bold' }}> 
-                  🚀 Logout 
+                <MenuItem onClick={handleLogout} sx={{ color: '#E91E63', fontWeight: 'bold', borderRadius: 2, '&:hover': { bgcolor: 'rgba(233, 30, 99, 0.1)' } }}> 
+                  🚪 Logout
                 </MenuItem>
               </Menu>
             </>
           ) : (
-            <>
-              {/* Login Button */}
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {/* Login Button - Subtle Hover */}
               <Button 
                 component={Link} 
                 to="/login" 
                 variant="text" 
                 sx={{ 
-                  color: 'text.primary', 
+                  color: 'text.secondary', 
                   fontWeight: 600,
                   px: 2,
                   '&:hover': {
-                    color: PURPLE_MAIN,
+                    color: PURPLE_ACCENT,
                     bgcolor: 'transparent',
+                    transform: 'translateY(-1px)'
                   },
                   transition: 'all 0.3s ease'
                 }}
               >
-                Login
+                Sign In
               </Button>
-              {/* Sign Up Button - CTA */}
+              {/* Sign Up Button - CTA with Lift */}
               <Button
                 component={Link}
                 to="/register"
                 variant="contained"
                 sx={{
                   background: PRIMARY_GRADIENT,
-                  borderRadius: 5,
+                  borderRadius: 999, // Pill shape
                   px: 3,
-                  py: 1,
+                  py: 1.2,
                   fontWeight: 700,
                   color: 'white',
-                  boxShadow: '0 4px 15px rgba(255, 152, 0, 0.4)',
+                  boxShadow: '0 6px 20px rgba(255, 152, 0, 0.4)',
                   '&:hover': {
                     background: HOVER_GRADIENT,
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(255, 152, 0, 0.6)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 10px 30px rgba(255, 152, 0, 0.6)',
                   },
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)',
                 }}
               >
-                Sign Up
+                Join Free
               </Button>
-            </>
+            </Box>
           )}
         </Box>
       </Toolbar>
@@ -304,7 +327,7 @@ const Header = ({ isHomePage }) => {
       {searchOpen && (
         <ClickAwayListener onClickAway={handleSearchClickAway}>
           <Paper 
-            elevation={8}
+            elevation={10}
             sx={{
               position: 'absolute', 
               top: '100%', 
@@ -326,7 +349,7 @@ const Header = ({ isHomePage }) => {
                   left: 12, 
                   top: '50%', 
                   transform: 'translateY(-50%)',
-                  color: PURPLE_MAIN
+                  color: PURPLE_ACCENT
                 }} />
                 <input 
                   ref={searchRef}
@@ -337,24 +360,23 @@ const Header = ({ isHomePage }) => {
                   style={{
                     width: '100%',
                     padding: '12px 12px 12px 40px',
-                    border: '2px solid #f0f0f0',
-                    borderRadius: 8,
+                    border: '2px solid #ddd',
+                    borderRadius: 999, // Pill shape
                     outline: 'none',
                     fontSize: '16px',
-                    backgroundColor: '#f9f9f9',
                     transition: 'all 0.3s ease'
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = PURPLE_MAIN;
-                    e.target.style.boxShadow = `0 0 0 3px rgba(156, 39, 176, 0.2)`;
+                    e.target.style.borderColor = PURPLE_ACCENT;
+                    e.target.style.boxShadow = `0 0 0 3px ${PURPLE_ACCENT}30`;
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = '#f0f0f0';
+                    e.target.style.borderColor = '#ddd';
                     e.target.style.boxShadow = 'none';
                   }}
                 />
               </Box>
-              <IconButton onClick={() => setSearchOpen(false)} sx={{ '&:hover': { color: PURPLE_MAIN } }}>
+              <IconButton onClick={() => setSearchOpen(false)} sx={{ '&:hover': { color: PURPLE_ACCENT } }}>
                 <Close />
               </IconButton>
             </Box>
