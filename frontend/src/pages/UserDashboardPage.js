@@ -27,7 +27,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import PeopleIcon from '@mui/icons-material/People';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import { motion, AnimatePresence } from 'framer-motion';
+
 
 // Tab Panel Component
 function TabPanel({ children, value, index, ...other }) {
