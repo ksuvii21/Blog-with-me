@@ -70,16 +70,15 @@ const Header = ({ isHomePage }) => {
   };
 
   return (
-    <AppBar 
-      position="fixed" 
-      sx={{ 
-        bgcolor: 'rgba(255, 255, 255, 0.95)', // Subtle glassmorphism base
-        backdropFilter: 'blur(10px)', // Glassmorphism
+    <AppBar
+      position="fixed"
+      sx={{
+        bgcolor: 'white',
         color: 'text.primary',
-        boxShadow: '0 8px 30px rgba(0,0,0,0.08)', // Deeper shadow
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         zIndex: 1300,
         width: '100%',
-        borderBottom: '1px solid rgba(0,0,0,0.05)' // Subtle separator
+        borderBottom: '1px solid #e0e0e0'
       }}
     >
       <Toolbar sx={{ 
