@@ -11,7 +11,8 @@ import {
   MenuItem,
   Badge,
   ClickAwayListener,
-  Paper
+  Paper,
+  TextField
 } from '@mui/material';
 import {
   Edit,
@@ -19,17 +20,24 @@ import {
   Search,
   Close,
   ChevronRight,
+  Person,
+  Dashboard,
+  AdminPanelSettings,
+  ExitToApp
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
 
-// Clean Theme Constants (keeping homepage colors)
-const PRIMARY_GRADIENT = 'linear-gradient(90deg, #FF9800 10%, #E91E63 90%)'; // Orange to Pink/Purple
-const HOVER_GRADIENT = 'linear-gradient(90deg, #F57C00 10%, #C2185B 90%)';
-const PURPLE_ACCENT = '#9C27B0';
-const ORANGE_ACCENT = '#FF9800';
-
+// New Light Theme Colors (matching footer)
+const PRIMARY_GRADIENT = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+const SECONDARY_GRADIENT = 'linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%)';
+const BACKGROUND_LIGHT = '#ffffff';
+const TEXT_PRIMARY = '#2d3748';
+const TEXT_SECONDARY = '#718096';
+const ACCENT_PURPLE = '#805ad5';
+const ACCENT_BLUE = '#4299e1';
+const BORDER_LIGHT = '#e2e8f0';
 
 const Header = ({ isHomePage }) => {
   const { user } = useSelector((state) => state.auth);
@@ -73,35 +81,38 @@ const Header = ({ isHomePage }) => {
     <AppBar
       position="fixed"
       sx={{
-        bgcolor: 'white',
-        color: 'text.primary',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+        bgcolor: BACKGROUND_LIGHT,
+        color: TEXT_PRIMARY,
+        boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
         zIndex: 1300,
         width: '100%',
-        borderBottom: '1px solid #e0e0e0'
+        borderBottom: `1px solid ${BORDER_LIGHT}`,
+        backdropFilter: 'blur(10px)',
+        background: 'rgba(255, 255, 255, 0.95)'
       }}
     >
       <Toolbar sx={{ 
         justifyContent: 'space-between', 
-        px: { xs: 2, sm: 4, md: 6 },
-        minHeight: { xs: 60, sm: 72 } 
+        px: { xs: 2, sm: 3, md: 4 },
+        minHeight: { xs: 70, sm: 80 } 
       }}>
         {/* Left Section - Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Typography
               variant="h4"
-              fontWeight="700"
+              fontWeight="800"
               sx={{
                 background: PRIMARY_GRADIENT,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '1.6rem', sm: '2.2rem' },
-                letterSpacing: '-1px'
+                fontSize: { xs: '1.8rem', sm: '2.3rem' },
+                letterSpacing: '-1.5px',
+                textShadow: '0 2px 4px rgba(102, 126, 234, 0.1)'
               }}
             >
-              Writely Log
+              Writely.log
             </Typography>
           </Link>
         </Box>
@@ -110,7 +121,7 @@ const Header = ({ isHomePage }) => {
         <Box sx={{ 
           display: { xs: 'none', md: 'flex' }, 
           flex: 1, 
-          maxWidth: 650, 
+          maxWidth: 600, 
           mx: 4
         }}>
           <Box 
@@ -124,115 +135,133 @@ const Header = ({ isHomePage }) => {
           >
             <Search sx={{ 
               position: 'absolute', 
-              left: 18, 
+              left: 16, 
               top: '50%', 
               transform: 'translateY(-50%)',
-              color: PURPLE_ACCENT, 
-              fontSize: 24,
-              opacity: 0.7
+              color: TEXT_SECONDARY, 
+              fontSize: 22
             }} />
-            <input 
-              type="text" 
-              placeholder="Explore stories, authors, or tags..." 
+            <TextField
+              variant="outlined"
+              placeholder="Search stories, authors, or topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
+              size="small"
+              sx={{
                 width: '100%',
-                padding: '14px 20px 14px 52px',
-                border: '1px solid #e0e0e0', // Thinner, cleaner border
-                borderRadius: 999, // Pill shape
-                backgroundColor: '#f9f9f9',
-                outline: 'none',
-                fontSize: '15px',
-                fontWeight: 500,
-                transition: 'all 0.3s ease',
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = PURPLE_ACCENT;
-                e.target.style.boxShadow = `0 0 0 4px ${PURPLE_ACCENT}30`; // Accent glow
-                e.target.style.backgroundColor = 'white';
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e0e0e0';
-                e.target.style.boxShadow = 'none';
-                e.target.style.backgroundColor = '#f9f9f9';
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: 3,
+                  backgroundColor: '#f8fafc',
+                  paddingLeft: '50px',
+                  '&:hover fieldset': {
+                    borderColor: ACCENT_BLUE,
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: ACCENT_PURPLE,
+                    boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.1)'
+                  },
+                },
+                '& .MuiInputBase-input': {
+                  padding: '12px 14px',
+                  fontSize: '15px',
+                  fontWeight: 500
+                }
               }}
             />
           </Box>
         </Box>
 
         {/* Right Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           {/* Mobile Search Toggle */}
           <IconButton 
             onClick={handleSearchToggle} 
-            sx={{ display: { md: 'none' }, color: 'text.secondary' }}
+            sx={{ 
+              display: { md: 'none' }, 
+              color: TEXT_SECONDARY,
+              '&:hover': {
+                backgroundColor: '#f1f5f9',
+                color: ACCENT_PURPLE
+              }
+            }}
           >
             <Search />
           </IconButton>
           
           {user ? (
             <>
-              {/* Create Post Button - Prominent CTA with Lift */}
+              {/* Create Post Button */}
               <Button
                 component={Link}
                 to="/create"
-                startIcon={<Edit />}
+                startIcon={<Edit sx={{ fontSize: 18 }} />}
                 variant="contained"
                 sx={{
                   display: { xs: 'none', sm: 'flex' },
-                  background: PRIMARY_GRADIENT,
-                  borderRadius: 8,
+                  background: SECONDARY_GRADIENT,
+                  borderRadius: 3,
                   px: 3,
-                  py: 1,
+                  py: 1.2,
                   fontWeight: 600,
                   fontSize: '0.9rem',
                   color: 'white',
-                  boxShadow: '0 2px 8px rgba(255, 152, 0, 0.3)',
+                  boxShadow: '0 4px 15px rgba(255, 154, 158, 0.3)',
                   '&:hover': {
-                    background: HOVER_GRADIENT,
-                    boxShadow: '0 4px 12px rgba(255, 152, 0, 0.4)',
+                    background: 'linear-gradient(45deg, #FF7B7F 0%, #FDB5E3 99%)',
+                    boxShadow: '0 6px 20px rgba(255, 154, 158, 0.4)',
+                    transform: 'translateY(-1px)'
                   },
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.3s ease',
                 }}
               >
-                Create Post
+                Write Story
               </Button>
               
-              {/* Notifications with Scale Effect */}
+              {/* Notifications */}
               <IconButton
                 color="inherit"
                 sx={{
-                    color: 'text.secondary',
-                    '&:hover': {
-                        color: PURPLE_ACCENT,
-                    },
-                    transition: 'color 0.2s ease'
+                  color: TEXT_SECONDARY,
+                  '&:hover': {
+                    color: ACCENT_PURPLE,
+                    backgroundColor: '#f1f5f9'
+                  },
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <Badge badgeContent={3} color="error" overlap="circular" variant="dot">
+                <Badge badgeContent={3} color="error" overlap="circular">
                   <Notifications />
                 </Badge>
               </IconButton>
               
-              {/* User Menu - Hover Border Effect */}
-              <IconButton onClick={handleMenuOpen} sx={{ p: 0.5, '&:hover': { opacity: 0.9 } }}>
+              {/* User Menu */}
+              <IconButton 
+                onClick={handleMenuOpen} 
+                sx={{ 
+                  p: 0.5, 
+                  '&:hover': { 
+                    transform: 'scale(1.05)',
+                    transition: 'transform 0.2s ease'
+                  } 
+                }}
+              >
                 <Avatar 
                   src={user.profilePicture} 
                   alt={user.username} 
                   sx={{ 
-                    width: 44, 
-                    height: 44, 
-                    border: '3px solid #eee', 
-                    boxShadow: '0 0 0 2px white, 0 0 0 3px transparent',
-                    transition: 'all 0.3s ease-out',
+                    width: 42, 
+                    height: 42, 
+                    border: `2px solid ${BORDER_LIGHT}`,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                        borderColor: ORANGE_ACCENT,
-                        boxShadow: '0 0 0 2px white, 0 0 0 5px rgba(255, 152, 0, 0.5)',
+                      borderColor: ACCENT_PURPLE,
+                      boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
                     }
                   }} 
                 />
               </IconButton>
+              
               <Menu 
                 anchorEl={anchorEl} 
                 open={Boolean(anchorEl)} 
@@ -241,74 +270,95 @@ const Header = ({ isHomePage }) => {
                   sx: { 
                     mt: 1.5, 
                     minWidth: 220, 
-                    borderRadius: 4, // More rounded menu
-                    boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
-                    p: 1 // Internal padding
+                    borderRadius: 3,
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+                    border: `1px solid ${BORDER_LIGHT}`,
+                    '& .MuiMenuItem-root': {
+                      py: 1.5,
+                      borderRadius: 2,
+                      mx: 1,
+                      my: 0.5,
+                      transition: 'all 0.2s ease'
+                    }
                   } 
                 }}
               >
-                <MenuItem onClick={handleMenuClose} component={Link} to="/profile" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Avatar sx={{ width: 24, height: 24, bgcolor: PURPLE_ACCENT, fontSize: '0.8rem' }}>{user.username?.[0]}</Avatar>
+                <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+                    <Person sx={{ color: ACCENT_PURPLE, fontSize: 20 }} />
                     <Typography fontWeight="500">My Profile</Typography>
-                    <ChevronRight sx={{ ml: 'auto', color: 'text.disabled' }} />
                   </Box> 
                 </MenuItem>
-                <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
-                  📊 Dashboard
+                
+                <MenuItem onClick={handleMenuClose} component={Link} to="/dashboard">
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+                    <Dashboard sx={{ color: ACCENT_BLUE, fontSize: 20 }} />
+                    <Typography fontWeight="500">Dashboard</Typography>
+                  </Box>
                 </MenuItem>
+                
                 {user.role === 'admin' && (
-                  <MenuItem onClick={handleMenuClose} component={Link} to="/admin" sx={{ borderRadius: 2, '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.1)' } }}> 
-                    🛠️ Admin Panel
+                  <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+                      <AdminPanelSettings sx={{ color: '#10B981', fontSize: 20 }} />
+                      <Typography fontWeight="500">Admin Panel</Typography>
+                    </Box>
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout} sx={{ color: '#E91E63', fontWeight: 'bold', borderRadius: 2, '&:hover': { bgcolor: 'rgba(233, 30, 99, 0.1)' } }}> 
-                  🚪 Logout
+                
+                <MenuItem onClick={handleLogout} sx={{ color: '#EF4444' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}>
+                    <ExitToApp sx={{ fontSize: 20 }} />
+                    <Typography fontWeight="500">Logout</Typography>
+                  </Box>
                 </MenuItem>
               </Menu>
             </>
           ) : (
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              {/* Login Button - Subtle Hover */}
+            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+              {/* Login Button */}
               <Button
                 component={Link}
                 to="/login"
                 variant="text"
                 sx={{
-                  color: 'text.secondary',
+                  color: TEXT_SECONDARY,
                   fontWeight: 600,
-                  px: 2,
+                  px: 2.5,
+                  borderRadius: 2,
                   '&:hover': {
-                    color: PURPLE_ACCENT,
-                    bgcolor: 'transparent'
+                    color: ACCENT_PURPLE,
+                    backgroundColor: '#f8fafc'
                   },
-                  transition: 'color 0.2s ease'
+                  transition: 'all 0.2s ease'
                 }}
               >
                 Sign In
               </Button>
-              {/* Sign Up Button - CTA with Lift */}
+              
+              {/* Sign Up Button */}
               <Button
                 component={Link}
                 to="/register"
                 variant="contained"
                 sx={{
                   background: PRIMARY_GRADIENT,
-                  borderRadius: 8,
+                  borderRadius: 3,
                   px: 3,
-                  py: 1,
+                  py: 1.2,
                   fontWeight: 600,
                   fontSize: '0.9rem',
                   color: 'white',
-                  boxShadow: '0 2px 8px rgba(255, 152, 0, 0.3)',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
                   '&:hover': {
-                    background: HOVER_GRADIENT,
-                    boxShadow: '0 4px 12px rgba(255, 152, 0, 0.4)',
+                    background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
+                    boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+                    transform: 'translateY(-1px)'
                   },
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.3s ease',
                 }}
               >
-                Join Free
+                Get Started
               </Button>
             </Box>
           )}
@@ -319,56 +369,60 @@ const Header = ({ isHomePage }) => {
       {searchOpen && (
         <ClickAwayListener onClickAway={handleSearchClickAway}>
           <Paper 
-            elevation={10}
+            elevation={8}
             sx={{
               position: 'absolute', 
               top: '100%', 
               left: 0, 
               right: 0,
-              p: 2,
+              p: 3,
               borderRadius: 0,
-              zIndex: 1301
+              zIndex: 1301,
+              borderTop: `1px solid ${BORDER_LIGHT}`,
+              background: 'rgba(255, 255, 255, 0.98)',
+              backdropFilter: 'blur(20px)'
             }}
           >
             <Box 
               component="form"
               onSubmit={handleSearchSubmit}
-              sx={{ display: 'flex', gap: 1 }}
+              sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
             >
-              <Box sx={{ position: 'relative', flex: 1 }}>
-                <Search sx={{ 
-                  position: 'absolute', 
-                  left: 12, 
-                  top: '50%', 
-                  transform: 'translateY(-50%)',
-                  color: PURPLE_ACCENT
-                }} />
-                <input 
-                  ref={searchRef}
-                  type="text" 
-                  placeholder="Search stories, authors, or topics..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '12px 12px 12px 40px',
-                    border: '2px solid #ddd',
-                    borderRadius: 999, // Pill shape
-                    outline: 'none',
-                    fontSize: '16px',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = PURPLE_ACCENT;
-                    e.target.style.boxShadow = `0 0 0 3px ${PURPLE_ACCENT}30`;
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = '#ddd';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                />
-              </Box>
-              <IconButton onClick={() => setSearchOpen(false)} sx={{ '&:hover': { color: PURPLE_ACCENT } }}>
+              <TextField
+                inputRef={searchRef}
+                variant="outlined"
+                placeholder="Search stories, authors, or topics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                size="small"
+                sx={{
+                  flex: 1,
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 3,
+                    backgroundColor: '#f8fafc',
+                    '&:hover fieldset': {
+                      borderColor: ACCENT_BLUE,
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: ACCENT_PURPLE,
+                    },
+                  },
+                  '& .MuiInputBase-input': {
+                    padding: '14px 16px',
+                    fontSize: '16px'
+                  }
+                }}
+              />
+              <IconButton 
+                onClick={() => setSearchOpen(false)} 
+                sx={{ 
+                  color: TEXT_SECONDARY,
+                  '&:hover': { 
+                    color: ACCENT_PURPLE,
+                    backgroundColor: '#f1f5f9'
+                  } 
+                }}
+              >
                 <Close />
               </IconButton>
             </Box>
