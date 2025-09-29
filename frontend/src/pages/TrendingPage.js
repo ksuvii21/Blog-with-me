@@ -301,28 +301,27 @@ const TrendingPage = () => {
       }}>
         <FloatingFireAnimation />
 
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-          {/* Mobile Menu Button */}
-          <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 2 }}>
-            <IconButton
-              onClick={() => setSidebarOpen(true)}
-              sx={{
-                display: 'flex',
-                background: 'rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: 'white',
-                '&:hover': {
-                  background: 'rgba(255,255,255,0.2)',
-                  transform: 'scale(1.1)'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <Menu sx={{ fontSize: 28 }} />
-            </IconButton>
-          </Box>
+        {/* Mobile Menu Button - Moved outside Container for full viewport positioning */}
+        <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 10, display: { xs: 'block', md: 'none' } }}>
+          <IconButton
+            onClick={() => setSidebarOpen(true)}
+            sx={{
+              background: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              '&:hover': {
+                background: 'rgba(255,255,255,0.2)',
+                transform: 'scale(1.1)'
+              },
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <Menu sx={{ fontSize: 28 }} />
+          </IconButton>
+        </Box>
 
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
           <Fade in timeout={600}>
             <Box textAlign="center">
               {/* Timeframe Selector */}
